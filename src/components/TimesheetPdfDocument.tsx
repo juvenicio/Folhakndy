@@ -223,7 +223,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
               <Text style={{ flexGrow: 0 }}>Função: {employee.vinculo}</Text> {/* Campo 'Vínculo' agora com rótulo 'Função' */}
             </View>
             <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}> {/* Last cell in row */}
-              <Text style={{ flexGrow: 0 }}>Função: {employee.function}</Text> {/* Usando employee.function */}
+              <Text style={{ flexGrow: 0 }}>Turno: {employee.function}</Text> {/* Usando employee.function, agora com rótulo 'Turno' */}
             </View>
           </View>
           <View style={styles.tableRow}> {/* This is the last row of this table */}
