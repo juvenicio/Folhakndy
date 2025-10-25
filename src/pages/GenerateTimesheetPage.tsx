@@ -308,9 +308,10 @@ const GenerateTimesheetPage = () => {
 
   // Determine which PDF preview component to use based on employee_type and vinculo
   let PdfPreviewComponent;
-  const normalizedCurrentFunction = currentEmployee?.function?.toLowerCase().replace(/[^a-z0-9]/g, ''); // Normaliza a função para comparação robusta
+  // Corrigido: Garante que currentEmployee.function seja uma string antes de chamar toLowerCase()
+  const normalizedCurrentFunction = (currentEmployee?.function || '').toLowerCase().replace(/[^a-z0-9]/g, '');
 
-  if (normalizedCurrentFunction?.includes("asg") && currentEmployee?.vinculo === "Contrato") {
+  if (normalizedCurrentFunction.includes("asg") && currentEmployee?.vinculo === "Contrato") {
     PdfPreviewComponent = TimesheetPdfPreviewV3;
   } else {
     const isV2Role = ["Professor", "Assistente Social", "Psicólogo(a)", "Gestor(a)"].includes(currentEmployee?.employee_type || "");
@@ -351,10 +352,10 @@ const GenerateTimesheetPage = () => {
                     {employees.map((employee) => (
                       <CommandItem
                         key={employee.id}
-                        value={`${employee.name.toLowerCase()} ${employee.registration_number.toLowerCase()} ${employee.function.toLowerCase()} ${(employee.school_name || '').toLowerCase()}`}
+                        value={`${employee.name.toLowerCase()} ${employee.registration_number?.toLowerCase() || ''} ${employee.function.toLowerCase()} ${(employee.school_name || '').toLowerCase()}`}
                         onSelect={(currentValue) => {
                           const selected = employees.find(emp => 
-                            `${emp.name.toLowerCase()} ${emp.registration_number.toLowerCase()} ${emp.function.toLowerCase()} ${(emp.school_name || '').toLowerCase()}` === currentValue
+                            `${emp.name.toLowerCase()} ${emp.registration_number?.toLowerCase() || ''} ${emp.function.toLowerCase()} ${(emp.school_name || '').toLowerCase()}` === currentValue
                           );
                           setSelectedEmployeeId(selected?.id === selectedEmployeeId ? null : selected?.id);
                           setIsComboboxOpen(false);
@@ -366,7 +367,7 @@ const GenerateTimesheetPage = () => {
                             selectedEmployeeId === employee.id ? "opacity-100" : "opacity-0"
                           )}
                         />
-                        {employee.name} ({employee.registration_number}) - {employee.function} - {employee.school_name || 'N/A'}
+                        {employee.name} ({employee.registration_number || 'N/A'}) - {employee.function} - {employee.school_name || 'N/A'}
                       </CommandItem>
                     ))}
                   </CommandGroup>
