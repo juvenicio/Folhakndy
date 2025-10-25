@@ -17,6 +17,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import TimesheetPdfPreview from "@/components/TimesheetPdfPreview"; // Modelo existente V1
 import TimesheetPdfPreviewV2 from "@/components/TimesheetPdfPreviewV2"; // Modelo existente V2
 import TimesheetPdfPreviewV3 from "@/components/TimesheetPdfPreviewV3"; // Novo modelo V3
+import TimesheetPdfPreviewV4 from "@/components/TimesheetPdfPreviewV4"; // Novo modelo V4
 import {
   Command,
   CommandInput,
@@ -220,9 +221,9 @@ const GenerateTimesheetPage = () => {
         const isCurrentDateWeekend = (getDay(currentDate) === 0 || getDay(currentDate) === 6);
 
         // Lógica de notas específica para V3 (ASG e Contrato)
-        const normalizedEmployeeFunction = employee.function?.toLowerCase().replace(/[^a-z0-9]/g, ''); // Normaliza a função para comparação robusta
+        const normalizedEmployeeFunction = (employee.function || '').toLowerCase().replace(/[^a-z0-9]/g, ''); // Normaliza a função para comparação robusta
 
-        if (normalizedEmployeeFunction?.includes("asg") && employee.vinculo === "Contrato") {
+        if (normalizedEmployeeFunction.includes("asg") && employee.vinculo === "Contrato") {
           if (!isWorkDay) {
             if (isCurrentDateWeekend) {
               notes = dayNamePtBr.toUpperCase(); // "SÁBADO" or "DOMINGO"
@@ -308,10 +309,14 @@ const GenerateTimesheetPage = () => {
 
   // Determine which PDF preview component to use based on employee_type and vinculo
   let PdfPreviewComponent;
-  // Corrigido: Garante que currentEmployee.function seja uma string antes de chamar toLowerCase()
   const normalizedCurrentFunction = (currentEmployee?.function || '').toLowerCase().replace(/[^a-z0-9]/g, '');
 
-  if (normalizedCurrentFunction.includes("asg") && currentEmployee?.vinculo === "Contrato") {
+  // Placeholder para a lógica de seleção da V4.
+  // Por enquanto, a V4 não será selecionada automaticamente.
+  // Você me dirá os critérios para usá-la.
+  if (false /* Adicione aqui a sua lógica para usar a V4 */) {
+    PdfPreviewComponent = TimesheetPdfPreviewV4;
+  } else if (normalizedCurrentFunction.includes("asg") && currentEmployee?.vinculo === "Contrato") {
     PdfPreviewComponent = TimesheetPdfPreviewV3;
   } else {
     const isV2Role = ["Professor", "Assistente Social", "Psicólogo(a)", "Gestor(a)"].includes(currentEmployee?.employee_type || "");
