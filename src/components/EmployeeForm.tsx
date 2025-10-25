@@ -34,7 +34,7 @@ const employeeFormSchema = z.object({
   function: z.string().min(1, "Função é obrigatória"),
   registration_number: z.string().min(1, "Matrícula é obrigatória"),
   school_name: z.string().min(1, "Nome da Escola é obrigatório"),
-  vinculo: z.enum(["Efetivo", "Prestador"], {
+  vinculo: z.enum(["Efetivo", "Contrato", "Terceirizado(a)", "Educador Voluntário"], {
     required_error: "Tipo de vínculo é obrigatório",
   }),
   shift: z.array(z.enum(["Manhã", "Tarde", "Noite"])).min(1, "Selecione pelo menos um turno"),
@@ -157,7 +157,9 @@ const EmployeeForm = ({ employee, onSuccess }: EmployeeFormProps) => {
                 </FormControl>
                 <SelectContent>
                   <SelectItem value="Efetivo">Efetivo</SelectItem>
-                  <SelectItem value="Prestador">Prestador</SelectItem>
+                  <SelectItem value="Contrato">Contrato</SelectItem>
+                  <SelectItem value="Terceirizado(a)">Terceirizado(a)</SelectItem>
+                  <SelectItem value="Educador Voluntário">Educador Voluntário</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
