@@ -14,8 +14,9 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import TimesheetPdfPreview from "@/components/TimesheetPdfPreview"; // Modelo existente
-import TimesheetPdfPreviewV2 from "@/components/TimesheetPdfPreviewV2"; // Novo modelo
+import TimesheetPdfPreview from "@/components/TimesheetPdfPreview"; // Modelo existente V1
+import TimesheetPdfPreviewV2 from "@/components/TimesheetPdfPreviewV2"; // Modelo existente V2
+import TimesheetPdfPreviewV3 from "@/components/TimesheetPdfPreviewV3"; // Novo modelo V3
 import {
   Command,
   CommandInput,
@@ -218,11 +219,30 @@ const GenerateTimesheetPage = () => {
         const isWorkDay = employee.work_days.includes(dayName);
         const isCurrentDateWeekend = (getDay(currentDate) === 0 || getDay(currentDate) === 6);
 
-        if (!isWorkDay) {
-          if (isCurrentDateWeekend) {
-            notes = dayNamePtBr; // "Sábado" or "Domingo"
-          } else {
-            notes = "SÁBADO E DOMINGO"; // For non-work weekdays, as per user request
+        // Lógica de notas específica para V3 (ASG e Contrato)
+        const normalizedEmployeeFunction = employee.function?.toLowerCase().replace(/[^a-z0-9]/g, ''); // Normaliza a função para comparação robusta
+
+        if (normalizedEmployeeFunction?.includes("asg") && employee.vinculo === "Contrato") {
+          if (!isWorkDay) {
+            if (isCurrentDateWeekend) {
+              notes = dayNamePtBr.toUpperCase(); // "SÁBADO" or "DOMINGO"
+            } else {
+              notes = "-------------------------"; // Para dias de semana não trabalhados
+            }
+          }
+          // Exemplo de FERIADO para o dia 7, como no exemplo do usuário.
+          // Em um cenário real, isso viria de um calendário de feriados.
+          if (i === 7 && !isWorkDay) { // Se o dia 7 não for um dia de trabalho, e for o dia 7
+            notes = "FERIADO";
+          }
+        } else {
+          // Lógica de notas para V1 e V2
+          if (!isWorkDay) {
+            if (isCurrentDateWeekend) {
+              notes = dayNamePtBr; // "Sábado" or "Domingo"
+            } else {
+              notes = "SÁBADO E DOMINGO"; // Para dias de semana não trabalhados
+            }
           }
         }
 
@@ -287,10 +307,16 @@ const GenerateTimesheetPage = () => {
   const currentEmployee = employees.find((employee) => employee.id === selectedEmployeeId);
 
   // Determine which PDF preview component to use based on employee_type and vinculo
-  const isV2Role = ["Professor", "Assistente Social", "Psicólogo(a)", "Gestor(a)"].includes(currentEmployee?.employee_type || "");
-  const isEfetivo = currentEmployee?.vinculo === "Efetivo";
+  let PdfPreviewComponent;
+  const normalizedCurrentFunction = currentEmployee?.function?.toLowerCase().replace(/[^a-z0-9]/g, ''); // Normaliza a função para comparação robusta
 
-  const PdfPreviewComponent = (isV2Role && isEfetivo) ? TimesheetPdfPreviewV2 : TimesheetPdfPreview;
+  if (normalizedCurrentFunction?.includes("asg") && currentEmployee?.vinculo === "Contrato") {
+    PdfPreviewComponent = TimesheetPdfPreviewV3;
+  } else {
+    const isV2Role = ["Professor", "Assistente Social", "Psicólogo(a)", "Gestor(a)"].includes(currentEmployee?.employee_type || "");
+    const isEfetivo = currentEmployee?.vinculo === "Efetivo";
+    PdfPreviewComponent = (isV2Role && isEfetivo) ? TimesheetPdfPreviewV2 : TimesheetPdfPreview;
+  }
 
   return (
     <div className="container mx-auto py-8">
