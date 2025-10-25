@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 5, // Reduzido o espaçamento
+    marginBottom: 5,
     width: '100%',
   },
   headerTextContent: {
@@ -60,22 +60,17 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
   headerText: {
-    fontSize: 11, // Tamanho 11
-    fontWeight: 'bold', // Negrito
-    marginBottom: 1, // Reduzido o espaçamento entre linhas do cabeçalho
-    fontFamily: 'Calibri-Bold', // Usar Calibri-Bold
+    fontSize: 11,
+    fontWeight: 'bold',
+    marginBottom: 1,
+    fontFamily: 'Calibri-Bold',
   },
-  headerTitle: {
-    fontSize: 10,
-    marginBottom: 3, // Reduzido o espaçamento
-  },
-  // Estilo base para as seções da tabela que se conectam verticalmente
-  // Agora define a borda externa completa para a seção da tabela
-  tableSectionBase: {
+  // Estilo para a ÚNICA tabela que engloba tudo
+  mainTableContainer: {
     display: 'table',
     width: 'auto',
     marginBottom: 0,
-    borderWidth: 1.5, // Aumentado para 1.5
+    borderWidth: 1.5, // Borda externa da tabela principal
     borderColor: '#000000',
     borderStyle: 'solid',
   },
@@ -83,8 +78,8 @@ const styles = StyleSheet.create({
     margin: 'auto',
     flexDirection: 'row',
   },
-  // Estilos para as células de detalhes do funcionário
-  infoCellBase: {
+  // Estilos para as células internas (bordas de 1.5pt)
+  cellBase: {
     borderRightWidth: 1.5, // Aumentado para 1.5
     borderBottomWidth: 1.5, // Aumentado para 1.5
     borderColor: '#000000',
@@ -94,7 +89,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     fontSize: 8,
-    fontFamily: 'Calibri', // Usar Calibri
+    fontFamily: 'Calibri',
   },
   // Estilos para as células do cabeçalho da folha de ponto
   tableHeaderCell: {
@@ -108,7 +103,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 8,
     minHeight: 15,
-    fontFamily: 'Calibri', // Usar Calibri
+    fontFamily: 'Calibri',
   },
 
   // Specific widths for each column in the main timesheet table
@@ -117,44 +112,16 @@ const styles = StyleSheet.create({
   colSignature: { width: '22.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' },
   colExtraTime: { width: '12.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
 
-  // Estilos para a linha de resumo
-  summaryRow: {
-    flexDirection: 'row',
-    backgroundColor: '#f0f0f0',
-    // A borda externa será tratada pelo tableSectionBase
-  },
-  summaryCell: {
-    borderRightWidth: 1.5, // Aumentado para 1.5
-    borderBottomWidth: 1.5, // Aumentado para 1.5
-    borderColor: '#000000',
-    borderStyle: 'solid',
-    width: '33.33%',
-    padding: 3,
-    textAlign: 'left',
-    fontSize: 8,
-    fontFamily: 'Calibri', // Usar Calibri
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-  },
-  // Estilos para as seções de observação/justificativa
-  observationSection: {
-    // Será envolvido por tableSectionBase
-  },
   sectionTitle: {
     fontSize: 9,
     marginBottom: 3,
-    fontFamily: 'Calibri', // Usar Calibri
+    fontFamily: 'Calibri',
   },
   footer: {
     marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
-  },
-  signatureLine: {
-    width: '40%',
-    textAlign: 'center',
-    fontSize: 8,
   },
   logo: {
     width: 40,
@@ -179,10 +146,10 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
 
   // Função para formatar o tempo completo (HH:MM:SS)
   const formatFullTime = (timeString: string | null): string => {
-    if (timeString === null || timeString === '') return ''; // Retorna string vazia para null ou vazio
-    if (timeString === '-') return '-'; // Mantém o '-' se for explicitamente passado como '-'
+    if (timeString === null || timeString === '') return '';
+    if (timeString === '-') return '-';
     const [h, m] = timeString.split(':');
-    if (h === undefined || m === undefined) return ''; // Se a análise falhar, retorna string vazia
+    if (h === undefined || m === undefined) return '';
     return `${h}:${m}:00`;
   };
 
@@ -191,7 +158,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
       <Page size="A4" style={styles.page}>
         {/* Header com Logo e Texto */}
         <View style={styles.headerContainer}>
-          {logoSrc && <Image src={logoSrc} style={styles.logo} />} {/* Usa a string base64 do logo */}
+          {logoSrc && <Image src={logoSrc} style={styles.logo} />}
           <View style={styles.headerTextContent}>
             <Text style={styles.headerText}>ESTADO DA PARAÍBA</Text>
             <Text style={styles.headerText}>PREFEITURA MUNICIPAL DE CAMPINA GRANDE</Text>
@@ -200,48 +167,47 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
           </View>
         </View>
 
-        {/* Tabela de Detalhes do Funcionário */}
-        <View style={styles.tableSectionBase}> {/* Outer border for this table */}
+        {/* Única Tabela Principal que engloba Detalhes do Funcionário, Registros Diários e Resumo */}
+        <View style={styles.mainTableContainer}>
+          {/* Detalhes do Funcionário */}
           <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '100%', fontSize: 10, borderRightWidth: 0 }]}> {/* Last cell in row */}
-              <Text style={{ flexGrow: 0 }}>Unidade de Trabalho: {employee.school_name || 'N/A'}</Text> {/* Usando employee.school_name, com fallback */}
+            <View style={[styles.cellBase, { width: '100%', fontSize: 10, borderRightWidth: 0 }]}>
+              <Text style={{ flexGrow: 0 }}>Unidade de Trabalho: {employee.school_name || 'N/A'}</Text>
             </View>
           </View>
           <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '66.66%', fontSize: 10 }]}>
+            <View style={[styles.cellBase, { width: '66.66%', fontSize: 10 }]}>
               <Text style={{ flexGrow: 0 }}>Servidor(a): {employee.name}</Text>
             </View>
-            <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}> {/* Last cell in row */}
+            <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 0 }]}>
               <Text style={{ flexGrow: 0 }}>Matrícula: {employee.registration_number}</Text>
             </View>
           </View>
           <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '33.33%' }]}>
-              <Text style={{ flexGrow: 0 }}>Vínculo: {employee.vinculo}</Text> {/* Novo campo */}
+            <View style={[styles.cellBase, { width: '33.33%' }]}>
+              <Text style={{ flexGrow: 0 }}>Cargo: {employee.employee_type}</Text>
             </View>
-            <View style={[styles.infoCellBase, { width: '33.33%' }]}>
-              <Text style={{ flexGrow: 0 }}>Cargo: {employee.employee_type}</Text> {/* Novo campo */}
+            <View style={[styles.cellBase, { width: '33.33%' }]}>
+              <Text style={{ flexGrow: 0 }}>Função: {employee.function}</Text>
             </View>
-            <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}> {/* Last cell in row */}
-              <Text style={{ flexGrow: 0 }}>Função: {employee.function}</Text> {/* Usando employee.function */}
-            </View>
-          </View>
-          <View style={styles.tableRow}> {/* This is the last row of this table */}
-            <View style={[styles.infoCellBase, { width: '33.33%', borderBottomWidth: 0 }]}> {/* Last row cell */}
+            <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 0 }]}>
               <Text style={{ flexGrow: 0 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text>
             </View>
-            <View style={[styles.infoCellBase, { width: '33.33%', borderBottomWidth: 0 }]}> {/* Last row cell */}
+          </View>
+          <View style={styles.tableRow}>
+            <View style={[styles.cellBase, { width: '33.33%' }]}>
+              <Text style={{ flexGrow: 0 }}>Vínculo: {employee.vinculo}</Text>
+            </View>
+            <View style={[styles.cellBase, { width: '33.33%' }]}>
               <Text style={{ flexGrow: 0 }}>Mês: {monthName.charAt(0).toUpperCase() + monthName.slice(1)}</Text>
             </View>
-            <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0, borderBottomWidth: 0 }]}> {/* Last cell in row AND last row cell */}
+            <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 0 }]}>
               <Text style={{ flexGrow: 0 }}>Ano: {year}</Text>
             </View>
           </View>
-        </View>
 
-        {/* Tabela Principal da Folha de Ponto */}
-        <View style={styles.tableSectionBase}>
-          <View style={styles.tableRow}>
+          {/* Cabeçalho da Tabela de Registros Diários (FIXED) */}
+          <View style={styles.tableRow} fixed>
             {/* Dia */}
             <View style={[styles.tableHeaderCell, { width: '5%' }]}>
               <Text>Dia</Text>
@@ -265,16 +231,16 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
               <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>ASSINATURA/JUSTIFICATIVA</Text>
             </View>
             {/* Hora Extra - Nested View to simulate column and row span */}
-            <View style={[styles.tableHeaderCell, { width: '25%', borderRightWidth: 0, flexDirection: 'column', padding: 0, borderBottomWidth: 0 }]}> {/* Last cell in header row, remove bottom border here */}
-              <View style={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', padding: 0, minHeight: 15, width: '100%' }}> {/* No bottom border here */}
+            <View style={[styles.tableHeaderCell, { width: '25%', borderRightWidth: 0, flexDirection: 'column', padding: 0, borderBottomWidth: 0 }]}>
+              <View style={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', padding: 0, minHeight: 15, width: '100%', borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid' }}>
                 <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>Hora Extra</Text>
               </View>
               <View style={{ flexDirection: 'row', width: '100%', flexGrow: 1 }}>
-                <View style={[styles.tableHeaderCell, { width: '50%', borderBottomWidth: 0, borderTopWidth: 1.5, borderTopColor: '#000000', borderTopStyle: 'solid' }]}> {/* Add top border */}
+                <View style={[styles.tableHeaderCell, { width: '50%', borderBottomWidth: 0, borderTopWidth: 0 }]}>
                   <Text style={{ fontSize: 10, fontFamily: 'Calibri' }}>Entrada</Text>
                   <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
                 </View>
-                <View style={[styles.tableHeaderCell, { width: '50%', borderRightWidth: 0, borderBottomWidth: 0, borderTopWidth: 1.5, borderTopColor: '#000000', borderTopStyle: 'solid' }]}> {/* Add top border, last cell in nested row */}
+                <View style={[styles.tableHeaderCell, { width: '50%', borderRightWidth: 0, borderBottomWidth: 0, borderTopWidth: 0 }]}>
                   <Text style={{ fontSize: 10, fontFamily: 'Calibri' }}>Saída</Text>
                   <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
                 </View>
@@ -294,57 +260,54 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
             const isWorkDayConfigured = employee.work_days.includes(dayNameEnglish);
             const dayNamePtBr = daysOfWeekMapForDisplay[dayOfWeek];
 
-            const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
             const isLastRow = index === daysInMonth - 1;
+
+            // Lógica para exibir o traço ou o nome do dia apenas se NÃO for um dia de trabalho configurado
+            const displayTimeValue = (time: string | null) => formatFullTime(time || (!isWorkDayConfigured ? '-' : ''));
+            const displaySignatureValue = !isWorkDayConfigured ? dayNamePtBr.toUpperCase() : '';
 
             return (
               <View style={styles.tableRow} key={day}>
-                <Text style={[styles.colDia, isLastRow && { borderBottomWidth: 0 }]}>{day}</Text>
-                <Text style={[styles.colTime, isLastRow && { borderBottomWidth: 0 }]}>{formatFullTime(record?.entry_time_1 || (isWeekend || !isWorkDayConfigured ? '-' : ''))}</Text>
-                <Text style={[styles.colSignature, isLastRow && { borderBottomWidth: 0 }]}>{isWeekend || !isWorkDayConfigured ? dayNamePtBr.toUpperCase() : ''}</Text>
-                <Text style={[styles.colTime, isLastRow && { borderBottomWidth: 0 }]}>{formatFullTime(record?.exit_time_1 || (isWeekend || !isWorkDayConfigured ? '-' : ''))}</Text>
-                <Text style={[styles.colSignature, isLastRow && { borderBottomWidth: 0 }]}>{isWeekend || !isWorkDayConfigured ? dayNamePtBr.toUpperCase() : ''}</Text>
+                <Text style={[styles.colDia, isLastRow && { borderBottomWidth: 1.5 }]}>{day}</Text>
+                <Text style={[styles.colTime, isLastRow && { borderBottomWidth: 1.5 }]}>{displayTimeValue(record?.entry_time_1)}</Text>
+                <Text style={[styles.colSignature, isLastRow && { borderBottomWidth: 1.5 }]}>{displaySignatureValue}</Text>
+                <Text style={[styles.colTime, isLastRow && { borderBottomWidth: 1.5 }]}>{displayTimeValue(record?.exit_time_1)}</Text>
+                <Text style={[styles.colSignature, isLastRow && { borderBottomWidth: 1.5 }]}>{displaySignatureValue}</Text>
                 {/* Hora Extra Entrada */}
-                <Text style={[styles.colExtraTime, isLastRow && { borderBottomWidth: 0 }]}>{formatFullTime(record?.entry_time_2)}</Text>
+                <Text style={[styles.colExtraTime, isLastRow && { borderBottomWidth: 1.5 }]}>{formatFullTime(record?.entry_time_2)}</Text>
                 {/* Hora Extra Saída */}
-                <Text style={[styles.colExtraTime, { borderRightWidth: 0 }, isLastRow && { borderBottomWidth: 0 }]}>{formatFullTime(record?.exit_time_2)}</Text> {/* Last cell in row */}
+                <Text style={[styles.colExtraTime, { borderRightWidth: 0 }, isLastRow && { borderBottomWidth: 1.5 }]}>{formatFullTime(record?.exit_time_2)}</Text>
               </View>
             );
           })}
-        </View>
 
-        {/* Linha de Resumo */}
-        <View style={styles.tableSectionBase}>
+          {/* Linha de Resumo */}
           <View style={styles.tableRow}>
-            <View style={[styles.summaryCell, { width: '33.33%', borderBottomWidth: 0 }]}> {/* Last row cell */}
+            <View style={[styles.cellBase, { width: '33.33%', borderBottomWidth: 1.5 }]}>
               <Text style={{ flexGrow: 0 }}>Dias trabalhados:</Text>
               <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
             </View>
-            <View style={[styles.summaryCell, { width: '33.33%', borderBottomWidth: 0 }]}> {/* Last row cell */}
+            <View style={[styles.cellBase, { width: '33.33%', borderBottomWidth: 1.5 }]}>
               <Text style={{ flexGrow: 0 }}>Total de Faltas:</Text>
               <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
             </View>
-            <View style={[styles.summaryCell, { width: '33.33%', borderRightWidth: 0, borderBottomWidth: 0 }]}> {/* Last cell in row AND last row cell */}
+            <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 0, borderBottomWidth: 1.5 }]}>
               <Text style={{ flexGrow: 0 }}>Quantidade de horas-extras:</Text>
               <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
             </View>
           </View>
-        </View>
 
-        {/* Seção de Observação */}
-        <View style={styles.tableSectionBase}>
+          {/* Seção de Observação */}
           <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '100%', padding: 3, borderRightWidth: 0, borderBottomWidth: 0 }]}> {/* Last cell in row AND last row cell */}
+            <View style={[styles.cellBase, { width: '100%', padding: 3, borderRightWidth: 0, borderBottomWidth: 1.5 }]}>
               <Text style={[styles.sectionTitle, { flexGrow: 0 }]}>Observação:</Text>
               <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
             </View>
           </View>
-        </View>
 
-        {/* Seção de Justificativa/Horas Extras */}
-        <View style={styles.tableSectionBase}>
+          {/* Seção de Justificativa/Horas Extras */}
           <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '100%', padding: 3, borderRightWidth: 0, borderBottomWidth: 0 }]}> {/* Last cell in row AND last row cell */}
+            <View style={[styles.cellBase, { width: '100%', padding: 3, borderRightWidth: 0, borderBottomWidth: 0 }]}>
               <Text style={[styles.sectionTitle, { flexGrow: 0 }]}>Justificativa/Horas Extras:</Text>
               <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
             </View>

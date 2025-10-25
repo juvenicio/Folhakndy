@@ -269,18 +269,20 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
             const isWorkDayConfigured = employee.work_days.includes(dayNameEnglish);
             const dayNamePtBr = daysOfWeekMapForDisplay[dayOfWeek];
 
-            const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
             const isLastDailyRecordRow = index === daysInMonth - 1;
 
+            // Lógica para exibir o traço ou o nome do dia apenas se NÃO for um dia de trabalho configurado
             const getNotesForDay = (recordNotes: string | null): string => {
-              if (recordNotes) {
-                return recordNotes.toUpperCase();
+              if (isWorkDayConfigured) { // Se for um dia de trabalho configurado, não mostra notas de fim de semana
+                return recordNotes || '';
               }
-              return '';
+              // Se não for um dia de trabalho configurado, mostra as notas geradas (Sábado/Domingo/SÁBADO E DOMINGO)
+              return (recordNotes || '').toUpperCase();
             };
 
             const displayNotes = getNotesForDay(record?.notes);
-            const displayTime = (time: string | null) => (isWeekend || !isWorkDayConfigured) ? '-' : formatFullTime(time);
+            const displayTime = (time: string | null) => (!isWorkDayConfigured && (dayOfWeek === 0 || dayOfWeek === 6)) ? '-' : formatFullTime(time);
+
 
             return (
               <View style={styles.tableRow} key={day}>
