@@ -168,19 +168,20 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
               <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>NOME: {employee.name}</Text>
             </View>
           </View>
+          {/* Nova linha para CARGA HORÁRIA */}
           <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '50%' }]}>
-              <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>CARGA HORÁRIA: 40 HORAS</Text>
-            </View>
-            <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}>
-              <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text>
+            <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0, textAlign: 'center' }]}>
+              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>CARGA HORÁRIA: 40 HORAS</Text>
             </View>
           </View>
           <View style={styles.tableRow}>
             <View style={[styles.infoCellBase, { width: '50%' }]}>
+              <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text>
+            </View>
+            <View style={[styles.infoCellBase, { width: '25%' }]}>
               <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Mês: {monthName.charAt(0).toUpperCase() + monthName.slice(1)}</Text>
             </View>
-            <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}>
+            <View style={[styles.infoCellBase, { width: '25%', borderRightWidth: 0 }]}>
               <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Ano: {year}</Text>
             </View>
           </View>
