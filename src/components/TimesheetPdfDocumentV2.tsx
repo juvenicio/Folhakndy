@@ -211,7 +211,7 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
               <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Função: {employee.function}</Text>
             </View>
             <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}>
-              <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Vínculo: {employee.vinculo}</Text>
+              <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text>
             </View>
           </View>
           <View style={styles.tableRow}>
@@ -219,7 +219,7 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
               <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Matrícula: {employee.registration_number}</Text>
             </View>
             <View style={[styles.infoCellBase, { width: '25%' }]}>
-              <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text>
+              <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Vínculo: {employee.vinculo}</Text>
             </View>
             <View style={[styles.infoCellBase, { width: '25%' }]}>
               <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Mês: {monthName.charAt(0).toUpperCase() + monthName.slice(1)}</Text>
