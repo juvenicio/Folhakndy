@@ -73,8 +73,8 @@ const styles = StyleSheet.create({
   },
   colDia: { width: '5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
   colTime: { width: '10%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
-  colSignature: { width: '27.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' },
-  colSignatureLast: { width: '27.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' },
+  colSignature: { width: '30%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' },
+  colSignatureLast: { width: '25%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' },
   
   sectionTitle: {
     fontSize: 9,
@@ -148,6 +148,16 @@ const TimesheetPdfDocumentV3 = ({ employee, month, year, dailyRecords, logoSrc }
     return timeString; // Apenas retorna o HH:MM
   };
 
+  // Função para limpar o prefixo 'Apoio (Função):' se ele já estiver na string
+  const getCleanFunction = (func: string | null) => {
+    if (!func) return '';
+    const prefix = "Apoio (Função): ";
+    if (func.startsWith(prefix)) {
+      return func.substring(prefix.length);
+    }
+    return func;
+  };
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -178,7 +188,7 @@ const TimesheetPdfDocumentV3 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={styles.tableRow}>
             <View style={[styles.infoCellBase, { width: '50%' }]}>
-              <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Apoio (Função): {employee.function}</Text>
+              <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Apoio (Função): {getCleanFunction(employee.function)}</Text>
             </View>
             <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}>
               <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Vínculo: {employee.vinculo}</Text>
