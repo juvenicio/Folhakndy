@@ -216,10 +216,10 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={styles.tableRow}>
             <View style={[styles.infoCellBase, { width: '25%' }]}>
-              <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Matrícula: {employee.registration_number}</Text>
+              <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Vínculo: {employee.vinculo}</Text>
             </View>
             <View style={[styles.infoCellBase, { width: '25%' }]}>
-              <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Vínculo: {employee.vinculo}</Text>
+              <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Matrícula: {employee.registration_number}</Text>
             </View>
             <View style={[styles.infoCellBase, { width: '25%' }]}>
               <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Mês: {monthName.charAt(0).toUpperCase() + monthName.slice(1)}</Text>
