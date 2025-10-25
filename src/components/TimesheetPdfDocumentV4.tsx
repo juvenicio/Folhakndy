@@ -152,17 +152,8 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        {/* O cabeçalho foi removido conforme solicitado */}
-        {/* <View style={styles.headerContainer}>
-          {logoSrc && <Image src={logoSrc} style={styles.logo} />}
-          <View style={styles.headerTextContent}>
-            <Text style={styles.headerText}>ESTADO DA PARAÍBA</Text>
-            <Text style={styles.headerText}>PREFEITURA MUNICIPAL DE CAMPINA GRANDE</Text>
-            <Text style={styles.headerText}>SECRETARIA DE EDUCAÇÃO</Text>
-            <Text style={styles.headerText}>DIRETORIA ADMINISTRATIVA FINANCEIRA</Text>
-            <Text style={styles.headerText}>GERÊNCIA DE RECURSOS HUMANOS</Text>
-          </View>
-        </View> */}
+        {/* Espaço em branco para o cabeçalho */}
+        <View style={{ height: 70, marginBottom: 5 }} /> 
 
         {/* Tabela Principal */}
         <View style={styles.mainTableContainer}>
