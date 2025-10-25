@@ -78,10 +78,10 @@ const styles = StyleSheet.create({
     margin: 'auto',
     flexDirection: 'row',
   },
-  // Estilos para as células internas (bordas de 1pt)
+  // Estilos para as células internas (bordas de 1.5pt)
   cellBase: {
-    borderRightWidth: 1,
-    borderBottomWidth: 1,
+    borderRightWidth: 1.5, // Aumentado para 1.5
+    borderBottomWidth: 1.5, // Aumentado para 1.5
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
@@ -93,8 +93,8 @@ const styles = StyleSheet.create({
   },
   // Estilos para as células do cabeçalho da folha de ponto
   tableHeaderCell: {
-    borderRightWidth: 1,
-    borderBottomWidth: 1,
+    borderRightWidth: 1.5, // Aumentado para 1.5
+    borderBottomWidth: 1.5, // Aumentado para 1.5
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 1,
@@ -107,10 +107,10 @@ const styles = StyleSheet.create({
   },
 
   // Specific widths for each column in the main timesheet table
-  colDia: { width: '5%', padding: 1, textAlign: 'center', borderRightWidth: 1, borderBottomWidth: 1, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
-  colTime: { width: '12.5%', padding: 1, textAlign: 'center', borderRightWidth: 1, borderBottomWidth: 1, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
-  colSignature: { width: '22.5%', padding: 1, textAlign: 'center', borderRightWidth: 1, borderBottomWidth: 1, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' },
-  colExtraTime: { width: '12.5%', padding: 1, textAlign: 'center', borderRightWidth: 1, borderBottomWidth: 1, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
+  colDia: { width: '5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
+  colTime: { width: '12.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
+  colSignature: { width: '22.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' },
+  colExtraTime: { width: '12.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
 
   sectionTitle: {
     fontSize: 9,
@@ -232,7 +232,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
             </View>
             {/* Hora Extra - Nested View to simulate column and row span */}
             <View style={[styles.tableHeaderCell, { width: '25%', borderRightWidth: 0, flexDirection: 'column', padding: 0, borderBottomWidth: 0 }]}>
-              <View style={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', padding: 0, minHeight: 15, width: '100%', borderBottomWidth: 1, borderColor: '#000000', borderStyle: 'solid' }}>
+              <View style={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', padding: 0, minHeight: 15, width: '100%', borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid' }}>
                 <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>Hora Extra</Text>
               </View>
               <View style={{ flexDirection: 'row', width: '100%', flexGrow: 1 }}>
@@ -265,30 +265,30 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
 
             return (
               <View style={styles.tableRow} key={day}>
-                <Text style={[styles.colDia, isLastRow && { borderBottomWidth: 1 }]}>{day}</Text>
-                <Text style={[styles.colTime, isLastRow && { borderBottomWidth: 1 }]}>{formatFullTime(record?.entry_time_1 || (isWeekend || !isWorkDayConfigured ? '-' : ''))}</Text>
-                <Text style={[styles.colSignature, isLastRow && { borderBottomWidth: 1 }]}>{isWeekend || !isWorkDayConfigured ? dayNamePtBr.toUpperCase() : ''}</Text>
-                <Text style={[styles.colTime, isLastRow && { borderBottomWidth: 1 }]}>{formatFullTime(record?.exit_time_1 || (isWeekend || !isWorkDayConfigured ? '-' : ''))}</Text>
-                <Text style={[styles.colSignature, isLastRow && { borderBottomWidth: 1 }]}>{isWeekend || !isWorkDayConfigured ? dayNamePtBr.toUpperCase() : ''}</Text>
+                <Text style={[styles.colDia, isLastRow && { borderBottomWidth: 1.5 }]}>{day}</Text>
+                <Text style={[styles.colTime, isLastRow && { borderBottomWidth: 1.5 }]}>{formatFullTime(record?.entry_time_1 || (isWeekend || !isWorkDayConfigured ? '-' : ''))}</Text>
+                <Text style={[styles.colSignature, isLastRow && { borderBottomWidth: 1.5 }]}>{isWeekend || !isWorkDayConfigured ? dayNamePtBr.toUpperCase() : ''}</Text>
+                <Text style={[styles.colTime, isLastRow && { borderBottomWidth: 1.5 }]}>{formatFullTime(record?.exit_time_1 || (isWeekend || !isWorkDayConfigured ? '-' : ''))}</Text>
+                <Text style={[styles.colSignature, isLastRow && { borderBottomWidth: 1.5 }]}>{isWeekend || !isWorkDayConfigured ? dayNamePtBr.toUpperCase() : ''}</Text>
                 {/* Hora Extra Entrada */}
-                <Text style={[styles.colExtraTime, isLastRow && { borderBottomWidth: 1 }]}>{formatFullTime(record?.entry_time_2)}</Text>
+                <Text style={[styles.colExtraTime, isLastRow && { borderBottomWidth: 1.5 }]}>{formatFullTime(record?.entry_time_2)}</Text>
                 {/* Hora Extra Saída */}
-                <Text style={[styles.colExtraTime, { borderRightWidth: 0 }, isLastRow && { borderBottomWidth: 1 }]}>{formatFullTime(record?.exit_time_2)}</Text>
+                <Text style={[styles.colExtraTime, { borderRightWidth: 0 }, isLastRow && { borderBottomWidth: 1.5 }]}>{formatFullTime(record?.exit_time_2)}</Text>
               </View>
             );
           })}
 
           {/* Linha de Resumo */}
           <View style={styles.tableRow}>
-            <View style={[styles.cellBase, { width: '33.33%' }]}>
+            <View style={[styles.cellBase, { width: '33.33%', borderBottomWidth: 1.5 }]}>
               <Text style={{ flexGrow: 0 }}>Dias trabalhados:</Text>
               <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
             </View>
-            <View style={[styles.cellBase, { width: '33.33%' }]}>
+            <View style={[styles.cellBase, { width: '33.33%', borderBottomWidth: 1.5 }]}>
               <Text style={{ flexGrow: 0 }}>Total de Faltas:</Text>
               <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
             </View>
-            <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 0 }]}>
+            <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 0, borderBottomWidth: 1.5 }]}>
               <Text style={{ flexGrow: 0 }}>Quantidade de horas-extras:</Text>
               <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
             </View>
@@ -296,7 +296,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
 
           {/* Seção de Observação */}
           <View style={styles.tableRow}>
-            <View style={[styles.cellBase, { width: '100%', padding: 3, borderRightWidth: 0 }]}>
+            <View style={[styles.cellBase, { width: '100%', padding: 3, borderRightWidth: 0, borderBottomWidth: 1.5 }]}>
               <Text style={[styles.sectionTitle, { flexGrow: 0 }]}>Observação:</Text>
               <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
             </View>
