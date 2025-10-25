@@ -106,6 +106,9 @@ const styles = StyleSheet.create({
     width: 24, // Largura: 0.85 cm ≈ 24 pt
     height: 33, // Altura: 1.16 cm ≈ 33 pt
   },
+  boldText: {
+    fontFamily: 'Calibri-Bold', // Estilo para texto em negrito
+  },
 });
 
 interface DailyRecord {
@@ -279,15 +282,18 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
             const displayNotes = getNotesForDay(record?.notes);
             const displayTime = (time: string | null) => (isWeekend || !isWorkDayConfigured) ? '-' : formatFullTime(time);
 
+            // Condição para aplicar negrito
+            const isBoldNote = displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO");
+
             return (
               <View style={styles.tableRow} key={day}>
                 <Text style={[styles.colDia, { fontFamily: 'Arial', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{day}</Text>
                 <Text style={[styles.colTime, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.entry_time_1)}</Text>
                 <Text style={[styles.colTime, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.exit_time_1)}</Text>
-                <Text style={[styles.colSignature, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayNotes}</Text>
+                <Text style={[styles.colSignature, isLastDailyRecordRow && { borderBottomWidth: 1.5 }, isBoldNote && styles.boldText]}>{displayNotes}</Text>
                 <Text style={[styles.colTime, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.entry_time_2)}</Text>
                 <Text style={[styles.colTime, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.exit_time_2)}</Text>
-                <Text style={[styles.colSignatureLast, { borderRightWidth: 0 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayNotes}</Text>
+                <Text style={[styles.colSignatureLast, { borderRightWidth: 0 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }, isBoldNote && styles.boldText]}>{displayNotes}</Text>
               </View>
             );
           })}
