@@ -220,10 +220,10 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
               <Text style={{ flexGrow: 0 }}>Cargo: {employee.employee_type}</Text> {/* Campo 'Cargo' */}
             </View>
             <View style={[styles.infoCellBase, { width: '33.33%' }]}>
-              <Text style={{ flexGrow: 0 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text> {/* Exibindo turnos */}
+              <Text style={{ flexGrow: 0 }}>Função: {employee.function}</Text> {/* Usando employee.function */}
             </View>
             <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}> {/* Last cell in row */}
-              <Text style={{ flexGrow: 0 }}>Função: {employee.function}</Text> {/* Usando employee.function */}
+              <Text style={{ flexGrow: 0 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text> {/* Exibindo turnos */}
             </View>
           </View>
           <View style={styles.tableRow}> {/* This is the last row of this table */}
