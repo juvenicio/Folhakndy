@@ -205,10 +205,10 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={styles.tableRow}>
             <View style={[styles.infoCellBase, { width: '33.33%' }]}>
-              <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Vínculo: {employee.vinculo}</Text>
+              <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Cargo: {employee.employee_type}</Text>
             </View>
             <View style={[styles.infoCellBase, { width: '33.33%' }]}>
-              <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Cargo: {employee.employee_type}</Text>
+              <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Vínculo: {employee.vinculo}</Text>
             </View>
             <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}>
               <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Função: {employee.function}</Text>
