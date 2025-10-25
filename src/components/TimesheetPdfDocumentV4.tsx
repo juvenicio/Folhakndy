@@ -73,8 +73,8 @@ const styles = StyleSheet.create({
   },
   colDia: { width: '5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
   colTime: { width: '10%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
-  colSignature: { width: '30%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' },
-  colSignatureLast: { width: '25%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' },
+  colSignature: { width: '30%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
+  colSignatureLast: { width: '25%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
   
   sectionTitle: {
     fontSize: 9,
@@ -148,6 +148,9 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
     return timeString; // Apenas retorna o HH:MM
   };
 
+  const monthNameFormatted = monthName.charAt(0).toUpperCase() + monthName.slice(1);
+  const isSetembro = monthNameFormatted === "Setembro";
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -179,7 +182,12 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
               <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text>
             </View>
             <View style={[styles.infoCellBase, { width: '25%' }]}>
-              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Mês: {monthName.charAt(0).toUpperCase() + monthName.slice(1)}</Text>
+              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>
+                Mês:{" "}
+                <Text style={isSetembro ? { fontFamily: 'Times-Roman', fontSize: 7 } : { fontFamily: 'Calibri-Bold', fontSize: 10 }}>
+                  {monthNameFormatted}
+                </Text>
+              </Text>
             </View>
             <View style={[styles.infoCellBase, { width: '25%', borderRightWidth: 0 }]}>
               <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Ano: {year}</Text>
@@ -238,10 +246,20 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
                 <Text style={[styles.colDia, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{day}</Text>
                 <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.entry_time_1)}</Text>
                 <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.exit_time_1)}</Text>
-                <Text style={[styles.colSignature, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }, displayNotes !== '' && styles.boldText]}>{displayNotes}</Text>
+                <Text style={[
+                  styles.colSignature,
+                  { fontFamily: 'Arial', fontSize: 8 }, // Definindo Arial e tamanho 8
+                  isLastDailyRecordRow && { borderBottomWidth: 1.5 },
+                  (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText // Aplicando negrito condicionalmente
+                ]}>{displayNotes}</Text>
                 <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.entry_time_2)}</Text>
                 <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.exit_time_2)}</Text>
-                <Text style={[styles.colSignatureLast, { borderRightWidth: 0, fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }, displayNotes !== '' && styles.boldText]}>{displayNotes}</Text>
+                <Text style={[
+                  styles.colSignatureLast,
+                  { borderRightWidth: 0, fontFamily: 'Arial', fontSize: 8 }, // Definindo Arial e tamanho 8
+                  isLastDailyRecordRow && { borderBottomWidth: 1.5 },
+                  (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText // Aplicando negrito condicionalmente
+                ]}>{displayNotes}</Text>
               </View>
             );
           })}

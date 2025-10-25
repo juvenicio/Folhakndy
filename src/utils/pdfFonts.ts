@@ -13,3 +13,6 @@ Font.register({ family: 'Arial', src: '/fonts/Calibri.ttf', fontStyle: 'normal',
 // Font.register({ family: 'Arial-Bold', src: '/fonts/ARIALBD.TTF', fontStyle: 'normal', fontWeight: 'bold' });
 // Font.register({ family: 'Arial-Italic', src: '/fonts/ARIALI.TTF', fontStyle: 'italic', fontWeight: 'normal' });
 // Font.register({ family: 'Arial-BoldItalic', src: '/fonts/ARIALBI.TTF', fontStyle: 'italic', fontWeight: 'bold' });
+
+// Registrar a fonte Times-Roman
+Font.register({ family: 'Times-Roman' }); // Times-Roman é uma fonte padrão do @react-pdf/renderer
