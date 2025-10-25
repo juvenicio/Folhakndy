@@ -32,7 +32,7 @@ const employeeFormSchema = z.object({
     required_error: "Cargo é obrigatório",
   }),
   function: z.string().min(1, "Função é obrigatória"),
-  registration_number: z.string().min(1, "Matrícula é obrigatória"),
+  registration_number: z.string().optional(), // Campo de matrícula agora é opcional
   school_name: z.string().min(1, "Nome da Escola é obrigatório"),
   vinculo: z.enum(["Efetivo", "Contrato", "Terceirizado(a)", "Educador Voluntário"], {
     required_error: "Tipo de vínculo é obrigatório",
