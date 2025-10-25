@@ -10,9 +10,9 @@ const styles = StyleSheet.create({
   page: {
     flexDirection: 'column',
     backgroundColor: '#ffffff',
-    paddingTop: 28.35,    // 1 cm
+    paddingTop: 36.00,    // 1.27 cm
     paddingRight: 36.00,  // 1.27 cm
-    paddingBottom: 21.26, // 0.75 cm
+    paddingBottom: 36.00, // 1.27 cm
     paddingLeft: 36.00,   // 1.27 cm
     fontSize: 8,
     fontFamily: 'Calibri',
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     display: 'table',
     width: 'auto',
     marginBottom: 0,
-    borderWidth: 1.0, // Alterado de 1.5 para 1.0
+    borderWidth: 1.0,
     borderColor: '#000000',
     borderStyle: 'solid',
   },
@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   infoCellBase: {
-    borderRightWidth: 1.0, // Alterado de 1.5 para 1.0
-    borderBottomWidth: 1.0, // Alterado de 1.5 para 1.0
+    borderRightWidth: 1.0,
+    borderBottomWidth: 1.0,
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
@@ -54,13 +54,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 2,
-    borderBottomWidth: 1.0, // Alterado de 1.5 para 1.0
+    borderBottomWidth: 1.0,
     borderColor: '#000000',
     borderStyle: 'solid',
   },
   tableHeaderCell: {
-    borderRightWidth: 1.0, // Alterado de 1.5 para 1.0
-    borderBottomWidth: 1.0, // Alterado de 1.5 para 1.0
+    borderRightWidth: 1.0,
+    borderBottomWidth: 1.0,
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 1,
@@ -71,10 +71,10 @@ const styles = StyleSheet.create({
     minHeight: 15,
     fontFamily: 'Calibri',
   },
-  colDia: { width: '5%', padding: 1, textAlign: 'center', borderRightWidth: 1.0, borderBottomWidth: 1.0, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' }, // Alterado de 1.5 para 1.0
-  colTime: { width: '10%', padding: 1, textAlign: 'center', borderRightWidth: 1.0, borderBottomWidth: 1.0, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' }, // Alterado de 1.5 para 1.0
-  colSignature: { width: '30%', padding: 1, textAlign: 'center', borderRightWidth: 1.0, borderBottomWidth: 1.0, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' }, // Alterado de 1.5 para 1.0
-  colSignatureLast: { width: '25%', padding: 1, textAlign: 'center', borderRightWidth: 1.0, borderBottomWidth: 1.0, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' }, // Alterado de 1.5 para 1.0
+  colDia: { width: '5%', padding: 1, textAlign: 'center', borderRightWidth: 1.0, borderBottomWidth: 1.0, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
+  colTime: { width: '10%', padding: 1, textAlign: 'center', borderRightWidth: 1.0, borderBottomWidth: 1.0, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
+  colSignature: { width: '30%', padding: 1, textAlign: 'center', borderRightWidth: 1.0, borderBottomWidth: 1.0, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
+  colSignatureLast: { width: '25%', padding: 1, textAlign: 'center', borderRightWidth: 1.0, borderBottomWidth: 1.0, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
   
   sectionTitle: {
     fontSize: 9,
