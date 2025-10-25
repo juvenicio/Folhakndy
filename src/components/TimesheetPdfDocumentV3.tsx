@@ -187,10 +187,10 @@ const TimesheetPdfDocumentV3 = ({ employee, month, year, dailyRecords, logoSrc }
             </View>
           </View>
           <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '50%' }]}>
+            <View style={[styles.infoCellBase, { width: '66.66%' }]}> {/* Ajustado para 66.66% */}
               <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Apoio (Função): {getCleanFunction(employee.function)}</Text>
             </View>
-            <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}>
+            <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}> {/* Ajustado para 33.33% */}
               <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Vínculo: {employee.vinculo}</Text>
             </View>
           </View>
