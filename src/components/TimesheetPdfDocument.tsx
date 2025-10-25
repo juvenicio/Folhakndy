@@ -260,16 +260,19 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
             const isWorkDayConfigured = employee.work_days.includes(dayNameEnglish);
             const dayNamePtBr = daysOfWeekMapForDisplay[dayOfWeek];
 
-            const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
             const isLastRow = index === daysInMonth - 1;
+
+            // Lógica para exibir o traço ou o nome do dia apenas se NÃO for um dia de trabalho configurado
+            const displayTimeValue = (time: string | null) => formatFullTime(time || (!isWorkDayConfigured ? '-' : ''));
+            const displaySignatureValue = !isWorkDayConfigured ? dayNamePtBr.toUpperCase() : '';
 
             return (
               <View style={styles.tableRow} key={day}>
                 <Text style={[styles.colDia, isLastRow && { borderBottomWidth: 1.5 }]}>{day}</Text>
-                <Text style={[styles.colTime, isLastRow && { borderBottomWidth: 1.5 }]}>{formatFullTime(record?.entry_time_1 || (isWeekend || !isWorkDayConfigured ? '-' : ''))}</Text>
-                <Text style={[styles.colSignature, isLastRow && { borderBottomWidth: 1.5 }]}>{isWeekend || !isWorkDayConfigured ? dayNamePtBr.toUpperCase() : ''}</Text>
-                <Text style={[styles.colTime, isLastRow && { borderBottomWidth: 1.5 }]}>{formatFullTime(record?.exit_time_1 || (isWeekend || !isWorkDayConfigured ? '-' : ''))}</Text>
-                <Text style={[styles.colSignature, isLastRow && { borderBottomWidth: 1.5 }]}>{isWeekend || !isWorkDayConfigured ? dayNamePtBr.toUpperCase() : ''}</Text>
+                <Text style={[styles.colTime, isLastRow && { borderBottomWidth: 1.5 }]}>{displayTimeValue(record?.entry_time_1)}</Text>
+                <Text style={[styles.colSignature, isLastRow && { borderBottomWidth: 1.5 }]}>{displaySignatureValue}</Text>
+                <Text style={[styles.colTime, isLastRow && { borderBottomWidth: 1.5 }]}>{displayTimeValue(record?.exit_time_1)}</Text>
+                <Text style={[styles.colSignature, isLastRow && { borderBottomWidth: 1.5 }]}>{displaySignatureValue}</Text>
                 {/* Hora Extra Entrada */}
                 <Text style={[styles.colExtraTime, isLastRow && { borderBottomWidth: 1.5 }]}>{formatFullTime(record?.entry_time_2)}</Text>
                 {/* Hora Extra Saída */}
