@@ -313,7 +313,7 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           {/* Linhas vazias para Obs - 3 linhas como na imagem */}
           <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '10%', minHeight: 20 }]}>
+            <View style={[styles.infoCellBase, { width: '10%', minHeight: 20, borderRightWidth: 0 }]}>
               <Text></Text>
             </View>
             <View style={[styles.infoCellBase, { width: '90%', borderRightWidth: 0, minHeight: 20 }]}>
@@ -321,7 +321,7 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
             </View>
           </View>
           <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '10%', minHeight: 20 }]}>
+            <View style={[styles.infoCellBase, { width: '10%', minHeight: 20, borderRightWidth: 0 }]}>
               <Text></Text>
             </View>
             <View style={[styles.infoCellBase, { width: '90%', borderRightWidth: 0, minHeight: 20 }]}>
@@ -329,7 +329,7 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
             </View>
           </View>
           <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '10%', minHeight: 20 }]}>
+            <View style={[styles.infoCellBase, { width: '10%', minHeight: 20, borderRightWidth: 0 }]}>
               <Text></Text>
             </View>
             <View style={[styles.infoCellBase, { width: '90%', borderRightWidth: 0, minHeight: 20 }]}>
