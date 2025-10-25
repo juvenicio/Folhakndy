@@ -276,9 +276,12 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
 
           {/* Seção de Observação */}
           <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '100%', padding: 3, borderRightWidth: 0, borderBottomWidth: 0, minHeight: 60 }]}>
-              <Text style={[styles.sectionTitle, { fontFamily: 'Calibri-Bold', fontSize: 9 }]}>Obs:</Text>
-              <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
+            <View style={[styles.infoCellBase, { width: '10%', borderBottomWidth: 1.0, borderRightWidth: 1.0, padding: 3, justifyContent: 'center' }]}>
+              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Obs:</Text>
+            </View>
+            <View style={[styles.infoCellBase, { width: '90%', borderRightWidth: 0, borderBottomWidth: 1.0, padding: 3, flexDirection: 'column', justifyContent: 'flex-end', minHeight: 60 }]}>
+              {/* A linha horizontal */}
+              <View style={{ borderBottomWidth: 1.0, borderColor: '#000000', width: '100%', marginBottom: 5 }} /> 
             </View>
           </View>
         </View>
