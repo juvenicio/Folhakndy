@@ -280,8 +280,7 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
               <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Obs:</Text>
             </View>
             <View style={[styles.infoCellBase, { width: '90%', borderRightWidth: 0, borderBottomWidth: 1.0, padding: 3, flexDirection: 'column', justifyContent: 'flex-end', minHeight: 60 }]}>
-              {/* A linha horizontal */}
-              <View style={{ borderBottomWidth: 1.0, borderColor: '#000000', width: '100%', marginBottom: 5 }} /> 
+              {/* A linha horizontal que foi removida estava aqui */}
             </View>
           </View>
         </View>
