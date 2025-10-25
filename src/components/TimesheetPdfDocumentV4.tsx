@@ -17,19 +17,7 @@ const styles = StyleSheet.create({
     fontSize: 8,
     fontFamily: 'Calibri',
   },
-  // Removido o headerContainer e seus estilos, pois o cabeçalho será removido.
-  // headerContainer: {
-  //   flexDirection: 'column',
-  //   alignItems: 'center',
-  //   marginBottom: 5,
-  //   width: '100%',
-  // },
-  // headerTextContent: {
-  //   width: '100%',
-  //   textAlign: 'center',
-  //   marginTop: 5,
-  // },
-  headerText: { // Mantido para caso haja outros usos, mas não será aplicado ao cabeçalho principal
+  headerText: {
     fontSize: 7,
     fontWeight: 'bold',
     marginBottom: 1,
@@ -58,6 +46,18 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     fontSize: 8,
     fontFamily: 'Calibri',
+  },
+  // Novo estilo para a célula de carga horária centralizada
+  centeredChargeHoursCell: {
+    width: '100%',
+    borderRightWidth: 0,
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 2, // Manter o padding
+    borderBottomWidth: 1.5, // Manter a borda inferior
+    borderColor: '#000000',
+    borderStyle: 'solid',
   },
   tableHeaderCell: {
     borderRightWidth: 1.5,
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 8,
   },
-  logo: { // Mantido para caso haja outros usos, mas não será aplicado ao cabeçalho principal
+  logo: {
     width: 24,
     height: 33,
   },
@@ -168,10 +168,10 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
               <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>NOME: {employee.name}</Text>
             </View>
           </View>
-          {/* Nova linha para CARGA HORÁRIA - AGORA CORRETA */}
+          {/* Nova linha para CARGA HORÁRIA - AGORA COM ESTILO DEDICADO */}
           <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0 }]}>
-              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10, textAlign: 'center' }}>CARGA HORÁRIA: 40 HORAS</Text>
+            <View style={styles.centeredChargeHoursCell}>
+              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>CARGA HORÁRIA: 40 HORAS</Text>
             </View>
           </View>
           {/* Linha para Turno, Mês e Ano */}
