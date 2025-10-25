@@ -220,15 +220,13 @@ const GenerateTimesheetPage = () => {
         const isWorkDay = employee.work_days.includes(dayName);
         const isCurrentDateWeekend = (getDay(currentDate) === 0 || getDay(currentDate) === 6);
 
-        // Lógica de notas específica para V3 (ASG e Contrato)
-        const normalizedEmployeeFunction = (employee.function || '').toLowerCase().replace(/[^a-z0-9]/g, ''); // Normaliza a função para comparação robusta
-
-        if (normalizedEmployeeFunction.includes("asg") && employee.vinculo === "Contrato") {
+        // Lógica de notas específica para V4 (Educador Voluntário)
+        if (employee.vinculo === "Educador Voluntário") {
           if (!isWorkDay) {
             if (isCurrentDateWeekend) {
               notes = dayNamePtBr.toUpperCase(); // "SÁBADO" or "DOMINGO"
             } else {
-              notes = "-------------------------"; // Para dias de semana não trabalhados
+              notes = "------------------------------"; // Para dias de semana não trabalhados
             }
           }
           // Exemplo de FERIADO para o dia 7, como no exemplo do usuário.
@@ -237,12 +235,30 @@ const GenerateTimesheetPage = () => {
             notes = "FERIADO";
           }
         } else {
-          // Lógica de notas para V1 e V2
-          if (!isWorkDay) {
-            if (isCurrentDateWeekend) {
-              notes = dayNamePtBr; // "Sábado" or "Domingo"
-            } else {
-              notes = "SÁBADO E DOMINGO"; // Para dias de semana não trabalhados
+          // Lógica de notas específica para V3 (ASG e Contrato)
+          const normalizedEmployeeFunction = (employee.function || '').toLowerCase().replace(/[^a-z0-9]/g, ''); // Normaliza a função para comparação robusta
+
+          if (normalizedEmployeeFunction.includes("asg") && employee.vinculo === "Contrato") {
+            if (!isWorkDay) {
+              if (isCurrentDateWeekend) {
+                notes = dayNamePtBr.toUpperCase(); // "SÁBADO" or "DOMINGO"
+              } else {
+                notes = "-------------------------"; // Para dias de semana não trabalhados
+              }
+            }
+            // Exemplo de FERIADO para o dia 7, como no exemplo do usuário.
+            // Em um cenário real, isso viria de um calendário de feriados.
+            if (i === 7 && !isWorkDay) { // Se o dia 7 não for um dia de trabalho, e for o dia 7
+              notes = "FERIADO";
+            }
+          } else {
+            // Lógica de notas para V1 e V2
+            if (!isWorkDay) {
+              if (isCurrentDateWeekend) {
+                notes = dayNamePtBr; // "Sábado" or "Domingo"
+              } else {
+                notes = "SÁBADO E DOMINGO"; // Para dias de semana não trabalhados
+              }
             }
           }
         }
@@ -311,10 +327,8 @@ const GenerateTimesheetPage = () => {
   let PdfPreviewComponent;
   const normalizedCurrentFunction = (currentEmployee?.function || '').toLowerCase().replace(/[^a-z0-9]/g, '');
 
-  // Placeholder para a lógica de seleção da V4.
-  // Por enquanto, a V4 não será selecionada automaticamente.
-  // Você me dirá os critérios para usá-la.
-  if (false /* Adicione aqui a sua lógica para usar a V4 */) {
+  // Lógica para usar a V4 para "Educador Voluntário"
+  if (currentEmployee?.vinculo === "Educador Voluntário") {
     PdfPreviewComponent = TimesheetPdfPreviewV4;
   } else if (normalizedCurrentFunction.includes("asg") && currentEmployee?.vinculo === "Contrato") {
     PdfPreviewComponent = TimesheetPdfPreviewV3;
