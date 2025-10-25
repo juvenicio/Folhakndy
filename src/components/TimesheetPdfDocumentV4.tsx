@@ -47,15 +47,14 @@ const styles = StyleSheet.create({
     fontSize: 8,
     fontFamily: 'Calibri',
   },
-  // Novo estilo para a célula de carga horária centralizada
   centeredChargeHoursCell: {
     width: '100%',
     borderRightWidth: 0,
     textAlign: 'center',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 2, // Manter o padding
-    borderBottomWidth: 1.5, // Manter a borda inferior
+    padding: 2,
+    borderBottomWidth: 1.5,
     borderColor: '#000000',
     borderStyle: 'solid',
   },
@@ -160,7 +159,7 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
           {/* Detalhes do Funcionário */}
           <View style={styles.tableRow}>
             <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0, paddingLeft: 10 }]}>
-              <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Unidade de Trabalho: {employee.school_name || 'N/A'}</Text>
+              <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Unidade de Trabalho: {employee.school_name || 'N/A'}</Text>
             </View>
           </View>
           <View style={styles.tableRow}>
@@ -168,7 +167,7 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
               <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>NOME: {employee.name}</Text>
             </View>
           </View>
-          {/* Nova linha para CARGA HORÁRIA - AGORA COM ESTILO DEDICADO */}
+          {/* Nova linha para CARGA HORÁRIA */}
           <View style={styles.tableRow}>
             <View style={styles.centeredChargeHoursCell}>
               <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>CARGA HORÁRIA: 40 HORAS</Text>
