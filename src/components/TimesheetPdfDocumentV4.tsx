@@ -164,7 +164,7 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={styles.tableRow}>
             <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0 }]}>
-              <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>NOME: {employee.name}</Text>
+              <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>NOME: {employee.name}</Text> {/* Alterado para fontSize: 9 */}
             </View>
           </View>
           {/* Nova linha para CARGA HORÁRIA */}
