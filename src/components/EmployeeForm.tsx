@@ -28,7 +28,7 @@ import {
 
 const employeeFormSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
-  employee_type: z.enum(["ASG", "Merendeira", "Vigia", "Secretário(a)", "Professor", "Assistente Social", "Psicólogo(a)", "Gestor(a)"], {
+  employee_type: z.enum(["ASG", "Merendeira", "Vigia", "Secretário(a)", "Professor", "Assistente Social", "Psicólogo(a)", "Gestor(a)", "Educador Voluntário"], {
     required_error: "Cargo é obrigatório",
   }),
   function: z.string().min(1, "Função é obrigatória"),
@@ -187,6 +187,7 @@ const EmployeeForm = ({ employee, onSuccess }: EmployeeFormProps) => {
                   <SelectItem value="Assistente Social">Assistente Social</SelectItem>
                   <SelectItem value="Psicólogo(a)">Psicólogo(a)</SelectItem>
                   <SelectItem value="Gestor(a)">Gestor(a)</SelectItem>
+                  <SelectItem value="Educador Voluntário">Educador Voluntário</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
