@@ -10,23 +10,12 @@ const styles = StyleSheet.create({
   page: {
     flexDirection: 'column',
     backgroundColor: '#ffffff',
-    paddingTop: 28.35,    // 1 cm
+    paddingTop: 36.00,    // 1.27 cm
     paddingRight: 36.00,  // 1.27 cm
-    paddingBottom: 21.26, // 0.75 cm
+    paddingBottom: 36.00, // 1.27 cm
     paddingLeft: 36.00,   // 1.27 cm
-    fontSize: 8, // Tamanho da fonte base para o conteúdo
-    fontFamily: 'Calibri', // Usar Calibri
-  },
-  headerContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginBottom: 5,
-    width: '100%',
-  },
-  headerTextContent: {
-    width: '100%',
-    textAlign: 'center',
-    marginTop: 5,
+    fontSize: 8,
+    fontFamily: 'Calibri',
   },
   headerText: {
     fontSize: 7,
@@ -38,7 +27,7 @@ const styles = StyleSheet.create({
     display: 'table',
     width: 'auto',
     marginBottom: 0,
-    borderWidth: 1.5,
+    borderWidth: 1.0,
     borderColor: '#000000',
     borderStyle: 'solid',
   },
@@ -47,8 +36,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   infoCellBase: {
-    borderRightWidth: 1.5,
-    borderBottomWidth: 1.5,
+    borderRightWidth: 1.0,
+    borderBottomWidth: 1.0,
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
@@ -58,9 +47,20 @@ const styles = StyleSheet.create({
     fontSize: 8,
     fontFamily: 'Calibri',
   },
+  centeredChargeHoursCell: {
+    width: '100%',
+    borderRightWidth: 0,
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 2,
+    borderBottomWidth: 1.0,
+    borderColor: '#000000',
+    borderStyle: 'solid',
+  },
   tableHeaderCell: {
-    borderRightWidth: 1.5,
-    borderBottomWidth: 1.5,
+    borderRightWidth: 1.0,
+    borderBottomWidth: 1.0,
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 1,
@@ -71,10 +71,10 @@ const styles = StyleSheet.create({
     minHeight: 15,
     fontFamily: 'Calibri',
   },
-  colDia: { width: '5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
-  colTime: { width: '10%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
-  colSignature: { width: '30%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' },
-  colSignatureLast: { width: '25%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' },
+  colDia: { width: '5%', padding: 1, textAlign: 'center', borderRightWidth: 1.0, borderBottomWidth: 1.0, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
+  colTime: { width: '10%', padding: 1, textAlign: 'center', borderRightWidth: 1.0, borderBottomWidth: 1.0, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
+  colSignature: { width: '30%', padding: 1, textAlign: 'center', borderRightWidth: 1.0, borderBottomWidth: 1.0, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
+  colSignatureLast: { width: '25%', padding: 1, textAlign: 'center', borderRightWidth: 1.0, borderBottomWidth: 1.0, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
   
   sectionTitle: {
     fontSize: 9,
@@ -123,7 +123,7 @@ interface Employee {
   vinculo: string;
 }
 
-interface TimesheetPdfDocumentV3Props {
+interface TimesheetPdfDocumentV4Props {
   employee: Employee;
   month: number;
   year: number;
@@ -131,7 +131,7 @@ interface TimesheetPdfDocumentV3Props {
   logoSrc: string | null;
 }
 
-const TimesheetPdfDocumentV3 = ({ employee, month, year, dailyRecords, logoSrc }: TimesheetPdfDocumentV3Props) => {
+const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }: TimesheetPdfDocumentV4Props) => {
   const monthName = format(new Date(year, month - 1), "MMMM", { locale: ptBR });
   const daysInMonth = getDaysInMonth(new Date(year, month - 1));
 
@@ -148,61 +148,49 @@ const TimesheetPdfDocumentV3 = ({ employee, month, year, dailyRecords, logoSrc }
     return timeString; // Apenas retorna o HH:MM
   };
 
-  // Função para limpar o prefixo 'Apoio (Função):' se ele já estiver na string
-  const getCleanFunction = (func: string | null) => {
-    if (!func) return '';
-    const prefix = "Apoio (Função): ";
-    if (func.startsWith(prefix)) {
-      return func.substring(prefix.length);
-    }
-    return func;
-  };
+  const monthNameFormatted = monthName.charAt(0).toUpperCase() + monthName.slice(1);
+  const isSetembro = monthNameFormatted === "Setembro";
 
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        {/* Header com Logo e Texto */}
-        <View style={styles.headerContainer}>
-          {logoSrc && <Image src={logoSrc} style={styles.logo} />}
-          <View style={styles.headerTextContent}>
-            <Text style={styles.headerText}>ESTADO DA PARAÍBA</Text>
-            <Text style={styles.headerText}>PREFEITURA MUNICIPAL DE CAMPINA GRANDE</Text>
-            <Text style={styles.headerText}>SECRETARIA DE EDUCAÇÃO</Text>
-            <Text style={styles.headerText}>DIRETORIA ADMINISTRATIVA FINANCEIRA</Text>
-            <Text style={styles.headerText}>GERÊNCIA DE RECURSOS HUMANOS</Text>
-          </View>
-        </View>
+        {/* Espaço em branco para o cabeçalho */}
+        <View style={{ height: 70, marginBottom: 5 }} /> 
 
         {/* Tabela Principal */}
         <View style={styles.mainTableContainer}>
           {/* Detalhes do Funcionário */}
           <View style={styles.tableRow}>
             <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0, paddingLeft: 10 }]}>
-              <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Unidade escolar: {employee.school_name || 'N/A'}</Text>
+              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Unidade de Trabalho: {employee.school_name || 'N/A'}</Text>
             </View>
           </View>
           <View style={styles.tableRow}>
             <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0 }]}>
-              <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Nome: {employee.name}</Text>
+              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>NOME: {employee.name}</Text>
             </View>
           </View>
+          {/* Nova linha para CARGA HORÁRIA */}
           <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '66.66%' }]}> {/* Ajustado para 66.66% */}
-              <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Apoio (Função): {getCleanFunction(employee.function)}</Text>
-            </View>
-            <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}> {/* Ajustado para 33.33% */}
-              <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Vínculo: {employee.vinculo}</Text>
+            <View style={styles.centeredChargeHoursCell}>
+              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>CARGA HORÁRIA: 40 HORAS</Text>
             </View>
           </View>
+          {/* Linha para Turno, Mês e Ano */}
           <View style={styles.tableRow}>
             <View style={[styles.infoCellBase, { width: '50%' }]}>
-              <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text>
+              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text>
             </View>
             <View style={[styles.infoCellBase, { width: '25%' }]}>
-              <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Mês: {monthName.charAt(0).toUpperCase() + monthName.slice(1)}</Text>
+              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>
+                Mês:{" "}
+                <Text style={isSetembro ? { fontFamily: 'Times-Roman', fontSize: 7 } : { fontFamily: 'Calibri-Bold', fontSize: 10 }}>
+                  {monthNameFormatted}
+                </Text>
+              </Text>
             </View>
             <View style={[styles.infoCellBase, { width: '25%', borderRightWidth: 0 }]}>
-              <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Ano: {year}</Text>
+              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Ano: {year}</Text>
             </View>
           </View>
 
@@ -218,7 +206,7 @@ const TimesheetPdfDocumentV3 = ({ employee, month, year, dailyRecords, logoSrc }
               <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Saída</Text>
             </View>
             <View style={[styles.tableHeaderCell, { width: '30%' }]}>
-              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>ASSINATURA/JUSTIFICATIVA</Text>
+              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>ASSINATURA</Text>
             </View>
             <View style={[styles.tableHeaderCell, { width: '10%' }]}>
               <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Entrada</Text>
@@ -227,7 +215,7 @@ const TimesheetPdfDocumentV3 = ({ employee, month, year, dailyRecords, logoSrc }
               <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Saída</Text>
             </View>
             <View style={[styles.tableHeaderCell, { width: '25%', borderRightWidth: 0 }]}>
-              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>ASSINATURA/JUSTIFICATIVA</Text>
+              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>ASSINATURA</Text>
             </View>
           </View>
 
@@ -247,7 +235,7 @@ const TimesheetPdfDocumentV3 = ({ employee, month, year, dailyRecords, logoSrc }
               if (isWorkDayConfigured) {
                 return formatTimeForDisplay(time);
               }
-              // For non-work days, display '-' if no time is recorded
+              // Para dias não trabalhados, exibe '-' se não houver tempo registrado
               return time ? formatTimeForDisplay(time) : '-';
             };
 
@@ -255,35 +243,44 @@ const TimesheetPdfDocumentV3 = ({ employee, month, year, dailyRecords, logoSrc }
 
             return (
               <View style={styles.tableRow} key={day}>
-                <Text style={[styles.colDia, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{day}</Text>
-                <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.entry_time_1)}</Text>
-                <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.exit_time_1)}</Text>
-                <Text style={[styles.colSignature, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }, displayNotes !== '' && styles.boldText]}>{displayNotes}</Text>
-                <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.entry_time_2)}</Text>
-                <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.exit_time_2)}</Text>
-                <Text style={[styles.colSignatureLast, { borderRightWidth: 0, fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }, displayNotes !== '' && styles.boldText]}>{displayNotes}</Text>
+                <Text style={[styles.colDia, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.0 }]}>{day}</Text>
+                <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.0 }]}>{displayTime(record?.entry_time_1)}</Text>
+                <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.0 }]}>{displayTime(record?.exit_time_1)}</Text>
+                <Text style={[
+                  styles.colSignature,
+                  { fontFamily: 'Arial', fontSize: 8 }, // Definindo Arial e tamanho 8
+                  isLastDailyRecordRow && { borderBottomWidth: 1.0 },
+                  (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText // Aplicando negrito condicionalmente
+                ]}>{displayNotes}</Text>
+                <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.0 }]}>{displayTime(record?.entry_time_2)}</Text>
+                <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.0 }]}>{displayTime(record?.exit_time_2)}</Text>
+                <Text style={[
+                  styles.colSignatureLast,
+                  { borderRightWidth: 0, fontFamily: 'Arial', fontSize: 8 }, // Definindo Arial e tamanho 8
+                  isLastDailyRecordRow && { borderBottomWidth: 1.0 },
+                  (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText // Aplicando negrito condicionalmente
+                ]}>{displayNotes}</Text>
               </View>
             );
           })}
 
           {/* Linha de Resumo */}
           <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '33.33%' }]}>
-              <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Dias Trabalhados:</Text>
+            <View style={[styles.infoCellBase, { width: '50%' }]}>
+              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Dias Trabalhados:</Text>
             </View>
-            <View style={[styles.infoCellBase, { width: '33.33%' }]}>
-              <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Total de Aulas:</Text>
-            </View>
-            <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}>
-              <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Total de Faltas:</Text>
+            <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}>
+              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Total de Faltas:</Text>
             </View>
           </View>
 
           {/* Seção de Observação */}
           <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '100%', padding: 3, borderRightWidth: 0, borderBottomWidth: 0, minHeight: 60 }]}>
-              <Text style={[styles.sectionTitle, { fontFamily: 'Calibri-Bold', fontSize: 9 }]}>Obs:</Text>
-              <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
+            <View style={[styles.infoCellBase, { width: '5%', borderBottomWidth: 1.0, borderRightWidth: 1.0, padding: 3, justifyContent: 'center' }]}>
+              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Obs:</Text>
+            </View>
+            <View style={[styles.infoCellBase, { width: '95%', borderRightWidth: 0, borderBottomWidth: 1.0, padding: 3, flexDirection: 'column', justifyContent: 'flex-end', minHeight: 60 }]}>
+              {/* A linha horizontal que foi removida estava aqui */}
             </View>
           </View>
         </View>
@@ -301,4 +298,4 @@ const TimesheetPdfDocumentV3 = ({ employee, month, year, dailyRecords, logoSrc }
   );
 };
 
-export default TimesheetPdfDocumentV3;
+export default TimesheetPdfDocumentV4;

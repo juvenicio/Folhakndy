@@ -28,11 +28,11 @@ import {
 
 const employeeFormSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
-  employee_type: z.enum(["ASG", "Merendeira", "Vigia", "Secretário(a)", "Professor", "Assistente Social", "Psicólogo(a)", "Gestor(a)"], {
+  employee_type: z.enum(["ASG", "Merendeira", "Vigia", "Secretário(a)", "Professor", "Assistente Social", "Psicólogo(a)", "Gestor(a)", "Educador Voluntário"], {
     required_error: "Cargo é obrigatório",
   }),
   function: z.string().min(1, "Função é obrigatória"),
-  registration_number: z.string().optional(), // Campo de matrícula agora é opcional
+  registration_number: z.string().nullable().optional().transform(e => e === "" ? null : e), // Modificado para tratar string vazia como null
   school_name: z.string().min(1, "Nome da Escola é obrigatório"),
   vinculo: z.enum(["Efetivo", "Contrato", "Terceirizado(a)", "Educador Voluntário"], {
     required_error: "Tipo de vínculo é obrigatório",
@@ -71,7 +71,7 @@ const EmployeeForm = ({ employee, onSuccess }: EmployeeFormProps) => {
       name: employee?.name || "",
       employee_type: employee?.employee_type || "ASG", // Novo campo
       function: employee?.function || "",
-      registration_number: employee?.registration_number || "",
+      registration_number: employee?.registration_number || null, // Definir como null por padrão
       school_name: employee?.school_name || "",
       vinculo: employee?.vinculo || "Efetivo", // Novo campo
       shift: employee?.shift || [],
@@ -113,7 +113,7 @@ const EmployeeForm = ({ employee, onSuccess }: EmployeeFormProps) => {
           name: "",
           employee_type: "ASG",
           function: "",
-          registration_number: "",
+          registration_number: null, // Limpar para null após o sucesso
           school_name: "",
           vinculo: "Efetivo",
           shift: [],
@@ -187,6 +187,7 @@ const EmployeeForm = ({ employee, onSuccess }: EmployeeFormProps) => {
                   <SelectItem value="Assistente Social">Assistente Social</SelectItem>
                   <SelectItem value="Psicólogo(a)">Psicólogo(a)</SelectItem>
                   <SelectItem value="Gestor(a)">Gestor(a)</SelectItem>
+                  <SelectItem value="Educador Voluntário">Educador Voluntário</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -213,7 +214,7 @@ const EmployeeForm = ({ employee, onSuccess }: EmployeeFormProps) => {
             <FormItem>
               <FormLabel>Matrícula</FormLabel>
               <FormControl>
-                <Input placeholder="Número de matrícula" {...field} />
+                <Input placeholder="Número de matrícula" {...field} value={field.value || ""} />
               </FormControl>
               <FormMessage />
             </FormItem>

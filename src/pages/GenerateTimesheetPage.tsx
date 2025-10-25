@@ -17,6 +17,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import TimesheetPdfPreview from "@/components/TimesheetPdfPreview"; // Modelo existente V1
 import TimesheetPdfPreviewV2 from "@/components/TimesheetPdfPreviewV2"; // Modelo existente V2
 import TimesheetPdfPreviewV3 from "@/components/TimesheetPdfPreviewV3"; // Novo modelo V3
+import TimesheetPdfPreviewV4 from "@/components/TimesheetPdfPreviewV4"; // Novo modelo V4
 import {
   Command,
   CommandInput,
@@ -219,15 +220,13 @@ const GenerateTimesheetPage = () => {
         const isWorkDay = employee.work_days.includes(dayName);
         const isCurrentDateWeekend = (getDay(currentDate) === 0 || getDay(currentDate) === 6);
 
-        // Lógica de notas específica para V3 (ASG e Contrato)
-        const normalizedEmployeeFunction = employee.function?.toLowerCase().replace(/[^a-z0-9]/g, ''); // Normaliza a função para comparação robusta
-
-        if (normalizedEmployeeFunction?.includes("asg") && employee.vinculo === "Contrato") {
+        // Lógica de notas específica para V4 (Educador Voluntário)
+        if (employee.vinculo === "Educador Voluntário") {
           if (!isWorkDay) {
             if (isCurrentDateWeekend) {
               notes = dayNamePtBr.toUpperCase(); // "SÁBADO" or "DOMINGO"
             } else {
-              notes = "-------------------------"; // Para dias de semana não trabalhados
+              notes = "------------------------------"; // Para dias de semana não trabalhados
             }
           }
           // Exemplo de FERIADO para o dia 7, como no exemplo do usuário.
@@ -236,12 +235,30 @@ const GenerateTimesheetPage = () => {
             notes = "FERIADO";
           }
         } else {
-          // Lógica de notas para V1 e V2
-          if (!isWorkDay) {
-            if (isCurrentDateWeekend) {
-              notes = dayNamePtBr; // "Sábado" or "Domingo"
-            } else {
-              notes = "SÁBADO E DOMINGO"; // Para dias de semana não trabalhados
+          // Lógica de notas específica para V3 (ASG e Contrato)
+          const normalizedEmployeeFunction = (employee.function || '').toLowerCase().replace(/[^a-z0-9]/g, ''); // Normaliza a função para comparação robusta
+
+          if (normalizedEmployeeFunction.includes("asg") && employee.vinculo === "Contrato") {
+            if (!isWorkDay) {
+              if (isCurrentDateWeekend) {
+                notes = dayNamePtBr.toUpperCase(); // "SÁBADO" or "DOMINGO"
+              } else {
+                notes = "-------------------------"; // Para dias de semana não trabalhados
+              }
+            }
+            // Exemplo de FERIADO para o dia 7, como no exemplo do usuário.
+            // Em um cenário real, isso viria de um calendário de feriados.
+            if (i === 7 && !isWorkDay) { // Se o dia 7 não for um dia de trabalho, e for o dia 7
+              notes = "FERIADO";
+            }
+          } else {
+            // Lógica de notas para V1 e V2
+            if (!isWorkDay) {
+              if (isCurrentDateWeekend) {
+                notes = dayNamePtBr; // "Sábado" or "Domingo"
+              } else {
+                notes = "SÁBADO E DOMINGO"; // Para dias de semana não trabalhados
+              }
             }
           }
         }
@@ -308,9 +325,12 @@ const GenerateTimesheetPage = () => {
 
   // Determine which PDF preview component to use based on employee_type and vinculo
   let PdfPreviewComponent;
-  const normalizedCurrentFunction = currentEmployee?.function?.toLowerCase().replace(/[^a-z0-9]/g, ''); // Normaliza a função para comparação robusta
+  const normalizedCurrentFunction = (currentEmployee?.function || '').toLowerCase().replace(/[^a-z0-9]/g, '');
 
-  if (normalizedCurrentFunction?.includes("asg") && currentEmployee?.vinculo === "Contrato") {
+  // Lógica para usar a V4 para "Educador Voluntário"
+  if (currentEmployee?.vinculo === "Educador Voluntário") {
+    PdfPreviewComponent = TimesheetPdfPreviewV4;
+  } else if (normalizedCurrentFunction.includes("asg") && currentEmployee?.vinculo === "Contrato") {
     PdfPreviewComponent = TimesheetPdfPreviewV3;
   } else {
     const isV2Role = ["Professor", "Assistente Social", "Psicólogo(a)", "Gestor(a)"].includes(currentEmployee?.employee_type || "");
@@ -351,10 +371,10 @@ const GenerateTimesheetPage = () => {
                     {employees.map((employee) => (
                       <CommandItem
                         key={employee.id}
-                        value={`${employee.name.toLowerCase()} ${employee.registration_number.toLowerCase()} ${employee.function.toLowerCase()} ${(employee.school_name || '').toLowerCase()}`}
+                        value={`${employee.name.toLowerCase()} ${employee.registration_number?.toLowerCase() || ''} ${employee.function.toLowerCase()} ${(employee.school_name || '').toLowerCase()}`}
                         onSelect={(currentValue) => {
                           const selected = employees.find(emp => 
-                            `${emp.name.toLowerCase()} ${emp.registration_number.toLowerCase()} ${emp.function.toLowerCase()} ${(emp.school_name || '').toLowerCase()}` === currentValue
+                            `${emp.name.toLowerCase()} ${emp.registration_number?.toLowerCase() || ''} ${emp.function.toLowerCase()} ${(emp.school_name || '').toLowerCase()}` === currentValue
                           );
                           setSelectedEmployeeId(selected?.id === selectedEmployeeId ? null : selected?.id);
                           setIsComboboxOpen(false);
@@ -366,7 +386,7 @@ const GenerateTimesheetPage = () => {
                             selectedEmployeeId === employee.id ? "opacity-100" : "opacity-0"
                           )}
                         />
-                        {employee.name} ({employee.registration_number}) - {employee.function} - {employee.school_name || 'N/A'}
+                        {employee.name} ({employee.registration_number || 'N/A'}) - {employee.function} - {employee.school_name || 'N/A'}
                       </CommandItem>
                     ))}
                   </CommandGroup>
