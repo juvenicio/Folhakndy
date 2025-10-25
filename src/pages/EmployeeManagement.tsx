@@ -18,14 +18,15 @@ import { supabase } from "@/integrations/supabase/client";
 import EmployeeForm from "@/components/EmployeeForm";
 import { Edit, Trash2, PlusCircle, Search, Users } from "lucide-react";
 import EmployeeTableSkeleton from "@/components/EmployeeTableSkeleton";
+import { normalizeString } from "@/lib/utils"; // Importar a nova função
 
 interface Employee {
   id: string;
   name: string;
   employee_type: string; // Novo: "Cargo"
   function: string; // Existente: "Função"
-  registration_number: string;
-  school_name: string | null;
+  registration_number: string | null; // Pode ser null
+  school_name: string | null; // Alterado para permitir null
   work_days: string[];
   shift: string[] | null;
   vinculo: string; // Novo: "Tipo de Vínculo"
@@ -99,15 +100,15 @@ const EmployeeManagement = () => {
   };
 
   const filteredEmployees = employees.filter((employee) => {
-    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+    const normalizedSearchTerm = normalizeString(searchTerm);
     return (
-      employee.name.toLowerCase().includes(lowerCaseSearchTerm) ||
-      employee.employee_type.toLowerCase().includes(lowerCaseSearchTerm) || // Novo campo
-      employee.function.toLowerCase().includes(lowerCaseSearchTerm) ||
-      employee.registration_number.toLowerCase().includes(lowerCaseSearchTerm) ||
-      employee.school_name?.toLowerCase().includes(lowerCaseSearchTerm) ||
-      employee.vinculo.toLowerCase().includes(lowerCaseSearchTerm) || // Novo campo
-      (employee.shift && employee.shift.some(s => s.toLowerCase().includes(lowerCaseSearchTerm)))
+      normalizeString(employee.name).includes(normalizedSearchTerm) ||
+      normalizeString(employee.employee_type).includes(normalizedSearchTerm) ||
+      normalizeString(employee.function).includes(normalizedSearchTerm) ||
+      normalizeString(employee.registration_number).includes(normalizedSearchTerm) ||
+      normalizeString(employee.school_name).includes(normalizedSearchTerm) ||
+      normalizeString(employee.vinculo).includes(normalizedSearchTerm) ||
+      (employee.shift && employee.shift.some(s => normalizeString(s).includes(normalizedSearchTerm)))
     );
   });
 
@@ -181,8 +182,8 @@ const EmployeeManagement = () => {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Nome</TableHead>
-                    <TableHead>Vínculo</TableHead> {/* Novo cabeçalho */}
-                    <TableHead>Cargo</TableHead> {/* Novo cabeçalho */}
+                    <TableHead>Vínculo</TableHead>
+                    <TableHead>Cargo</TableHead>
                     <TableHead>Função</TableHead>
                     <TableHead>Matrícula</TableHead>
                     <TableHead>Escola</TableHead>
@@ -194,10 +195,10 @@ const EmployeeManagement = () => {
                   {filteredEmployees.map((employee) => (
                     <TableRow key={employee.id}>
                       <TableCell className="font-medium">{employee.name}</TableCell>
-                      <TableCell>{employee.vinculo}</TableCell> {/* Novo campo */}
-                      <TableCell>{employee.employee_type}</TableCell> {/* Novo campo */}
+                      <TableCell>{employee.vinculo}</TableCell>
+                      <TableCell>{employee.employee_type}</TableCell>
                       <TableCell>{employee.function}</TableCell>
-                      <TableCell>{employee.registration_number}</TableCell>
+                      <TableCell>{employee.registration_number || '-'}</TableCell>
                       <TableCell>{employee.school_name || '-'}</TableCell>
                       <TableCell>{employee.shift?.join(', ') || "-"}</TableCell>
                       <TableCell className="flex space-x-2">
