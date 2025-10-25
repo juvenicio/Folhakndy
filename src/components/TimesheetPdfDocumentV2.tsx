@@ -82,8 +82,8 @@ const styles = StyleSheet.create({
   // Specific widths for each column in the main timesheet table
   colDia: { width: '5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
   colTime: { width: '12.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
-  colSignature: { width: '22.5%', padding: 3, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' }, // Aumentado padding para 3
-  colSignatureLast: { width: '22.5%', padding: 3, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' }, // Aumentado padding para 3
+  colSignature: { width: '22.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' }, // Ajustado padding para 1
+  colSignatureLast: { width: '22.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' }, // Ajustado padding para 1
   
   // Estilos para as células de resumo (agora dentro da tabela principal)
   sectionTitle: {
@@ -208,7 +208,7 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={styles.tableRow}>
             <View style={[styles.infoCellBase, { width: '33.33%' }]}>
-              <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Cargo: {employee.employee_type}</Text>
+              <Text style={{ fontFamily: 'Arial', fontSize: 1.5 }}>Cargo: {employee.employee_type}</Text>
             </View>
             <View style={[styles.infoCellBase, { width: '33.33%' }]}>
               <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Função: {employee.function}</Text>
