@@ -81,9 +81,9 @@ const styles = StyleSheet.create({
 
   // Specific widths for each column in the main timesheet table
   colDia: { width: '5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
-  colTime: { width: '12.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
-  colSignature: { width: '22.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' }, // Ajustado para 22.5%
-  colSignatureLast: { width: '22.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' }, // Ajustado para 22.5%
+  colTime: { width: '10%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' }, // Reduzido para 10%
+  colSignature: { width: '27.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' }, // Aumentado para 27.5%
+  colSignatureLast: { width: '27.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' }, // Aumentado para 27.5%
   
   // Estilos para as células de resumo (agora dentro da tabela principal)
   sectionTitle: {
@@ -105,6 +105,9 @@ const styles = StyleSheet.create({
   logo: {
     width: 24, // Largura: 0.85 cm ≈ 24 pt
     height: 33, // Altura: 1.16 cm ≈ 33 pt
+  },
+  boldText: {
+    fontFamily: 'Calibri-Bold', // Estilo para texto em negrito
   },
 });
 
@@ -284,10 +287,10 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
                 <Text style={[styles.colDia, { fontFamily: 'Arial', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{day}</Text>
                 <Text style={[styles.colTime, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.entry_time_1)}</Text>
                 <Text style={[styles.colTime, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.exit_time_1)}</Text>
-                <Text style={[styles.colSignature, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayNotes}</Text>
+                <Text style={[styles.colSignature, isLastDailyRecordRow && { borderBottomWidth: 1.5 }, (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText]}>{displayNotes}</Text>
                 <Text style={[styles.colTime, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.entry_time_2)}</Text>
                 <Text style={[styles.colTime, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.exit_time_2)}</Text>
-                <Text style={[styles.colSignatureLast, { borderRightWidth: 0 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayNotes}</Text>
+                <Text style={[styles.colSignatureLast, { borderRightWidth: 0 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }, (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText]}>{displayNotes}</Text>
               </View>
             );
           })}
