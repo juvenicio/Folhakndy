@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   headerTextContent: {
+    width: '100%', // Adicionado para garantir que o bloco de texto ocupe a largura total
     textAlign: 'center', // Corrigido para centralizar o texto dentro do bloco
     marginTop: 5, // Espaçamento entre logo e texto
   },
