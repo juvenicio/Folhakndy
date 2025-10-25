@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     display: 'table',
     width: 'auto',
     marginBottom: 0,
-    borderWidth: 1.5,
+    borderWidth: 1.0, // Alterado de 1.5 para 1.0
     borderColor: '#000000',
     borderStyle: 'solid',
   },
@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   infoCellBase: {
-    borderRightWidth: 1.5,
-    borderBottomWidth: 1.5,
+    borderRightWidth: 1.0, // Alterado de 1.5 para 1.0
+    borderBottomWidth: 1.0, // Alterado de 1.5 para 1.0
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
@@ -54,13 +54,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 2,
-    borderBottomWidth: 1.5,
+    borderBottomWidth: 1.0, // Alterado de 1.5 para 1.0
     borderColor: '#000000',
     borderStyle: 'solid',
   },
   tableHeaderCell: {
-    borderRightWidth: 1.5,
-    borderBottomWidth: 1.5,
+    borderRightWidth: 1.0, // Alterado de 1.5 para 1.0
+    borderBottomWidth: 1.0, // Alterado de 1.5 para 1.0
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 1,
@@ -71,10 +71,10 @@ const styles = StyleSheet.create({
     minHeight: 15,
     fontFamily: 'Calibri',
   },
-  colDia: { width: '5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
-  colTime: { width: '10%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
-  colSignature: { width: '30%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
-  colSignatureLast: { width: '25%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
+  colDia: { width: '5%', padding: 1, textAlign: 'center', borderRightWidth: 1.0, borderBottomWidth: 1.0, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' }, // Alterado de 1.5 para 1.0
+  colTime: { width: '10%', padding: 1, textAlign: 'center', borderRightWidth: 1.0, borderBottomWidth: 1.0, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' }, // Alterado de 1.5 para 1.0
+  colSignature: { width: '30%', padding: 1, textAlign: 'center', borderRightWidth: 1.0, borderBottomWidth: 1.0, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' }, // Alterado de 1.5 para 1.0
+  colSignatureLast: { width: '25%', padding: 1, textAlign: 'center', borderRightWidth: 1.0, borderBottomWidth: 1.0, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' }, // Alterado de 1.5 para 1.0
   
   sectionTitle: {
     fontSize: 9,
@@ -243,21 +243,21 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
 
             return (
               <View style={styles.tableRow} key={day}>
-                <Text style={[styles.colDia, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{day}</Text>
-                <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.entry_time_1)}</Text>
-                <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.exit_time_1)}</Text>
+                <Text style={[styles.colDia, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.0 }]}>{day}</Text>
+                <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.0 }]}>{displayTime(record?.entry_time_1)}</Text>
+                <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.0 }]}>{displayTime(record?.exit_time_1)}</Text>
                 <Text style={[
                   styles.colSignature,
                   { fontFamily: 'Arial', fontSize: 8 }, // Definindo Arial e tamanho 8
-                  isLastDailyRecordRow && { borderBottomWidth: 1.5 },
+                  isLastDailyRecordRow && { borderBottomWidth: 1.0 },
                   (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText // Aplicando negrito condicionalmente
                 ]}>{displayNotes}</Text>
-                <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.entry_time_2)}</Text>
-                <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.exit_time_2)}</Text>
+                <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.0 }]}>{displayTime(record?.entry_time_2)}</Text>
+                <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.0 }]}>{displayTime(record?.exit_time_2)}</Text>
                 <Text style={[
                   styles.colSignatureLast,
                   { borderRightWidth: 0, fontFamily: 'Arial', fontSize: 8 }, // Definindo Arial e tamanho 8
-                  isLastDailyRecordRow && { borderBottomWidth: 1.5 },
+                  isLastDailyRecordRow && { borderBottomWidth: 1.0 },
                   (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText // Aplicando negrito condicionalmente
                 ]}>{displayNotes}</Text>
               </View>
