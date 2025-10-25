@@ -220,9 +220,9 @@ const GenerateTimesheetPage = () => {
         const isCurrentDateWeekend = (getDay(currentDate) === 0 || getDay(currentDate) === 6);
 
         // Lógica de notas específica para V3 (ASG e Contrato)
-        const normalizedEmployeeFunction = employee.function?.toLowerCase().replace(/\./g, '');
+        const normalizedEmployeeFunction = employee.function?.toLowerCase().replace(/[^a-z0-9]/g, ''); // Normaliza a função para comparação robusta
 
-        if (normalizedEmployeeFunction === "asg" && employee.vinculo === "Contrato") {
+        if (normalizedEmployeeFunction?.includes("asg") && employee.vinculo === "Contrato") {
           if (!isWorkDay) {
             if (isCurrentDateWeekend) {
               notes = dayNamePtBr.toUpperCase(); // "SÁBADO" or "DOMINGO"
@@ -308,9 +308,9 @@ const GenerateTimesheetPage = () => {
 
   // Determine which PDF preview component to use based on employee_type and vinculo
   let PdfPreviewComponent;
-  const normalizedCurrentFunction = currentEmployee?.function?.toLowerCase().replace(/\./g, ''); // Normaliza a função para comparação
+  const normalizedCurrentFunction = currentEmployee?.function?.toLowerCase().replace(/[^a-z0-9]/g, ''); // Normaliza a função para comparação robusta
 
-  if (normalizedCurrentFunction === "asg" && currentEmployee?.vinculo === "Contrato") {
+  if (normalizedCurrentFunction?.includes("asg") && currentEmployee?.vinculo === "Contrato") {
     PdfPreviewComponent = TimesheetPdfPreviewV3;
   } else {
     const isV2Role = ["Professor", "Assistente Social", "Psicólogo(a)", "Gestor(a)"].includes(currentEmployee?.employee_type || "");
