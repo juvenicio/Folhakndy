@@ -168,12 +168,13 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
               <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>NOME: {employee.name}</Text>
             </View>
           </View>
-          {/* Nova linha para CARGA HORÁRIA */}
+          {/* Nova linha para CARGA HORÁRIA - AGORA CORRETA */}
           <View style={styles.tableRow}>
             <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0, textAlign: 'center' }]}>
               <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>CARGA HORÁRIA: 40 HORAS</Text>
             </View>
           </View>
+          {/* Linha para Turno, Mês e Ano */}
           <View style={styles.tableRow}>
             <View style={[styles.infoCellBase, { width: '50%' }]}>
               <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text>
