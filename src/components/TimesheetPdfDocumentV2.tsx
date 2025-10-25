@@ -304,23 +304,35 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
 
           {/* Seção de Observação */}
           <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0, minHeight: 20 }]}>
+            <View style={[styles.infoCellBase, { width: '10%', minHeight: 20 }]}>
               <Text style={{ fontFamily: 'Arial', fontSize: 9 }}>Obs:</Text>
+            </View>
+            <View style={[styles.infoCellBase, { width: '90%', borderRightWidth: 0, minHeight: 20 }]}>
+              <Text></Text>
             </View>
           </View>
           {/* Linhas vazias para Obs - 3 linhas como na imagem */}
           <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0, minHeight: 20 }]}>
+            <View style={[styles.infoCellBase, { width: '10%', minHeight: 20 }]}>
+              <Text></Text>
+            </View>
+            <View style={[styles.infoCellBase, { width: '90%', borderRightWidth: 0, minHeight: 20 }]}>
               <Text></Text>
             </View>
           </View>
           <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0, minHeight: 20 }]}>
+            <View style={[styles.infoCellBase, { width: '10%', minHeight: 20 }]}>
+              <Text></Text>
+            </View>
+            <View style={[styles.infoCellBase, { width: '90%', borderRightWidth: 0, minHeight: 20 }]}>
               <Text></Text>
             </View>
           </View>
           <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0, minHeight: 20 }]}>
+            <View style={[styles.infoCellBase, { width: '10%', minHeight: 20 }]}>
+              <Text></Text>
+            </View>
+            <View style={[styles.infoCellBase, { width: '90%', borderRightWidth: 0, minHeight: 20 }]}>
               <Text></Text>
             </View>
           </View>
