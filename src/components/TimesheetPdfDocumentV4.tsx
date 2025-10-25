@@ -5,7 +5,7 @@ import { format, parseISO, isValid, getDay, getDaysInMonth } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import '../utils/pdfFonts'; // Importar o registro de fontes
 
-// Estilos para o PDF (estrutura básica, será ajustada com sua entrada)
+// Estilos para o PDF
 const styles = StyleSheet.create({
   page: {
     flexDirection: 'column',
@@ -148,15 +148,6 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
     return timeString; // Apenas retorna o HH:MM
   };
 
-  const getCleanFunction = (func: string | null) => {
-    if (!func) return '';
-    const prefix = "Apoio (Função): ";
-    if (func.startsWith(prefix)) {
-      return func.substring(prefix.length);
-    }
-    return func;
-  };
-
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -177,30 +168,27 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
           {/* Detalhes do Funcionário */}
           <View style={styles.tableRow}>
             <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0, paddingLeft: 10 }]}>
-              <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Unidade escolar: {employee.school_name || 'N/A'}</Text>
+              <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Unidade de Trabalho: {employee.school_name || 'N/A'}</Text>
             </View>
           </View>
           <View style={styles.tableRow}>
             <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0 }]}>
-              <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Nome: {employee.name}</Text>
-            </View>
-          </View>
-          <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '66.66%' }]}>
-              <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Apoio (Função): {getCleanFunction(employee.function)}</Text>
-            </View>
-            <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}>
-              <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Vínculo: {employee.vinculo}</Text>
+              <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>NOME: {employee.name}</Text>
             </View>
           </View>
           <View style={styles.tableRow}>
             <View style={[styles.infoCellBase, { width: '50%' }]}>
+              <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>CARGA HORÁRIA: 40 HORAS</Text>
+            </View>
+            <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}>
               <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text>
             </View>
-            <View style={[styles.infoCellBase, { width: '25%' }]}>
+          </View>
+          <View style={styles.tableRow}>
+            <View style={[styles.infoCellBase, { width: '50%' }]}>
               <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Mês: {monthName.charAt(0).toUpperCase() + monthName.slice(1)}</Text>
             </View>
-            <View style={[styles.infoCellBase, { width: '25%', borderRightWidth: 0 }]}>
+            <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}>
               <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Ano: {year}</Text>
             </View>
           </View>
@@ -217,7 +205,7 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
               <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Saída</Text>
             </View>
             <View style={[styles.tableHeaderCell, { width: '30%' }]}>
-              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>ASSINATURA/JUSTIFICATIVA</Text>
+              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>ASSINATURA</Text>
             </View>
             <View style={[styles.tableHeaderCell, { width: '10%' }]}>
               <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Entrada</Text>
@@ -226,7 +214,7 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
               <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Saída</Text>
             </View>
             <View style={[styles.tableHeaderCell, { width: '25%', borderRightWidth: 0 }]}>
-              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>ASSINATURA/JUSTIFICATIVA</Text>
+              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>ASSINATURA</Text>
             </View>
           </View>
 
@@ -246,6 +234,7 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
               if (isWorkDayConfigured) {
                 return formatTimeForDisplay(time);
               }
+              // Para dias não trabalhados, exibe '-' se não houver tempo registrado
               return time ? formatTimeForDisplay(time) : '-';
             };
 
@@ -266,13 +255,10 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
 
           {/* Linha de Resumo */}
           <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '33.33%' }]}>
+            <View style={[styles.infoCellBase, { width: '50%' }]}>
               <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Dias Trabalhados:</Text>
             </View>
-            <View style={[styles.infoCellBase, { width: '33.33%' }]}>
-              <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Total de Aulas:</Text>
-            </View>
-            <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}>
+            <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}>
               <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Total de Faltas:</Text>
             </View>
           </View>
