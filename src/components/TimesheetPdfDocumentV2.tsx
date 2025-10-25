@@ -82,8 +82,8 @@ const styles = StyleSheet.create({
   // Specific widths for each column in the main timesheet table
   colDia: { width: '5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
   colTime: { width: '12.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
-  colSignature: { width: '22.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' }, // Ajustado para 22.5%
-  colSignatureLast: { width: '22.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' }, // Ajustado para 22.5%
+  colSignature: { width: '22.5%', padding: 3, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' }, // Ajustado para 22.5% e padding
+  colSignatureLast: { width: '22.5%', padding: 3, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' }, // Ajustado para 22.5% e padding
   
   // Estilos para as células de resumo (agora dentro da tabela principal)
   sectionTitle: {
@@ -282,18 +282,15 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
             const displayNotes = getNotesForDay(record?.notes);
             const displayTime = (time: string | null) => (isWeekend || !isWorkDayConfigured) ? '-' : formatFullTime(time);
 
-            // Condição para aplicar negrito
-            const isBoldNote = displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO");
-
             return (
               <View style={styles.tableRow} key={day}>
                 <Text style={[styles.colDia, { fontFamily: 'Arial', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{day}</Text>
                 <Text style={[styles.colTime, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.entry_time_1)}</Text>
                 <Text style={[styles.colTime, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.exit_time_1)}</Text>
-                <Text style={[styles.colSignature, isLastDailyRecordRow && { borderBottomWidth: 1.5 }, isBoldNote && styles.boldText]}>{displayNotes}</Text>
+                <Text style={[styles.colSignature, isLastDailyRecordRow && { borderBottomWidth: 1.5 }, (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText]}>{displayNotes}</Text>
                 <Text style={[styles.colTime, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.entry_time_2)}</Text>
                 <Text style={[styles.colTime, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.exit_time_2)}</Text>
-                <Text style={[styles.colSignatureLast, { borderRightWidth: 0 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }, isBoldNote && styles.boldText]}>{displayNotes}</Text>
+                <Text style={[styles.colSignatureLast, { borderRightWidth: 0 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }, (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText]}>{displayNotes}</Text>
               </View>
             );
           })}
