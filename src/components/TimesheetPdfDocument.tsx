@@ -217,10 +217,10 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
           </View>
           <View style={styles.tableRow}>
             <View style={[styles.infoCellBase, { width: '33.33%' }]}>
-              <Text style={{ flexGrow: 0 }}>Vínculo: {employee.vinculo}</Text> {/* Novo campo */}
+              <Text style={{ flexGrow: 0 }}>Cargo: {employee.employee_type}</Text> {/* Campo 'Cargo' */}
             </View>
             <View style={[styles.infoCellBase, { width: '33.33%' }]}>
-              <Text style={{ flexGrow: 0 }}>Cargo: {employee.employee_type}</Text> {/* Novo campo */}
+              <Text style={{ flexGrow: 0 }}>Vínculo: {employee.vinculo}</Text> {/* Campo 'Vínculo' */}
             </View>
             <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}> {/* Last cell in row */}
               <Text style={{ flexGrow: 0 }}>Função: {employee.function}</Text> {/* Usando employee.function */}
