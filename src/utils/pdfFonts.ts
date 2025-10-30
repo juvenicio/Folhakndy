@@ -7,7 +7,9 @@ Font.register({ family: 'Calibri-Italic', src: '/fonts/CALIBRII.TTF', fontStyle:
 Font.register({ family: 'Calibri-BoldItalic', src: '/fonts/CALIBRIZ.TTF', fontStyle: 'italic', fontWeight: 'bold' });
 
 // Registrar a fonte Arial
-Font.register({ family: 'Arial', src: '/fonts/Calibri.ttf', fontStyle: 'normal', fontWeight: 'normal' }); // Usando Calibri.ttf como fallback para Arial
+Font.register({ family: 'Arial', src: '/fonts/Calibri.ttf', fontStyle: 'normal', fontWeight: 'normal' });
+// Registrar a versão negrito da fonte Arial, usando Calibri Bold como fallback
+Font.register({ family: 'Arial', src: '/fonts/CALIBRIB.TTF', fontStyle: 'normal', fontWeight: 'bold' }); 
 // Se você tiver os arquivos de fonte Arial, pode substituí-los aqui:
 // Font.register({ family: 'Arial', src: '/fonts/Arial.ttf', fontStyle: 'normal', fontWeight: 'normal' });
 // Font.register({ family: 'Arial-Bold', src: '/fonts/ARIALBD.TTF', fontStyle: 'normal', fontWeight: 'bold' });

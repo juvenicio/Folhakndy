@@ -19,6 +19,7 @@ import TimesheetPdfPreviewV2 from "@/components/TimesheetPdfPreviewV2"; // Model
 import TimesheetPdfPreviewV3 from "@/components/TimesheetPdfPreviewV3"; // Novo modelo V3
 import TimesheetPdfPreviewV4 from "@/components/TimesheetPdfPreviewV4"; // Novo modelo V4
 import TimesheetPdfPreviewV5 from "@/components/TimesheetPdfPreviewV5"; // Novo modelo V5
+import TimesheetPdfPreviewV6 from "@/components/TimesheetPdfPreviewV6"; // Importar o novo V6
 import {
   Command,
   CommandInput,
@@ -232,8 +233,23 @@ const GenerateTimesheetPage = () => {
         const isGenericVigiaContratoOrASGContrato = (employee.employee_type === "Vigia" && employee.vinculo === "Contrato" && normalizedEmployeeFunction.includes("vigia") && !normalizedEmployeeFunction.includes("12h x 36h")) || 
                                                      (normalizedEmployeeFunction.includes("asg") && employee.vinculo === "Contrato");
 
+        // Lógica de notas específica para V6 (Educador Voluntário 20H)
+        if (employee.vinculo === "Educador Voluntário 20H") {
+          entry_time_1 = null; // Vazio para preenchimento manual
+          exit_time_1 = null; // Vazio para preenchimento manual
+          entry_time_2 = null; // Vazio para preenchimento manual (não usado no PDF, mas para consistência)
+          exit_time_2 = null; // Vazio para preenchimento manual (não usado no PDF, mas para consistência)
+
+          if (isCurrentDateWeekend) {
+            notes = dayNamePtBr.toUpperCase(); // SÁBADO ou DOMINGO
+          } else if (month === 10 && i === 11) { 
+            notes = "FERIADO DIA DA CIDADE";
+          } else {
+            notes = null; // Dias de semana normais ficam em branco
+          }
+        }
         // Lógica de notas específica para V5 (Professor Fundamental II com Prestador(a) de Serviços OU Contrato)
-        if (employee.employee_type === "Professor Fundamental II" && (employee.vinculo === "Prestador(a) de Serviços" || employee.vinculo === "Contrato")) {
+        else if (employee.employee_type === "Professor Fundamental II" && (employee.vinculo === "Prestador(a) de Serviços" || employee.vinculo === "Contrato")) {
           if (isCurrentDateWeekend) {
             notes = dayNamePtBr.toUpperCase();
           } else if (!isWorkDay) {
@@ -258,7 +274,7 @@ const GenerateTimesheetPage = () => {
           if (!isWorkDay) {
             notes = null; // Deixar em branco conforme solicitado
           }
-          if (i === 7 && !isWorkDay) { // Exemplo de FERIADO para o dia 7
+          if (i === 7 && !isWorkDay) {
             notes = "FERIADO";
           }
         }
@@ -271,7 +287,7 @@ const GenerateTimesheetPage = () => {
               notes = "-------------------------"; // Para dias de semana não trabalhados
             }
           }
-          if (i === 7 && !isWorkDay) { // Exemplo de FERIADO para o dia 7
+          if (i === 7 && !isWorkDay) {
             notes = "FERIADO";
           }
         }
@@ -306,7 +322,7 @@ const GenerateTimesheetPage = () => {
         timesheet_id: timesheetId,
         record_date: record.record_date,
         entry_time_1: record.entry_time_1,
-        exit_time_1: record.exit_time_1,
+        exit_time_1: record.entry_time_1, // Usar entry_time_1 para exit_time_1 para V6 (ambos vazios)
         entry_time_2: record.entry_time_2,
         exit_time_2: record.exit_time_2,
         total_hours_worked: record.total_hours_worked,
@@ -352,9 +368,11 @@ const GenerateTimesheetPage = () => {
   const currentEmployeeType = currentEmployee?.employee_type;
   const currentEmployeeVinculo = currentEmployee?.vinculo;
 
-  if (currentEmployeeType === "Professor Fundamental II" && (currentEmployeeVinculo === "Prestador(a) de Serviços" || currentEmployeeVinculo === "Contrato")) { // Prioriza Professor Fundamental II para V5
+  if (currentEmployeeVinculo === "Educador Voluntário 20H") { // Nova condição para V6
+    PdfPreviewComponent = TimesheetPdfPreviewV6;
+  } else if (currentEmployeeType === "Professor Fundamental II" && (currentEmployeeVinculo === "Prestador(a) de Serviços" || currentEmployeeVinculo === "Contrato")) { // Prioriza Professor Fundamental II para V5
     PdfPreviewComponent = TimesheetPdfPreviewV5;
-  } else if (currentEmployeeVinculo === "Educador Voluntário") {
+  } else if (currentEmployeeVinculo === "Educador Voluntário") { // V4 agora lida com Educador Voluntário (não 20H)
     PdfPreviewComponent = TimesheetPdfPreviewV4;
   } else if (currentEmployeeType === "Vigia" && currentEmployeeVinculo === "Contrato" && normalizedCurrentFunction.includes("vigia")) {
     PdfPreviewComponent = TimesheetPdfPreviewV3;
