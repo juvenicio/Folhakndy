@@ -68,10 +68,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Calibri',
   },
   // Estilos específicos para as colunas da tabela de registros diários
-  colDia: { width: '5%', padding: 1, textAlign: 'center', fontSize: 8, fontFamily: 'Calibri' },
-  colTime: { width: '22.5%', padding: 1, textAlign: 'center', fontSize: 8, fontFamily: 'Calibri' },
-  colSignature: { width: '22.5%', padding: 1, textAlign: 'center', fontSize: 8, fontFamily: 'Calibri' },
-  colSignatureLast: { width: '22.5%', padding: 1, textAlign: 'center', fontSize: 8, fontFamily: 'Calibri' },
+  colDia: { width: '5%', padding: 1, textAlign: 'center', fontSize: 8, fontFamily: 'Calibri', borderRightWidth: 1.5, borderColor: '#000000', borderStyle: 'solid' },
+  colTime: { width: '22.5%', padding: 1, textAlign: 'center', fontSize: 8, fontFamily: 'Calibri', borderRightWidth: 1.5, borderColor: '#000000', borderStyle: 'solid' },
+  colSignature: { width: '22.5%', padding: 1, textAlign: 'center', fontSize: 8, fontFamily: 'Calibri', borderRightWidth: 1.5, borderColor: '#000000', borderStyle: 'solid' },
+  colSignatureLast: { width: '22.5%', padding: 1, textAlign: 'center', fontSize: 8, fontFamily: 'Calibri', borderRightWidth: 0, borderColor: '#000000', borderStyle: 'solid' }, // Última coluna não tem borda direita
   
   sectionTitle: {
     fontSize: 9,
@@ -197,7 +197,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           <View style={[styles.tableHeaderCell, styles.colTime]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Saída</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colSignatureLast, { borderRightWidth: 0 }]}> {/* Last cell in row, no right border */}
+          <View style={[styles.tableHeaderCell, styles.colSignatureLast]}> {/* Removido borderRightWidth: 0 daqui, pois já está no estilo colSignatureLast */}
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>ASSINATURA</Text>
           </View>
         </View>
@@ -233,7 +233,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
               <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayTime(record?.exit_time_1)}</Text>
               <Text style={[
                 styles.colSignatureLast,
-                { fontFamily: 'Calibri', fontSize: 8, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5, borderRightWidth: 0 }, // Last cell in row, no right border
+                { fontFamily: 'Calibri', fontSize: 8, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }, // Removido borderRightWidth: 0 daqui, pois já está no estilo colSignatureLast
                 (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO") || displayNotes.includes("FERIADO")) && styles.boldText
               ]}>{displayNotes}</Text>
             </View>
