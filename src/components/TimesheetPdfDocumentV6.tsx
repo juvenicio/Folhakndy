@@ -92,6 +92,11 @@ const styles = StyleSheet.create({
   boldText: {
     fontFamily: 'Calibri-Bold',
   },
+  arialBold8: { // Novo estilo para Arial, negrito, tamanho 8
+    fontFamily: 'Arial',
+    fontSize: 8,
+    fontWeight: 'bold',
+  },
 });
 
 interface DailyRecord {
@@ -216,6 +221,8 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           const isLastDailyRecordRow = index === daysInMonth - 1;
           const displayNotes = (record?.notes || '').toUpperCase();
 
+          const isWeekendNote = displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO");
+
           return (
             <View style={styles.tableRow} key={day}>
               <Text style={[styles.infoCellBase, styles.colDia, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{day}</Text>
@@ -223,13 +230,15 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
               <Text style={[
                 styles.infoCellBase, styles.colSignature,
                 isLastDailyRecordRow && { borderBottomWidth: 1.5 },
-                (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO") || displayNotes.includes("FERIADO")) && styles.boldText
+                isWeekendNote ? styles.arialBold8 : styles.boldText, // Aplicar Arial, negrito, 8pt para SÁBADO/DOMINGO
+                { textAlign: 'center' } // Centralizar o texto
               ]}>{displayNotes}</Text>
               <Text style={[styles.infoCellBase, styles.colTime, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTimeValue(record?.notes)}</Text>
               <Text style={[
                 styles.infoCellBase, styles.colSignatureLast,
                 isLastDailyRecordRow && { borderBottomWidth: 1.5 }, // Last cell in row, no right border
-                (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO") || displayNotes.includes("FERIADO")) && styles.boldText
+                isWeekendNote ? styles.arialBold8 : styles.boldText, // Aplicar Arial, negrito, 8pt para SÁBADO/DOMINGO
+                { textAlign: 'center' } // Centralizar o texto
               ]}>{displayNotes}</Text>
             </View>
           );
