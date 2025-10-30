@@ -20,14 +20,17 @@ const Login = () => {
   }, [session, navigate]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-800 dark:to-gray-950 p-4"> {/* Alterado para gradiente */}
-      <div className="flex-grow flex items-center justify-center"> {/* Adicionado para centralizar o formulário e empurrar o footer para baixo */}
-        <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg dark:bg-gray-800">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-950 p-4"> {/* Gradiente mais suave e adaptado ao dark mode */}
+      <div className="flex-grow flex items-center justify-center">
+        <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-2xl dark:bg-gray-800 animate-fade-in"> {/* Sombra mais pronunciada, bordas mais arredondadas e animação */}
           <div className="flex flex-col items-center space-y-4 mb-6">
             <img src="/logo.png" alt="Logo" className="h-24 w-24 object-contain" />
-            <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white leading-tight">
-              Bem-vindo(a)! <br /> Acesse sua conta para gerenciar suas folhas de ponto.
+            <h2 className="text-3xl font-extrabold text-center text-gray-900 dark:text-white leading-tight"> {/* Fonte mais forte */}
+              Bem-vindo(a)!
             </h2>
+            <p className="text-md text-center text-gray-600 dark:text-gray-300"> {/* Texto mais suave */}
+              Acesse sua conta para gerenciar suas folhas de ponto.
+            </p>
           </div>
           <Auth
             supabaseClient={supabase}
