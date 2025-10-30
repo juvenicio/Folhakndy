@@ -19,6 +19,7 @@ import TimesheetPdfPreviewV2 from "@/components/TimesheetPdfPreviewV2"; // Model
 import TimesheetPdfPreviewV3 from "@/components/TimesheetPdfPreviewV3"; // Novo modelo V3
 import TimesheetPdfPreviewV4 from "@/components/TimesheetPdfPreviewV4"; // Novo modelo V4
 import TimesheetPdfPreviewV5 from "@/components/TimesheetPdfPreviewV5"; // Novo modelo V5
+import TimesheetPdfPreviewV6 from "@/components/TimesheetPdfPreviewV6"; // Novo modelo V6
 import {
   Command,
   CommandInput,
@@ -232,8 +233,26 @@ const GenerateTimesheetPage = () => {
         const isGenericVigiaContratoOrASGContrato = (employee.employee_type === "Vigia" && employee.vinculo === "Contrato" && normalizedEmployeeFunction.includes("vigia") && !normalizedEmployeeFunction.includes("12h x 36h")) || 
                                                      (normalizedEmployeeFunction.includes("asg") && employee.vinculo === "Contrato");
 
+        // Lógica de notas específica para V6 (Educador Voluntário 20H)
+        if (employee.employee_type === "Educador Voluntário 20H") {
+          if (i === 4 || i === 11 || i === 18 || i === 25) { // SÁBADO
+            notes = "SÁBADO";
+            entry_time_1 = "-";
+            exit_time_1 = "-";
+          } else if (i === 5 || i === 12 || i === 19 || i === 26) { // DOMINGO
+            notes = "DOMINGO";
+            entry_time_1 = "-";
+            exit_time_1 = "-";
+          } else if (i === 11) { // FERIADO DIA DA CIDADE (exemplo, pode ser ajustado)
+            notes = "FERIADO DIA DA CIDADE";
+            entry_time_1 = "-";
+            exit_time_1 = "-";
+          } else if (!isWorkDay) { // Outros dias não trabalhados
+            notes = null; // Deixar em branco
+          }
+        }
         // Lógica de notas específica para V5 (Professor Fundamental II com Prestador(a) de Serviços OU Contrato)
-        if (employee.employee_type === "Professor Fundamental II" && (employee.vinculo === "Prestador(a) de Serviços" || employee.vinculo === "Contrato")) {
+        else if (employee.employee_type === "Professor Fundamental II" && (employee.vinculo === "Prestador(a) de Serviços" || employee.vinculo === "Contrato")) {
           if (isCurrentDateWeekend) {
             notes = dayNamePtBr.toUpperCase();
           } else if (!isWorkDay) {
@@ -287,7 +306,7 @@ const GenerateTimesheetPage = () => {
         }
 
         // Os campos de horário são inicializados como null e não são preenchidos automaticamente
-        // para permitir o preenchimento manual.
+        // para permitir o preenchimento manual, a menos que a lógica acima os defina (ex: para dias não trabalhados).
         const total_hours_worked = calculateHours(entry_time_1, exit_time_1, entry_time_2, exit_time_2);
 
         dailyRecords.push({
@@ -352,7 +371,9 @@ const GenerateTimesheetPage = () => {
   const currentEmployeeType = currentEmployee?.employee_type;
   const currentEmployeeVinculo = currentEmployee?.vinculo;
 
-  if (currentEmployeeType === "Professor Fundamental II" && (currentEmployeeVinculo === "Prestador(a) de Serviços" || currentEmployeeVinculo === "Contrato")) { // Prioriza Professor Fundamental II para V5
+  if (currentEmployeeType === "Educador Voluntário 20H") { // Prioriza Educador Voluntário 20H para V6
+    PdfPreviewComponent = TimesheetPdfPreviewV6;
+  } else if (currentEmployeeType === "Professor Fundamental II" && (currentEmployeeVinculo === "Prestador(a) de Serviços" || currentEmployeeVinculo === "Contrato")) { // Prioriza Professor Fundamental II para V5
     PdfPreviewComponent = TimesheetPdfPreviewV5;
   } else if (currentEmployeeVinculo === "Educador Voluntário") {
     PdfPreviewComponent = TimesheetPdfPreviewV4;
