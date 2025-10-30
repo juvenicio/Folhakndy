@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   // Estilo base para todas as células dentro da tabela principal (info, resumo, observação)
-  cellBase: {
+  infoCellBase: {
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
@@ -67,16 +67,16 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1.5,
     borderRightWidth: 1.5,
   },
-  // Estilos específicos para as colunas da tabela de registros diários
-  colDia: { width: '5%' },
-  colTime: { width: '15%' },
-  colSignature: { width: '30%' },
-  colSignatureLast: { width: '35%', borderRightWidth: 0 }, // Última coluna, sem borda direita
+  // Estilos específicos para as colunas da tabela de registros diários (5 colunas)
+  colDia: { width: '5%', textAlign: 'center' },
+  colTime: { width: '10%', textAlign: 'center' }, // Reduzido para 10% e centralizado
+  colSignature: { width: '35%', textAlign: 'center' }, // Aumentado para 35% e centralizado
+  colSignatureLast: { width: '40%', textAlign: 'center', borderRightWidth: 0 }, // Aumentado para 40% e centralizado, sem borda direita
   
   sectionTitle: {
     fontSize: 9,
     marginBottom: 3,
-    fontFamily: 'Calibri',
+    fontFamily: 'Calibri-Bold', // Títulos de seção em negrito
   },
   footer: {
     marginTop: 10,
@@ -140,6 +140,15 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
 
   const monthNameFormatted = monthName.charAt(0).toUpperCase() + monthName.slice(1);
 
+  // Função para determinar o que exibir nas células de tempo
+  const displayTimeValue = (notes: string | null) => {
+    const upperCaseNotes = (notes || '').toUpperCase();
+    if (upperCaseNotes.includes("SÁBADO") || upperCaseNotes.includes("DOMINGO")) {
+      return '-'; // Exibe '-' para dias de fim de semana
+    }
+    return ''; // Vazio para preenchimento manual em dias de semana
+  };
+
   return (
     <Page size="A4" style={styles.page}>
       {/* Espaço em branco para o cabeçalho */}
@@ -149,13 +158,13 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
       <View style={styles.mainTableContainer}>
         {/* Row 1: Unidade de Trabalho */}
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '100%', borderRightWidth: 0 }]}>
+          <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Unidade de Trabalho: {employee?.school_name || 'N/A'}</Text>
           </View>
         </View>
         {/* Row 2: NOME */}
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '100%', borderRightWidth: 0 }]}>
+          <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>NOME: {employee?.name || 'N/A'}</Text>
           </View>
         </View>
@@ -167,67 +176,58 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
         </View>
         {/* Row 4: Turno, Mês e Ano */}
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '50%' }]}>
+          <View style={[styles.infoCellBase, { width: '50%' }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Turno: ({getShiftMark(employee?.shift, "Manhã")}) Manhã ({getShiftMark(employee?.shift, "Tarde")}) Tarde ({getShiftMark(employee?.shift, "Noite")}) Noite</Text>
           </View>
-          <View style={[styles.cellBase, { width: '25%' }]}>
+          <View style={[styles.infoCellBase, { width: '25%' }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Mês: {monthNameFormatted}</Text>
           </View>
-          <View style={[styles.cellBase, { width: '25%', borderRightWidth: 0 }]}> {/* Last cell in row, no right border */}
+          <View style={[styles.infoCellBase, { width: '25%', borderRightWidth: 0 }]}> {/* Last cell in row, no right border */}
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Ano: {year}</Text>
           </View>
         </View>
 
-        {/* Cabeçalho da Tabela de Registros Diários */}
+        {/* Cabeçalho da Tabela de Registros Diários (5 colunas) */}
         <View style={styles.tableRow} fixed>
           <View style={[styles.tableHeaderCell, styles.colDia]}>
-            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Dia</Text>
+            <Text>Dia</Text>
           </View>
           <View style={[styles.tableHeaderCell, styles.colTime]}>
-            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Entrada</Text>
+            <Text>Entrada</Text>
           </View>
           <View style={[styles.tableHeaderCell, styles.colSignature]}>
-            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>ASSINATURA</Text>
+            <Text>ASSINATURA</Text>
           </View>
           <View style={[styles.tableHeaderCell, styles.colTime]}>
-            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Saída</Text>
+            <Text>Saída</Text>
           </View>
           <View style={[styles.tableHeaderCell, styles.colSignatureLast]}> {/* Last cell in row, no right border */}
-            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>ASSINATURA</Text>
+            <Text>ASSINATURA</Text>
           </View>
         </View>
 
-        {/* Linhas de Registros Diários */}
+        {/* Linhas de Registros Diários (5 colunas) */}
         {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day, index) => {
           const record = dailyRecords.find(r => {
             const recordDate = isValid(parseISO(r.record_date)) ? parseISO(r.record_date) : null;
             return recordDate && recordDate.getDate() === day;
           });
-          const currentDate = new Date(year, month - 1, day);
-          const dayNameEnglish = daysOfWeekMapForComparison[getDay(currentDate)];
-          const isWorkDayConfigured = employee?.work_days.includes(dayNameEnglish);
-
+          
           const isLastDailyRecordRow = index === daysInMonth - 1;
-
-          const displayTime = () => {
-            // Para V6, os campos de hora devem estar vazios para preenchimento manual
-            return ''; 
-          };
-
           const displayNotes = (record?.notes || '').toUpperCase();
 
           return (
             <View style={styles.tableRow} key={day}>
-              <Text style={[styles.cellBase, styles.colDia, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{day}</Text> {/* Garante borda inferior */}
-              <Text style={[styles.cellBase, styles.colTime, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime()}</Text>
+              <Text style={[styles.infoCellBase, styles.colDia, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{day}</Text>
+              <Text style={[styles.infoCellBase, styles.colTime, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTimeValue(record?.notes)}</Text>
               <Text style={[
-                styles.cellBase, styles.colSignature,
+                styles.infoCellBase, styles.colSignature,
                 isLastDailyRecordRow && { borderBottomWidth: 1.5 },
                 (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO") || displayNotes.includes("FERIADO")) && styles.boldText
               ]}>{displayNotes}</Text>
-              <Text style={[styles.cellBase, styles.colTime, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime()}</Text>
+              <Text style={[styles.infoCellBase, styles.colTime, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTimeValue(record?.notes)}</Text>
               <Text style={[
-                styles.cellBase, styles.colSignatureLast,
+                styles.infoCellBase, styles.colSignatureLast,
                 isLastDailyRecordRow && { borderBottomWidth: 1.5 }, // Last cell in row, no right border
                 (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO") || displayNotes.includes("FERIADO")) && styles.boldText
               ]}>{displayNotes}</Text>
@@ -237,17 +237,17 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
 
         {/* Linha de Resumo */}
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '50%' }]}>
+          <View style={[styles.infoCellBase, { width: '50%' }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Dias trabalhados:</Text>
           </View>
-          <View style={[styles.cellBase, { width: '50%', borderRightWidth: 0 }]}> {/* Last cell in row, no right border */}
+          <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}> {/* Last cell in row, no right border */}
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Total de Faltas:</Text>
           </View>
         </View>
 
         {/* Seção de Observação (Last row of the entire table) */}
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '100%', borderRightWidth: 0, borderBottomWidth: 0, padding: 3, justifyContent: 'flex-start', minHeight: 60 }]}>
+          <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0, borderBottomWidth: 0, padding: 3, justifyContent: 'flex-start', minHeight: 60 }]}>
             <Text style={[styles.sectionTitle, { fontFamily: 'Calibri-Bold', fontSize: 9 }]}>Obs:</Text>
             <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
           </View>
