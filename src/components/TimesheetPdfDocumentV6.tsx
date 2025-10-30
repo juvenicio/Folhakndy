@@ -17,23 +17,23 @@ const styles = StyleSheet.create({
     fontSize: 8,
     fontFamily: 'Calibri',
   },
-  headerContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginBottom: 5,
-    width: '100%',
-  },
-  headerTextContent: {
-    width: '100%',
-    textAlign: 'center',
-    marginTop: 5,
-  },
-  headerText: {
-    fontSize: 7,
-    fontWeight: 'bold',
-    marginBottom: 1,
-    fontFamily: 'Calibri-Bold',
-  },
+  // headerContainer: { // Removido
+  //   flexDirection: 'column',
+  //   alignItems: 'center',
+  //   marginBottom: 5,
+  //   width: '100%',
+  // },
+  // headerTextContent: { // Removido
+  //   width: '100%',
+  //   textAlign: 'center',
+  //   marginTop: 5,
+  // },
+  // headerText: { // Removido
+  //   fontSize: 7,
+  //   fontWeight: 'bold',
+  //   marginBottom: 1,
+  //   fontFamily: 'Calibri-Bold',
+  // },
   mainTableContainer: {
     display: 'table',
     width: 'auto',
@@ -103,10 +103,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 8,
   },
-  logo: {
-    width: 24,
-    height: 33,
-  },
+  // logo: { // Removido
+  //   width: 24,
+  //   height: 33,
+  // },
   boldText: {
     fontFamily: 'Calibri-Bold',
   },
@@ -165,8 +165,8 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
 
   return (
     <Page size="A4" style={styles.page}>
-      {/* Header com Logo e Texto */}
-      <View style={styles.headerContainer}>
+      {/* Header com Logo e Texto - REMOVIDO */}
+      {/* <View style={styles.headerContainer}>
         {logoSrc && <Image src={logoSrc} style={styles.logo} />}
         <View style={styles.headerTextContent}>
           <Text style={styles.headerText}>ESTADO DA PARAÍBA</Text>
@@ -175,7 +175,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           <Text style={styles.headerText}>DIRETORIA ADMINISTRATIVA FINANCEIRA</Text>
           <Text style={styles.headerText}>GERÊNCIA DE RECURSOS HUMANOS</Text>
         </View>
-      </View>
+      </View> */}
 
       {/* Tabela Principal */}
       <View style={styles.mainTableContainer}>
