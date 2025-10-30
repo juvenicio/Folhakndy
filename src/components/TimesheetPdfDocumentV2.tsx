@@ -162,7 +162,7 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
     const lowerCaseEmployeeType = employeeType.toLowerCase();
     if (role === "Gestor" && lowerCaseEmployeeType.includes("gestor(a)")) return 'X';
     if (role === "Professora" && lowerCaseEmployeeType.includes("professor")) return 'X';
-    if (role === "Técnico" && (lowerCaseEmployeeType.includes("assistente social") || lowerCaseEmployeeType.includes("psicólogo(a)"))) return 'X';
+    if (role === "Técnico" && (lowerCaseEmployeeType.includes("assistente social") || lowerCaseEmployeeType.includes("psicólogo(a)") || lowerCaseEmployeeType.includes("supervisor(a)"))) return 'X';
     return ' ';
   };
 
