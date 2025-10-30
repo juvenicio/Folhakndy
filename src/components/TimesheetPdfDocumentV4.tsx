@@ -154,149 +154,147 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
   const isSetembro = monthNameFormatted === "Setembro";
 
   return (
-    <Document>
-      <Page size="A4" style={styles.page}>
-        {/* Espaço em branco para o cabeçalho */}
-        <View style={{ height: 70, marginBottom: 5 }} /> 
+    <Page size="A4" style={styles.page}>
+      {/* Espaço em branco para o cabeçalho */}
+      <View style={{ height: 70, marginBottom: 5 }} /> 
 
-        {/* Tabela Principal */}
-        <View style={styles.mainTableContainer}>
-          {/* Detalhes do Funcionário */}
-          <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0, paddingLeft: 10 }]}>
-              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Unidade de Trabalho: {employee.school_name || 'N/A'}</Text>
-            </View>
+      {/* Tabela Principal */}
+      <View style={styles.mainTableContainer}>
+        {/* Detalhes do Funcionário */}
+        <View style={styles.tableRow}>
+          <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0, paddingLeft: 10 }]}>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Unidade de Trabalho: {employee.school_name || 'N/A'}</Text>
           </View>
-          <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0 }]}>
-              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>NOME: {employee.name}</Text>
-            </View>
+        </View>
+        <View style={styles.tableRow}>
+          <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0 }]}>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>NOME: {employee.name}</Text>
           </View>
-          {/* Nova linha para CARGA HORÁRIA */}
-          <View style={styles.tableRow}>
-            <View style={styles.centeredChargeHoursCell}>
-              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>CARGA HORÁRIA: 40 HORAS</Text>
-            </View>
+        </View>
+        {/* Nova linha para CARGA HORÁRIA */}
+        <View style={styles.tableRow}>
+          <View style={styles.centeredChargeHoursCell}>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>CARGA HORÁRIA: 40 HORAS</Text>
           </View>
-          {/* Linha para Turno, Mês e Ano */}
-          <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '50%' }]}>
-              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text>
-            </View>
-            <View style={[styles.infoCellBase, { width: '25%' }]}>
-              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>
-                Mês:{" "}
-                <Text style={isSetembro ? { fontFamily: 'Times-Roman', fontSize: 7 } : { fontFamily: 'Calibri-Bold', fontSize: 10 }}>
-                  {monthNameFormatted}
-                </Text>
+        </View>
+        {/* Linha para Turno, Mês e Ano */}
+        <View style={styles.tableRow}>
+          <View style={[styles.infoCellBase, { width: '50%' }]}>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text>
+          </View>
+          <View style={[styles.infoCellBase, { width: '25%' }]}>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>
+              Mês:{" "}
+              <Text style={isSetembro ? { fontFamily: 'Times-Roman', fontSize: 7 } : { fontFamily: 'Calibri-Bold', fontSize: 10 }}>
+                {monthNameFormatted}
               </Text>
-            </View>
-            <View style={[styles.infoCellBase, { width: '25%', borderRightWidth: 0 }]}>
-              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Ano: {year}</Text>
-            </View>
+            </Text>
           </View>
-
-          {/* Cabeçalho da Tabela de Registros Diários */}
-          <View style={styles.tableRow} fixed>
-            <View style={[styles.tableHeaderCell, { width: '5%' }]}>
-              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Dia</Text>
-            </View>
-            <View style={[styles.tableHeaderCell, { width: '10%' }]}>
-              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Entrada</Text>
-            </View>
-            <View style={[styles.tableHeaderCell, { width: '10%' }]}>
-              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Saída</Text>
-            </View>
-            <View style={[styles.tableHeaderCell, { width: '30%' }]}>
-              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>ASSINATURA</Text>
-            </View>
-            <View style={[styles.tableHeaderCell, { width: '10%' }]}>
-              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Entrada</Text>
-            </View>
-            <View style={[styles.tableHeaderCell, { width: '10%' }]}>
-              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Saída</Text>
-            </View>
-            <View style={[styles.tableHeaderCell, { width: '25%', borderRightWidth: 0 }]}>
-              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>ASSINATURA</Text>
-            </View>
-          </View>
-
-          {/* Linhas de Registros Diários */}
-          {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day, index) => {
-            const record = dailyRecords.find(r => {
-              const recordDate = isValid(parseISO(r.record_date)) ? parseISO(r.record_date) : null;
-              return recordDate && recordDate.getDate() === day;
-            });
-            const currentDate = new Date(year, month - 1, day);
-            const dayNameEnglish = daysOfWeekMapForComparison[getDay(currentDate)];
-            const isWorkDayConfigured = employee.work_days.includes(dayNameEnglish);
-
-            const isLastDailyRecordRow = index === daysInMonth - 1;
-
-            const displayTime = (time: string | null) => {
-              if (isWorkDayConfigured) {
-                return formatTimeForDisplay(time);
-              }
-              // Para dias não trabalhados, exibe '-' se não houver tempo registrado
-              return time ? formatTimeForDisplay(time) : '-';
-            };
-
-            const displayNotes = (record?.notes || '').toUpperCase();
-
-            return (
-              <View style={styles.tableRow} key={day}>
-                <Text style={[styles.colDia, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.0 }]}>{day}</Text>
-                <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.0 }]}>{displayTime(record?.entry_time_1)}</Text>
-                <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.0 }]}>{displayTime(record?.exit_time_1)}</Text>
-                <Text style={[
-                  styles.colSignature,
-                  { fontFamily: 'Arial', fontSize: 8 }, // Definindo Arial e tamanho 8
-                  isLastDailyRecordRow && { borderBottomWidth: 1.0 },
-                  (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText // Aplicando negrito condicionalmente
-                ]}>{displayNotes}</Text>
-                <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.0 }]}>{displayTime(record?.entry_time_2)}</Text>
-                <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.0 }]}>{displayTime(record?.exit_time_2)}</Text>
-                <Text style={[
-                  styles.colSignatureLast,
-                  { borderRightWidth: 0, fontFamily: 'Arial', fontSize: 8 }, // Definindo Arial e tamanho 8
-                  isLastDailyRecordRow && { borderBottomWidth: 1.0 },
-                  (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText // Aplicando negrito condicionalmente
-                ]}>{displayNotes}</Text>
-              </View>
-            );
-          })}
-
-          {/* Linha de Resumo */}
-          <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '50%' }]}>
-              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Dias Trabalhados:</Text>
-            </View>
-            <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}>
-              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Total de Faltas:</Text>
-            </View>
-          </View>
-
-          {/* Seção de Observação */}
-          <View style={styles.tableRow}>
-            <View style={[styles.infoCellBase, { width: '5%', borderBottomWidth: 1.0, borderRightWidth: 1.0, padding: 3, justifyContent: 'center' }]}>
-              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Obs:</Text>
-            </View>
-            <View style={[styles.infoCellBase, { width: '95%', borderRightWidth: 0, borderBottomWidth: 1.0, padding: 3, flexDirection: 'column', justifyContent: 'flex-end', minHeight: 60 }]}>
-              {/* A linha horizontal que foi removida estava aqui */}
-            </View>
+          <View style={[styles.infoCellBase, { width: '25%', borderRightWidth: 0 }]}>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Ano: {year}</Text>
           </View>
         </View>
 
-        {/* Rodapé */}
-        <View style={styles.footer}>
-          <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9, width: '40%', textAlign: 'center' }}>Campina Grande; ____/____/____</Text>
-          <View style={{ width: '40%', textAlign: 'center' }}>
-            <Text style={{ width: '100%', textAlign: 'center', fontSize: 9, fontFamily: 'Calibri-Bold' }}>_________________________________________</Text>
-            <Text style={{ fontSize: 9, fontFamily: 'Calibri-Bold' }}>Assinatura do(a) Gestor(a)</Text>
+        {/* Cabeçalho da Tabela de Registros Diários */}
+        <View style={styles.tableRow} fixed>
+          <View style={[styles.tableHeaderCell, { width: '5%' }]}>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Dia</Text>
+          </View>
+          <View style={[styles.tableHeaderCell, { width: '10%' }]}>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Entrada</Text>
+          </View>
+          <View style={[styles.tableHeaderCell, { width: '10%' }]}>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Saída</Text>
+          </View>
+          <View style={[styles.tableHeaderCell, { width: '30%' }]}>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>ASSINATURA</Text>
+          </View>
+          <View style={[styles.tableHeaderCell, { width: '10%' }]}>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Entrada</Text>
+          </View>
+          <View style={[styles.tableHeaderCell, { width: '10%' }]}>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Saída</Text>
+          </View>
+          <View style={[styles.tableHeaderCell, { width: '25%', borderRightWidth: 0 }]}>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>ASSINATURA</Text>
           </View>
         </View>
-      </Page>
-    </Document>
+
+        {/* Linhas de Registros Diários */}
+        {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day, index) => {
+          const record = dailyRecords.find(r => {
+            const recordDate = isValid(parseISO(r.record_date)) ? parseISO(r.record_date) : null;
+            return recordDate && recordDate.getDate() === day;
+          });
+          const currentDate = new Date(year, month - 1, day);
+          const dayNameEnglish = daysOfWeekMapForComparison[getDay(currentDate)];
+          const isWorkDayConfigured = employee.work_days.includes(dayNameEnglish);
+
+          const isLastDailyRecordRow = index === daysInMonth - 1;
+
+          const displayTime = (time: string | null) => {
+            if (isWorkDayConfigured) {
+              return formatTimeForDisplay(time);
+            }
+            // Para dias não trabalhados, exibe '-' se não houver tempo registrado
+            return time ? formatTimeForDisplay(time) : '-';
+          };
+
+          const displayNotes = (record?.notes || '').toUpperCase();
+
+          return (
+            <View style={styles.tableRow} key={day}>
+              <Text style={[styles.colDia, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.0 }]}>{day}</Text>
+              <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.0 }]}>{displayTime(record?.entry_time_1)}</Text>
+              <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.0 }]}>{displayTime(record?.exit_time_1)}</Text>
+              <Text style={[
+                styles.colSignature,
+                { fontFamily: 'Arial', fontSize: 8 }, // Definindo Arial e tamanho 8
+                isLastDailyRecordRow && { borderBottomWidth: 1.0 },
+                (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText // Aplicando negrito condicionalmente
+              ]}>{displayNotes}</Text>
+              <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.0 }]}>{displayTime(record?.entry_time_2)}</Text>
+              <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.0 }]}>{displayTime(record?.exit_time_2)}</Text>
+              <Text style={[
+                styles.colSignatureLast,
+                { borderRightWidth: 0, fontFamily: 'Arial', fontSize: 8 }, // Definindo Arial e tamanho 8
+                isLastDailyRecordRow && { borderBottomWidth: 1.0 },
+                (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText // Aplicando negrito condicionalmente
+              ]}>{displayNotes}</Text>
+            </View>
+          );
+        })}
+
+        {/* Linha de Resumo */}
+        <View style={styles.tableRow}>
+          <View style={[styles.infoCellBase, { width: '50%' }]}>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Dias Trabalhados:</Text>
+          </View>
+          <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Total de Faltas:</Text>
+          </View>
+        </View>
+
+        {/* Seção de Observação */}
+        <View style={styles.tableRow}>
+          <View style={[styles.infoCellBase, { width: '5%', borderBottomWidth: 1.0, borderRightWidth: 1.0, padding: 3, justifyContent: 'center' }]}>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Obs:</Text>
+          </View>
+          <View style={[styles.infoCellBase, { width: '95%', borderRightWidth: 0, borderBottomWidth: 1.0, padding: 3, flexDirection: 'column', justifyContent: 'flex-end', minHeight: 60 }]}>
+            {/* A linha horizontal que foi removida estava aqui */}
+          </View>
+        </View>
+      </View>
+
+      {/* Rodapé */}
+      <View style={styles.footer}>
+        <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9, width: '40%', textAlign: 'center' }}>Campina Grande; ____/____/____</Text>
+        <View style={{ width: '40%', textAlign: 'center' }}>
+          <Text style={{ width: '100%', textAlign: 'center', fontSize: 9, fontFamily: 'Calibri-Bold' }}>_________________________________________</Text>
+          <Text style={{ fontSize: 9, fontFamily: 'Calibri-Bold' }}>Assinatura do(a) Gestor(a)</Text>
+        </View>
+      </View>
+    </Page>
   );
 };
 

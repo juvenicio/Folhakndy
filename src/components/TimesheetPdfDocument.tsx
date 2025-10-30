@@ -156,176 +156,174 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
   };
 
   return (
-    <Document>
-      <Page size="A4" style={styles.page}>
-        {/* Header com Logo e Texto */}
-        <View style={styles.headerContainer}>
-          {logoSrc && <Image src={logoSrc} style={styles.logo} />}
-          <View style={styles.headerTextContent}>
-            <Text style={styles.headerText}>ESTADO DA PARAÍBA</Text>
-            <Text style={styles.headerText}>PREFEITURA MUNICIPAL DE CAMPINA GRANDE</Text>
-            <Text style={styles.headerText}>SECRETARIA MUNICIPAL DE EDUCAÇÃO DE CAMPINA GRANDE</Text>
-            <Text style={styles.headerText}>DIRETORIA ADMINISTRATIVA FINANCEIRA/GERÊNCIA DE RECURSOS HUMANOS</Text>
+    <Page size="A4" style={styles.page}>
+      {/* Header com Logo e Texto */}
+      <View style={styles.headerContainer}>
+        {logoSrc && <Image src={logoSrc} style={styles.logo} />}
+        <View style={styles.headerTextContent}>
+          <Text style={styles.headerText}>ESTADO DA PARAÍBA</Text>
+          <Text style={styles.headerText}>PREFEITURA MUNICIPAL DE CAMPINA GRANDE</Text>
+          <Text style={styles.headerText}>SECRETARIA MUNICIPAL DE EDUCAÇÃO DE CAMPINA GRANDE</Text>
+          <Text style={styles.headerText}>DIRETORIA ADMINISTRATIVA FINANCEIRA/GERÊNCIA DE RECURSOS HUMANOS</Text>
+        </View>
+      </View>
+
+      {/* Única Tabela Principal que engloba Detalhes do Funcionário, Registros Diários e Resumo */}
+      <View style={styles.mainTableContainer}>
+        {/* Detalhes do Funcionário */}
+        <View style={styles.tableRow}>
+          <View style={[styles.cellBase, { width: '100%', fontSize: 10, borderRightWidth: 0 }]}>
+            <Text style={{ flexGrow: 0 }}>Unidade de Trabalho: {employee.school_name || 'N/A'}</Text>
+          </View>
+        </View>
+        <View style={styles.tableRow}>
+          <View style={[styles.cellBase, { width: '66.66%', fontSize: 10 }]}>
+            <Text style={{ flexGrow: 0 }}>Servidor(a): {employee.name}</Text>
+          </View>
+          <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 0 }]}>
+            <Text style={{ flexGrow: 0 }}>Matrícula: {employee.registration_number}</Text>
+          </View>
+        </View>
+        <View style={styles.tableRow}>
+          <View style={[styles.cellBase, { width: '33.33%' }]}>
+            <Text style={{ flexGrow: 0 }}>Cargo: {employee.employee_type}</Text>
+          </View>
+          <View style={[styles.cellBase, { width: '33.33%' }]}>
+            <Text style={{ flexGrow: 0 }}>Função: {employee.function}</Text>
+          </View>
+          <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 0 }]}>
+            <Text style={{ flexGrow: 0 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text>
+          </View>
+        </View>
+        <View style={styles.tableRow}>
+          <View style={[styles.cellBase, { width: '33.33%' }]}>
+            <Text style={{ flexGrow: 0 }}>Vínculo: {employee.vinculo}</Text>
+          </View>
+          <View style={[styles.cellBase, { width: '33.33%' }]}>
+            <Text style={{ flexGrow: 0 }}>Mês: {monthName.charAt(0).toUpperCase() + monthName.slice(1)}</Text>
+          </View>
+          <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 0 }]}>
+            <Text style={{ flexGrow: 0 }}>Ano: {year}</Text>
           </View>
         </View>
 
-        {/* Única Tabela Principal que engloba Detalhes do Funcionário, Registros Diários e Resumo */}
-        <View style={styles.mainTableContainer}>
-          {/* Detalhes do Funcionário */}
-          <View style={styles.tableRow}>
-            <View style={[styles.cellBase, { width: '100%', fontSize: 10, borderRightWidth: 0 }]}>
-              <Text style={{ flexGrow: 0 }}>Unidade de Trabalho: {employee.school_name || 'N/A'}</Text>
-            </View>
+        {/* Cabeçalho da Tabela de Registros Diários (FIXED) */}
+        <View style={styles.tableRow} fixed>
+          {/* Dia */}
+          <View style={[styles.tableHeaderCell, { width: '5%' }]}>
+            <Text>Dia</Text>
           </View>
-          <View style={styles.tableRow}>
-            <View style={[styles.cellBase, { width: '66.66%', fontSize: 10 }]}>
-              <Text style={{ flexGrow: 0 }}>Servidor(a): {employee.name}</Text>
-            </View>
-            <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 0 }]}>
-              <Text style={{ flexGrow: 0 }}>Matrícula: {employee.registration_number}</Text>
-            </View>
+          {/* Entrada 1 */}
+          <View style={[styles.tableHeaderCell, { width: '12.5%' }]}>
+            <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>Entrada</Text>
+            <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
           </View>
-          <View style={styles.tableRow}>
-            <View style={[styles.cellBase, { width: '33.33%' }]}>
-              <Text style={{ flexGrow: 0 }}>Cargo: {employee.employee_type}</Text>
-            </View>
-            <View style={[styles.cellBase, { width: '33.33%' }]}>
-              <Text style={{ flexGrow: 0 }}>Função: {employee.function}</Text>
-            </View>
-            <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 0 }]}>
-              <Text style={{ flexGrow: 0 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text>
-            </View>
+          {/* Assinatura 1 */}
+          <View style={[styles.tableHeaderCell, { width: '22.5%' }]}>
+            <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>ASSINATURA/JUSTIFICATIVA</Text>
           </View>
-          <View style={styles.tableRow}>
-            <View style={[styles.cellBase, { width: '33.33%' }]}>
-              <Text style={{ flexGrow: 0 }}>Vínculo: {employee.vinculo}</Text>
-            </View>
-            <View style={[styles.cellBase, { width: '33.33%' }]}>
-              <Text style={{ flexGrow: 0 }}>Mês: {monthName.charAt(0).toUpperCase() + monthName.slice(1)}</Text>
-            </View>
-            <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 0 }]}>
-              <Text style={{ flexGrow: 0 }}>Ano: {year}</Text>
-            </View>
+          {/* Saída 1 */}
+          <View style={[styles.tableHeaderCell, { width: '12.5%' }]}>
+            <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>Saída</Text>
+            <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
           </View>
-
-          {/* Cabeçalho da Tabela de Registros Diários (FIXED) */}
-          <View style={styles.tableRow} fixed>
-            {/* Dia */}
-            <View style={[styles.tableHeaderCell, { width: '5%' }]}>
-              <Text>Dia</Text>
+          {/* Assinatura 2 */}
+          <View style={[styles.tableHeaderCell, { width: '22.5%' }]}>
+            <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>ASSINATURA/JUSTIFICATIVA</Text>
+          </View>
+          {/* Hora Extra - Nested View to simulate column and row span */}
+          <View style={[styles.tableHeaderCell, { width: '25%', borderRightWidth: 0, flexDirection: 'column', padding: 0, borderBottomWidth: 0 }]}>
+            <View style={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', padding: 0, minHeight: 15, width: '100%', borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid' }}>
+              <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>Hora Extra</Text>
             </View>
-            {/* Entrada 1 */}
-            <View style={[styles.tableHeaderCell, { width: '12.5%' }]}>
-              <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>Entrada</Text>
-              <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
-            </View>
-            {/* Assinatura 1 */}
-            <View style={[styles.tableHeaderCell, { width: '22.5%' }]}>
-              <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>ASSINATURA/JUSTIFICATIVA</Text>
-            </View>
-            {/* Saída 1 */}
-            <View style={[styles.tableHeaderCell, { width: '12.5%' }]}>
-              <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>Saída</Text>
-              <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
-            </View>
-            {/* Assinatura 2 */}
-            <View style={[styles.tableHeaderCell, { width: '22.5%' }]}>
-              <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>ASSINATURA/JUSTIFICATIVA</Text>
-            </View>
-            {/* Hora Extra - Nested View to simulate column and row span */}
-            <View style={[styles.tableHeaderCell, { width: '25%', borderRightWidth: 0, flexDirection: 'column', padding: 0, borderBottomWidth: 0 }]}>
-              <View style={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', padding: 0, minHeight: 15, width: '100%', borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid' }}>
-                <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>Hora Extra</Text>
+            <View style={{ flexDirection: 'row', width: '100%', flexGrow: 1 }}>
+              <View style={[styles.tableHeaderCell, { width: '50%', borderBottomWidth: 0, borderTopWidth: 0 }]}>
+                <Text style={{ fontSize: 10, fontFamily: 'Calibri' }}>Entrada</Text>
+                <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
               </View>
-              <View style={{ flexDirection: 'row', width: '100%', flexGrow: 1 }}>
-                <View style={[styles.tableHeaderCell, { width: '50%', borderBottomWidth: 0, borderTopWidth: 0 }]}>
-                  <Text style={{ fontSize: 10, fontFamily: 'Calibri' }}>Entrada</Text>
-                  <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
-                </View>
-                <View style={[styles.tableHeaderCell, { width: '50%', borderRightWidth: 0, borderBottomWidth: 0, borderTopWidth: 0 }]}>
-                  <Text style={{ fontSize: 10, fontFamily: 'Calibri' }}>Saída</Text>
-                  <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
-                </View>
+              <View style={[styles.tableHeaderCell, { width: '50%', borderRightWidth: 0, borderBottomWidth: 0, borderTopWidth: 0 }]}>
+                <Text style={{ fontSize: 10, fontFamily: 'Calibri' }}>Saída</Text>
+                <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
               </View>
-            </View>
-          </View>
-
-          {/* Linhas de Registros Diários */}
-          {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day, index) => {
-            const record = dailyRecords.find(r => {
-              const recordDate = isValid(parseISO(r.record_date)) ? parseISO(r.record_date) : null;
-              return recordDate && recordDate.getDate() === day;
-            });
-            const currentDate = new Date(year, month - 1, day);
-            const dayOfWeek = getDay(currentDate);
-            const dayNameEnglish = daysOfWeekMapForComparison[dayOfWeek];
-            const isWorkDayConfigured = employee.work_days.includes(dayNameEnglish);
-            const dayNamePtBr = daysOfWeekMapForDisplay[dayOfWeek];
-
-            const isLastRow = index === daysInMonth - 1;
-
-            // Lógica para exibir o traço ou o nome do dia apenas se NÃO for um dia de trabalho configurado
-            const displayTimeValue = (time: string | null) => formatFullTime(time || (!isWorkDayConfigured ? '-' : ''));
-            const displaySignatureValue = !isWorkDayConfigured ? dayNamePtBr.toUpperCase() : '';
-
-            return (
-              <View style={styles.tableRow} key={day}>
-                <Text style={[styles.colDia, isLastRow && { borderBottomWidth: 1.5 }]}>{day}</Text>
-                <Text style={[styles.colTime, isLastRow && { borderBottomWidth: 1.5 }]}>{displayTimeValue(record?.entry_time_1)}</Text>
-                <Text style={[styles.colSignature, isLastRow && { borderBottomWidth: 1.5 }]}>{displaySignatureValue}</Text>
-                <Text style={[styles.colTime, isLastRow && { borderBottomWidth: 1.5 }]}>{displayTimeValue(record?.exit_time_1)}</Text>
-                <Text style={[styles.colSignature, isLastRow && { borderBottomWidth: 1.5 }]}>{displaySignatureValue}</Text>
-                {/* Hora Extra Entrada */}
-                <Text style={[styles.colExtraTime, isLastRow && { borderBottomWidth: 1.5 }]}>{formatFullTime(record?.entry_time_2)}</Text>
-                {/* Hora Extra Saída */}
-                <Text style={[styles.colExtraTime, { borderRightWidth: 0 }, isLastRow && { borderBottomWidth: 1.5 }]}>{formatFullTime(record?.exit_time_2)}</Text>
-              </View>
-            );
-          })}
-
-          {/* Linha de Resumo */}
-          <View style={styles.tableRow}>
-            <View style={[styles.cellBase, { width: '33.33%', borderBottomWidth: 1.5 }]}>
-              <Text style={{ flexGrow: 0 }}>Dias trabalhados:</Text>
-              <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
-            </View>
-            <View style={[styles.cellBase, { width: '33.33%', borderBottomWidth: 1.5 }]}>
-              <Text style={{ flexGrow: 0 }}>Total de Faltas:</Text>
-              <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
-            </View>
-            <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 0, borderBottomWidth: 1.5 }]}>
-              <Text style={{ flexGrow: 0 }}>Quantidade de horas-extras:</Text>
-              <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
-            </View>
-          </View>
-
-          {/* Seção de Observação */}
-          <View style={styles.tableRow}>
-            <View style={[styles.cellBase, { width: '100%', padding: 3, borderRightWidth: 0, borderBottomWidth: 1.5 }]}>
-              <Text style={[styles.sectionTitle, { flexGrow: 0 }]}>Observação:</Text>
-              <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
-            </View>
-          </View>
-
-          {/* Seção de Justificativa/Horas Extras */}
-          <View style={styles.tableRow}>
-            <View style={[styles.cellBase, { width: '100%', padding: 3, borderRightWidth: 0, borderBottomWidth: 0 }]}>
-              <Text style={[styles.sectionTitle, { flexGrow: 0 }]}>Justificativa/Horas Extras:</Text>
-              <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
             </View>
           </View>
         </View>
 
-        {/* Rodapé */}
-        <View style={styles.footer}>
-          <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10, width: '40%', textAlign: 'center' }}>Campina Grande, ____/____/____</Text>
-          <View style={{ width: '40%', textAlign: 'center' }}>
-            <Text style={{ width: '100%', textAlign: 'center', fontSize: 10, fontFamily: 'Calibri-Bold' }}>________________________________________</Text>
-            <Text style={{ fontSize: 10, fontFamily: 'Calibri-Bold' }}>Assinatura do(a) Gestor(a)</Text>
+        {/* Linhas de Registros Diários */}
+        {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day, index) => {
+          const record = dailyRecords.find(r => {
+            const recordDate = isValid(parseISO(r.record_date)) ? parseISO(r.record_date) : null;
+            return recordDate && recordDate.getDate() === day;
+          });
+          const currentDate = new Date(year, month - 1, day);
+          const dayOfWeek = getDay(currentDate);
+          const dayNameEnglish = daysOfWeekMapForComparison[dayOfWeek];
+          const isWorkDayConfigured = employee.work_days.includes(dayNameEnglish);
+          const dayNamePtBr = daysOfWeekMapForDisplay[dayOfWeek];
+
+          const isLastRow = index === daysInMonth - 1;
+
+          // Lógica para exibir o traço ou o nome do dia apenas se NÃO for um dia de trabalho configurado
+          const displayTimeValue = (time: string | null) => formatFullTime(time || (!isWorkDayConfigured ? '-' : ''));
+          const displaySignatureValue = !isWorkDayConfigured ? dayNamePtBr.toUpperCase() : '';
+
+          return (
+            <View style={styles.tableRow} key={day}>
+              <Text style={[styles.colDia, isLastRow && { borderBottomWidth: 1.5 }]}>{day}</Text>
+              <Text style={[styles.colTime, isLastRow && { borderBottomWidth: 1.5 }]}>{displayTimeValue(record?.entry_time_1)}</Text>
+              <Text style={[styles.colSignature, isLastRow && { borderBottomWidth: 1.5 }]}>{displaySignatureValue}</Text>
+              <Text style={[styles.colTime, isLastRow && { borderBottomWidth: 1.5 }]}>{displayTimeValue(record?.exit_time_1)}</Text>
+              <Text style={[styles.colSignature, isLastRow && { borderBottomWidth: 1.5 }]}>{displaySignatureValue}</Text>
+              {/* Hora Extra Entrada */}
+              <Text style={[styles.colExtraTime, isLastRow && { borderBottomWidth: 1.5 }]}>{formatFullTime(record?.entry_time_2)}</Text>
+              {/* Hora Extra Saída */}
+              <Text style={[styles.colExtraTime, { borderRightWidth: 0 }, isLastRow && { borderBottomWidth: 1.5 }]}>{formatFullTime(record?.exit_time_2)}</Text>
+            </View>
+          );
+        })}
+
+        {/* Linha de Resumo */}
+        <View style={styles.tableRow}>
+          <View style={[styles.cellBase, { width: '33.33%', borderBottomWidth: 1.5 }]}>
+            <Text style={{ flexGrow: 0 }}>Dias trabalhados:</Text>
+            <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
+          </View>
+          <View style={[styles.cellBase, { width: '33.33%', borderBottomWidth: 1.5 }]}>
+            <Text style={{ flexGrow: 0 }}>Total de Faltas:</Text>
+            <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
+          </View>
+          <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 0, borderBottomWidth: 1.5 }]}>
+            <Text style={{ flexGrow: 0 }}>Quantidade de horas-extras:</Text>
+            <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
           </View>
         </View>
-      </Page>
-    </Document>
+
+        {/* Seção de Observação */}
+        <View style={styles.tableRow}>
+          <View style={[styles.cellBase, { width: '100%', padding: 3, borderRightWidth: 0, borderBottomWidth: 1.5 }]}>
+            <Text style={[styles.sectionTitle, { flexGrow: 0 }]}>Observação:</Text>
+            <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
+          </View>
+        </View>
+
+        {/* Seção de Justificativa/Horas Extras */}
+        <View style={styles.tableRow}>
+          <View style={[styles.cellBase, { width: '100%', padding: 3, borderRightWidth: 0, borderBottomWidth: 0 }]}>
+            <Text style={[styles.sectionTitle, { flexGrow: 0 }]}>Justificativa/Horas Extras:</Text>
+            <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
+          </View>
+        </View>
+      </View>
+
+      {/* Rodapé */}
+      <View style={styles.footer}>
+        <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10, width: '40%', textAlign: 'center' }}>Campina Grande, ____/____/____</Text>
+        <View style={{ width: '40%', textAlign: 'center' }}>
+          <Text style={{ width: '100%', textAlign: 'center', fontSize: 10, fontFamily: 'Calibri-Bold' }}>________________________________________</Text>
+          <Text style={{ fontSize: 10, fontFamily: 'Calibri-Bold' }}>Assinatura do(a) Gestor(a)</Text>
+        </View>
+      </View>
+    </Page>
   );
 };
 

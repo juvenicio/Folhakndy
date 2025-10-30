@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { PDFViewer, pdf } from "@react-pdf/renderer";
+import { PDFViewer, pdf, Document } from "@react-pdf/renderer"; // Import Document
 import TimesheetPdfDocument from "./TimesheetPdfDocument";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
@@ -46,13 +46,17 @@ const TimesheetPdfPreview = ({ employee, month, year, dailyRecords, logoSrc }: T
   const handleDownloadPdfDirect = async () => {
     setIsGeneratingPdf(true);
     try {
-      const doc = <TimesheetPdfDocument
-        employee={employee}
-        month={month}
-        year={year}
-        dailyRecords={dailyRecords}
-        logoSrc={logoSrc}
-      />;
+      const doc = (
+        <Document>
+          <TimesheetPdfDocument
+            employee={employee}
+            month={month}
+            year={year}
+            dailyRecords={dailyRecords}
+            logoSrc={logoSrc}
+          />
+        </Document>
+      );
       const blob = await pdf(doc).toBlob();
       const filename = `Folha_de_Ponto_${employee.name.replace(/\s/g, '_')}_${month}_${year}.pdf`;
       saveAs(blob, filename);
@@ -95,13 +99,15 @@ const TimesheetPdfPreview = ({ employee, month, year, dailyRecords, logoSrc }: T
 
   return (
     <PDFViewer width="100%" height="800px" style={{ border: '1px solid #e2e8f0', borderRadius: '0.5rem' }}>
-      <TimesheetPdfDocument
-        employee={employee}
-        month={month}
-        year={year}
-        dailyRecords={dailyRecords}
-        logoSrc={logoSrc}
-      />
+      <Document>
+        <TimesheetPdfDocument
+          employee={employee}
+          month={month}
+          year={year}
+          dailyRecords={dailyRecords}
+          logoSrc={logoSrc}
+        />
+      </Document>
     </PDFViewer>
   );
 };
