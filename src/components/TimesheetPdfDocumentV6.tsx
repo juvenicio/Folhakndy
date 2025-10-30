@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   infoCellBase: {
-    borderRightWidth: 1.5, // Padrão para divisões internas
+    // Removido borderRightWidth padrão daqui
     borderBottomWidth: 1.5,
     borderColor: '#000000',
     borderStyle: 'solid',
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
   centeredChargeHoursCell: {
     width: '100%',
-    borderRightWidth: 0, // Corrigido: Sem borda direita para evitar linha dupla
+    borderRightWidth: 0, // Já estava correto para 100% de largura
     textAlign: 'center',
     justifyContent: 'center',
     alignItems: 'center',
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   colDia: { width: '5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
   colTime: { width: '22.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
   colSignature: { width: '22.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
-  colSignatureLast: { width: '22.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' }, // Mantido borderRightWidth: 1.5 aqui
+  colSignatureLast: { width: '22.5%', padding: 1, textAlign: 'center', borderRightWidth: 0, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' }, // Corrigido: borderRightWidth para 0
   
   sectionTitle: {
     fontSize: 9,
@@ -168,10 +168,10 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
         </View>
         {/* Linha para Turno, Mês e Ano */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '50%' }]}>
+          <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 1.5 }]}> {/* Adicionado borda direita */}
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '25%' }]}>
+          <View style={[styles.infoCellBase, { width: '25%', borderRightWidth: 1.5 }]}> {/* Adicionado borda direita */}
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Mês: {monthNameFormatted}</Text>
           </View>
           <View style={[styles.infoCellBase, { width: '25%', borderRightWidth: 0 }]}> {/* Última célula da linha, sem borda direita */}
@@ -193,7 +193,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           <View style={[styles.tableHeaderCell, styles.colTime]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Saída</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colSignatureLast, { borderRightWidth: 1.5 }]}> {/* Corrigido: Adicionado borda direita */}
+          <View style={[styles.tableHeaderCell, styles.colSignatureLast, { borderRightWidth: 0 }]}> {/* Corrigido: Removido borda direita */}
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>ASSINATURA</Text>
           </View>
         </View>
@@ -233,7 +233,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
               <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.exit_time_1)}</Text>
               <Text style={[
                 styles.colSignatureLast,
-                { fontFamily: 'Calibri', fontSize: 8, borderRightWidth: 1.5 }, // Corrigido: Adicionado borda direita
+                { fontFamily: 'Calibri', fontSize: 8, borderRightWidth: 0 }, // Corrigido: Removido borda direita
                 isLastDailyRecordRow && { borderBottomWidth: 1.5 },
                 (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO") || displayNotes.includes("FERIADO")) && styles.boldText
               ]}>{displayNotes}</Text>
@@ -243,17 +243,17 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
 
         {/* Linha de Resumo */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '50%' }]}>
+          <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 1.5 }]}> {/* Adicionado borda direita */}
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Dias trabalhados:</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}> {/* Última célula da linha, sem borda direita */}
+          <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Total de Faltas:</Text>
           </View>
         </View>
 
         {/* Seção de Observação */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0, borderBottomWidth: 0, padding: 3, justifyContent: 'flex-start', minHeight: 60 }]}> {/* Última célula da tabela, sem borda direita e inferior */}
+          <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0, borderBottomWidth: 0, padding: 3, justifyContent: 'flex-start', minHeight: 60 }]}>
             <Text style={[styles.sectionTitle, { fontFamily: 'Calibri-Bold', fontSize: 9 }]}>Obs:</Text>
             <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
           </View>
