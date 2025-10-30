@@ -190,19 +190,19 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
         {/* Cabeçalho da Tabela de Registros Diários (5 colunas) */}
         <View style={styles.tableRow} fixed>
           <View style={[styles.tableHeaderCell, styles.colDia]}>
-            <Text>Dia</Text>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Dia</Text>
           </View>
           <View style={[styles.tableHeaderCell, styles.colTime]}>
-            <Text>Entrada</Text>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Entrada</Text>
           </View>
           <View style={[styles.tableHeaderCell, styles.colSignature]}>
-            <Text>ASSINATURA</Text>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>ASSINATURA</Text>
           </View>
           <View style={[styles.tableHeaderCell, styles.colTime]}>
-            <Text>Saída</Text>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Saída</Text>
           </View>
           <View style={[styles.tableHeaderCell, styles.colSignatureLast]}> {/* Last cell in row, no right border */}
-            <Text>ASSINATURA</Text>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>ASSINATURA</Text>
           </View>
         </View>
 
