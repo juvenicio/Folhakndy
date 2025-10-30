@@ -22,6 +22,13 @@ import {
 } from "@/components/ui/command";
 import { normalizeString } from "@/lib/utils";
 import BatchTimesheetPdfPreview from "./BatchTimesheetPdfPreview";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 // Interfaces (repetidas aqui para clareza, mas idealmente seriam importadas de um arquivo de tipos comum)
 interface Employee {
@@ -69,6 +76,12 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
   const [isPdfPreviewOpen, setIsPdfPreviewOpen] = useState(false);
   const [isComboboxOpen, setIsComboboxOpen] = useState(false);
 
+  // Novos estados para os filtros
+  const [selectedEmployeeTypeFilter, setSelectedEmployeeTypeFilter] = useState<string>("Todos");
+  const [selectedVinculoFilter, setSelectedVinculoFilter] = useState<string>("Todos");
+  const [filteredEmployees, setFilteredEmployees] = useState<Employee[]>([]);
+
+
   const daysOfWeekMapForComparison: { [key: number]: string } = {
     0: 'Sunday', 1: 'Monday', 2: 'Tuesday', 3: 'Wednesday', 4: 'Thursday', 5: 'Friday', 6: 'Saturday'
   };
@@ -77,26 +90,51 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
     0: 'Domingo', 1: 'Segunda-feira', 2: 'Terça-feira', 3: 'Quarta-feira', 4: 'Quinta-feira', 5: 'Sexta-feira', 6: 'Sábado'
   };
 
+  // Efeito para aplicar os filtros
+  useEffect(() => {
+    let currentFiltered = employees;
+
+    if (selectedEmployeeTypeFilter !== "Todos") {
+      currentFiltered = currentFiltered.filter(emp => emp.employee_type === selectedEmployeeTypeFilter);
+    }
+
+    if (selectedVinculoFilter !== "Todos") {
+      currentFiltered = currentFiltered.filter(emp => emp.vinculo === selectedVinculoFilter);
+    }
+
+    setFilteredEmployees(currentFiltered);
+    // Limpar a seleção de IDs quando os filtros mudam, para evitar IDs de funcionários não mais visíveis
+    setSelectedEmployeeIds([]);
+  }, [employees, selectedEmployeeTypeFilter, selectedVinculoFilter]);
+
+
   const calculateHours = (entry1: string | null, exit1: string | null, entry2: string | null, exit2: string | null): number => {
     let totalMinutes = 0;
 
-    const parseTime = (timeStr: string) => {
-      const [hours, minutes] = timeStr.split(':').map(Number);
+    const parseTime = (timeStr: string | null): number => {
+      if (!timeStr) return NaN;
+      const parts = timeStr.split(':');
+      if (parts.length !== 2) return NaN;
+      const hours = Number(parts[0]);
+      const minutes = Number(parts[1]);
+      if (isNaN(hours) || isNaN(minutes)) return NaN;
       return hours * 60 + minutes;
     };
 
-    if (entry1 && exit1) {
-      const start1 = parseTime(entry1);
-      const end1 = parseTime(exit1);
-      if (end1 > start1) totalMinutes += (end1 - start1);
-    }
-    if (entry2 && exit2) {
-      const start2 = parseTime(entry2);
-      const end2 = parseTime(exit2);
-      if (end2 > start2) totalMinutes += (end2 - start2);
+    const start1 = parseTime(entry1);
+    const exit1Parsed = parseTime(exit1);
+    if (!isNaN(start1) && !isNaN(exit1Parsed) && exit1Parsed > start1) {
+      totalMinutes += (exit1Parsed - start1);
     }
 
-    return totalMinutes / 60;
+    const start2 = parseTime(entry2);
+    const exit2Parsed = parseTime(exit2);
+    if (!isNaN(start2) && !isNaN(exit2Parsed) && exit2Parsed > start2) {
+      totalMinutes += (exit2Parsed - start2);
+    }
+
+    const hours = totalMinutes / 60;
+    return isNaN(hours) ? 0 : hours; // Ensure it's always a number
   };
 
   const generateBatchTimesheets = async () => {
@@ -280,12 +318,12 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
   };
 
   const handleSelectAll = () => {
-    if (selectedEmployeeIds.length === employees.length) {
-      // All are selected, deselect all
+    if (selectedEmployeeIds.length === filteredEmployees.length) {
+      // All filtered are selected, deselect all
       setSelectedEmployeeIds([]);
     } else {
-      // Not all are selected, select all
-      setSelectedEmployeeIds(employees.map(emp => emp.id));
+      // Not all filtered are selected, select all filtered
+      setSelectedEmployeeIds(filteredEmployees.map(emp => emp.id));
     }
   };
 
@@ -293,11 +331,15 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
     if (selectedEmployeeIds.length === 0) {
       return "Selecione funcionários...";
     }
-    if (selectedEmployeeIds.length === employees.length) {
-      return "Todos os funcionários selecionados";
+    if (selectedEmployeeIds.length === filteredEmployees.length) {
+      return "Todos os funcionários filtrados selecionados";
     }
     return `${selectedEmployeeIds.length} funcionário(s) selecionado(s)`;
   };
+
+  // Obter valores únicos para os filtros
+  const uniqueEmployeeTypes = Array.from(new Set(employees.map(emp => emp.employee_type))).sort();
+  const uniqueVinculos = Array.from(new Set(employees.map(emp => emp.vinculo))).sort();
 
   return (
     <Card className="mb-8 shadow-sm">
@@ -305,6 +347,39 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
         <CardTitle>Gerar Folhas de Ponto em Lote</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
+        {/* Filtro por Cargo */}
+        <div>
+          <Label htmlFor="employee-type-filter">Filtrar por Cargo</Label>
+          <Select onValueChange={setSelectedEmployeeTypeFilter} value={selectedEmployeeTypeFilter}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Filtrar por Cargo" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Todos">Todos os Cargos</SelectItem>
+              {uniqueEmployeeTypes.map(type => (
+                <SelectItem key={type} value={type}>{type}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Filtro por Vínculo */}
+        <div>
+          <Label htmlFor="vinculo-filter">Filtrar por Vínculo</Label>
+          <Select onValueChange={setSelectedVinculoFilter} value={selectedVinculoFilter}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Filtrar por Vínculo" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Todos">Todos os Vínculos</SelectItem>
+              {uniqueVinculos.map(vinculo => (
+                <SelectItem key={vinculo} value={vinculo}>{vinculo}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Seleção de Funcionários (Combobox) */}
         <div>
           <Label htmlFor="employee-select-batch">Selecionar Funcionários</Label>
           <Popover open={isComboboxOpen} onOpenChange={setIsComboboxOpen}>
@@ -329,16 +404,16 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
                     className="flex items-center justify-between text-primary font-semibold"
                   >
                     <span>
-                      {selectedEmployeeIds.length === employees.length ? "Desselecionar Todos" : "Selecionar Todos"}
+                      {selectedEmployeeIds.length === filteredEmployees.length && filteredEmployees.length > 0 ? "Desselecionar Todos" : "Selecionar Todos"}
                     </span>
                     <Check
                       className={cn(
                         "mr-2 h-4 w-4",
-                        selectedEmployeeIds.length === employees.length ? "opacity-100" : "opacity-0"
+                        selectedEmployeeIds.length === filteredEmployees.length && filteredEmployees.length > 0 ? "opacity-100" : "opacity-0"
                       )}
                     />
                   </CommandItem>
-                  {employees.map((employee) => (
+                  {filteredEmployees.map((employee) => (
                     <CommandItem
                       key={employee.id}
                       value={`${normalizeString(employee.name)} ${normalizeString(employee.registration_number)} ${normalizeString(employee.function)} ${normalizeString(employee.school_name)}`}
