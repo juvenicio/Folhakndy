@@ -11,7 +11,6 @@ import TimesheetPdfDocumentV2 from './TimesheetPdfDocumentV2';
 import TimesheetPdfDocumentV3 from './TimesheetPdfDocumentV3';
 import TimesheetPdfDocumentV4 from './TimesheetPdfDocumentV4';
 import TimesheetPdfDocumentV5 from './TimesheetPdfDocumentV5';
-import TimesheetPdfDocumentV6 from './TimesheetPdfDocumentV6'; // Importar o novo modelo V6
 import { normalizeString } from '@/lib/utils';
 
 // Definindo as interfaces para os dados
@@ -60,13 +59,11 @@ const BatchTimesheetPdfDocument = ({ batchData, logoSrc }: BatchTimesheetPdfDocu
     const currentEmployeeType = employee.employee_type;
     const currentEmployeeVinculo = employee.vinculo;
 
-    if (currentEmployeeType === "Educador Voluntário 20H") { // Prioriza Educador Voluntário 20H para V6
-      return TimesheetPdfDocumentV6;
-    } else if (currentEmployeeType === "Professor Fundamental II" && (currentEmployeeVinculo === "Prestador(a) de Serviços" || currentEmployeeVinculo === "Contrato")) {
+    if (currentEmployeeType === "Professor Fundamental II" && (currentEmployeeVinculo === "Prestador(a) de Serviços" || currentEmployeeVinculo === "Contrato")) {
       return TimesheetPdfDocumentV5;
     } else if (currentEmployeeVinculo === "Educador Voluntário") {
       return TimesheetPdfDocumentV4;
-    } else if (currentEmployeeType === "Vigia" && currentEmployeeVinculo === "Contrato" && normalizedCurrentFunction.includes("vigia")) {
+    } else if (currentEmployeeType === "Vigia" && currentEmployeeVinculo === "Contrato" && normalizedCurrentFunction.includes("vigia")) { // Updated condition
       return TimesheetPdfDocumentV3;
     } else if (normalizedCurrentFunction.includes("asg") && currentEmployeeVinculo === "Contrato") {
       return TimesheetPdfDocumentV3;
