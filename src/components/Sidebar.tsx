@@ -55,20 +55,20 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }: SidebarProps) => {
   return (
     <div
       className={cn(
-        "flex h-full flex-col gap-4 border-r", // Removido bg-sidebar-background da base
+        "flex h-full flex-col gap-4 border-r",
         // Desktop styles
-        !isMobile && (isCollapsed ? "w-16" : "w-64"),
-        !isMobile && "bg-sidebar-background", // Aplicar bg-sidebar-background apenas para desktop
+        !isMobile && (isCollapsed ? "w-16" : "w-64 shadow-lg"), // Adicionado shadow-lg para desktop expandido
+        !isMobile && "bg-sidebar-background",
         // Mobile styles: always fixed, control visibility with transform
-        isMobile && "fixed inset-y-0 left-0 z-50 w-3/4 max-w-xs shadow-lg transform transition-transform duration-300 ease-in-out bg-white dark:bg-gray-900", // Fundo sólido explícito para mobile
-        isMobile && isCollapsed ? "-translate-x-full" : "translate-x-0" // Hidden or visible
+        isMobile && "fixed inset-y-0 left-0 z-50 w-3/4 max-w-xs shadow-lg transform transition-transform duration-300 ease-in-out bg-background", // Usar bg-background para consistência
+        isMobile && isCollapsed ? "-translate-x-full" : "translate-x-0"
       )}
     >
       <div className="flex h-14 items-center justify-between border-b px-4">
-        <h1 className={cn("font-bold text-lg", isCollapsed && "hidden")}>
+        <h1 className={cn("font-bold text-lg text-primary", isCollapsed && "hidden")}> {/* Adicionado text-primary */}
           Folha de Ponto
         </h1>
-        <FileClock className={cn("h-6 w-6", !isCollapsed && "hidden")} />
+        <FileClock className={cn("h-6 w-6 text-primary", !isCollapsed && "hidden")} /> {/* Adicionado text-primary */}
         {/* Close button for mobile when sidebar is open */}
         {isMobile && !isCollapsed && (
           <Button
