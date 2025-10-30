@@ -63,7 +63,7 @@ const BatchTimesheetPdfDocument = ({ batchData, logoSrc }: BatchTimesheetPdfDocu
       return TimesheetPdfDocumentV5;
     } else if (currentEmployeeVinculo === "Educador Voluntário") {
       return TimesheetPdfDocumentV4;
-    } else if (currentEmployeeType === "Vigia" && currentEmployeeVinculo === "Contrato" && normalizedCurrentFunction.includes("vigia 12h x 36h")) {
+    } else if (currentEmployeeType === "Vigia" && currentEmployeeVinculo === "Contrato" && normalizedCurrentFunction.includes("vigia") && normalizedCurrentFunction.includes("12h x 36h")) {
       return TimesheetPdfDocumentV3;
     } else if (normalizedCurrentFunction.includes("asg") && currentEmployeeVinculo === "Contrato") {
       return TimesheetPdfDocumentV3;

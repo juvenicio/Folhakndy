@@ -10,10 +10,10 @@ import TimesheetDisplay from "@/components/TimesheetDisplay";
 import { getDaysInMonth, format, parseISO, isValid, getDay } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { CalendarIcon, FileText, FileDown, Check, ChevronsUpDown } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } => "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } => "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import TimesheetPdfPreview from "@/components/TimesheetPdfPreview"; // Modelo existente V1
 import TimesheetPdfPreviewV2 from "@/components/TimesheetPdfPreviewV2"; // Modelo existente V2
 import TimesheetPdfPreviewV3 from "@/components/TimesheetPdfPreviewV3"; // Novo modelo V3
@@ -254,7 +254,7 @@ const GenerateTimesheetPage = () => {
           const normalizedEmployeeFunction = normalizeString(employee.function);
 
           if ((normalizedEmployeeFunction.includes("asg") && employee.vinculo === "Contrato") ||
-              (employee.employee_type === "Vigia" && employee.vinculo === "Contrato" && normalizedEmployeeFunction.includes("vigia 12h x 36h"))) {
+              (employee.employee_type === "Vigia" && employee.vinculo === "Contrato" && normalizedEmployeeFunction.includes("vigia") && normalizedEmployeeFunction.includes("12h x 36h"))) {
             if (!isWorkDay) {
               if (isCurrentDateWeekend) {
                 notes = dayNamePtBr.toUpperCase(); // "SÁBADO" or "DOMINGO"
@@ -349,7 +349,7 @@ const GenerateTimesheetPage = () => {
     PdfPreviewComponent = TimesheetPdfPreviewV5;
   } else if (currentEmployeeVinculo === "Educador Voluntário") {
     PdfPreviewComponent = TimesheetPdfPreviewV4;
-  } else if (currentEmployeeType === "Vigia" && currentEmployeeVinculo === "Contrato" && normalizedCurrentFunction.includes("vigia 12h x 36h")) {
+  } else if (currentEmployeeType === "Vigia" && currentEmployeeVinculo === "Contrato" && normalizedCurrentFunction.includes("vigia") && normalizedCurrentFunction.includes("12h x 36h")) {
     PdfPreviewComponent = TimesheetPdfPreviewV3;
   } else if (normalizedCurrentFunction.includes("asg") && currentEmployeeVinculo === "Contrato") {
     PdfPreviewComponent = TimesheetPdfPreviewV3;
