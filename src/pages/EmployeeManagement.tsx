@@ -60,9 +60,7 @@ const EmployeeManagement = () => {
       toast.error("Erro ao carregar funcionários: " + error.message);
       console.error("Erro ao carregar funcionários:", error);
     } else {
-      // Filtrar funcionários com IDs nulos ou indefinidos
-      const validEmployees = (data || []).filter(emp => emp.id != null) as Employee[];
-      setEmployees(validEmployees);
+      setEmployees(data || []);
     }
     setLoading(false);
   };

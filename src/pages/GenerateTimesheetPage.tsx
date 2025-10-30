@@ -96,11 +96,9 @@ const GenerateTimesheetPage = () => {
       toast.error("Erro ao carregar funcionários: " + error.message);
       console.error("Erro ao carregar funcionários:", error);
     } else {
-      // Filtrar funcionários com IDs nulos ou indefinidos
-      const validEmployees = (data || []).filter(emp => emp.id != null) as Employee[];
-      setEmployees(validEmployees);
-      if (validEmployees.length > 0 && !selectedEmployeeId) {
-        setSelectedEmployeeId(validEmployees[0].id);
+      setEmployees(data || []);
+      if (data && data.length > 0 && !selectedEmployeeId) {
+        setSelectedEmployeeId(data[0].id);
       }
     }
   };
@@ -161,8 +159,8 @@ const GenerateTimesheetPage = () => {
 
     setLoading(true);
     const employee = employees.find((emp) => emp.id === selectedEmployeeId);
-    if (!employee || !employee.id) { // Adicionada verificação para employee.id
-      toast.error("Funcionário não encontrado ou ID inválido.");
+    if (!employee) {
+      toast.error("Funcionário não encontrado.");
       setLoading(false);
       return;
     }
