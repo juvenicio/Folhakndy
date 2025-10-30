@@ -19,7 +19,6 @@ import TimesheetPdfPreviewV2 from "@/components/TimesheetPdfPreviewV2"; // Model
 import TimesheetPdfPreviewV3 from "@/components/TimesheetPdfPreviewV3"; // Novo modelo V3
 import TimesheetPdfPreviewV4 from "@/components/TimesheetPdfPreviewV4"; // Novo modelo V4
 import TimesheetPdfPreviewV5 from "@/components/TimesheetPdfPreviewV5"; // Novo modelo V5
-import TimesheetPdfPreviewV6 from "@/components/TimesheetPdfPreviewV6"; // Novo modelo V6
 import {
   Command,
   CommandInput,
@@ -233,7 +232,7 @@ const GenerateTimesheetPage = () => {
         const isGenericVigiaContratoOrASGContrato = (employee.employee_type === "Vigia" && employee.vinculo === "Contrato" && normalizedEmployeeFunction.includes("vigia") && !normalizedEmployeeFunction.includes("12h x 36h")) || 
                                                      (normalizedEmployeeFunction.includes("asg") && employee.vinculo === "Contrato");
 
-        // Lógica de notas específica para V6 (Educador Voluntário 20H)
+        // Lógica de notas específica para V6 (Educador Voluntário 20H) - AGORA V4
         if (employee.vinculo === "Educador Voluntário 20H") { // Condição alterada para 'vinculo'
           if (!isWorkDay) {
             if (isCurrentDateWeekend) {
@@ -365,11 +364,9 @@ const GenerateTimesheetPage = () => {
   const currentEmployeeType = currentEmployee?.employee_type;
   const currentEmployeeVinculo = currentEmployee?.vinculo;
 
-  if (currentEmployeeVinculo === "Educador Voluntário 20H") { // Condição alterada para 'vinculo'
-    PdfPreviewComponent = TimesheetPdfPreviewV6;
-  } else if (currentEmployeeType === "Professor Fundamental II" && (currentEmployeeVinculo === "Prestador(a) de Serviços" || currentEmployeeVinculo === "Contrato")) { // Prioriza Professor Fundamental II para V5
+  if (currentEmployeeType === "Professor Fundamental II" && (currentEmployeeVinculo === "Prestador(a) de Serviços" || currentEmployeeVinculo === "Contrato")) { // Prioriza Professor Fundamental II para V5
     PdfPreviewComponent = TimesheetPdfPreviewV5;
-  } else if (currentEmployeeVinculo === "Educador Voluntário") {
+  } else if (currentEmployeeVinculo === "Educador Voluntário" || currentEmployeeVinculo === "Educador Voluntário 20H") { // V4 agora lida com ambos
     PdfPreviewComponent = TimesheetPdfPreviewV4;
   } else if (currentEmployeeType === "Vigia" && currentEmployeeVinculo === "Contrato" && normalizedCurrentFunction.includes("vigia")) {
     PdfPreviewComponent = TimesheetPdfPreviewV3;
