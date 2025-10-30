@@ -254,7 +254,7 @@ const GenerateTimesheetPage = () => {
           const normalizedEmployeeFunction = normalizeString(employee.function);
 
           if ((normalizedEmployeeFunction.includes("asg") && employee.vinculo === "Contrato") ||
-              (employee.employee_type === "Vigia" && employee.vinculo === "Contrato" && normalizedEmployeeFunction.includes("vigia") && normalizedEmployeeFunction.includes("12h x 36h"))) {
+              (employee.employee_type === "Vigia" && employee.vinculo === "Contrato" && normalizedEmployeeFunction.includes("vigia"))) { // Updated condition
             if (!isWorkDay) {
               if (isCurrentDateWeekend) {
                 notes = dayNamePtBr.toUpperCase(); // "SÁBADO" or "DOMINGO"
@@ -349,7 +349,7 @@ const GenerateTimesheetPage = () => {
     PdfPreviewComponent = TimesheetPdfPreviewV5;
   } else if (currentEmployeeVinculo === "Educador Voluntário") {
     PdfPreviewComponent = TimesheetPdfPreviewV4;
-  } else if (currentEmployeeType === "Vigia" && currentEmployeeVinculo === "Contrato" && normalizedCurrentFunction.includes("vigia") && normalizedCurrentFunction.includes("12h x 36h")) {
+  } else if (currentEmployeeType === "Vigia" && currentEmployeeVinculo === "Contrato" && normalizedCurrentFunction.includes("vigia")) { // Updated condition
     PdfPreviewComponent = TimesheetPdfPreviewV3;
   } else if (normalizedCurrentFunction.includes("asg") && currentEmployeeVinculo === "Contrato") {
     PdfPreviewComponent = TimesheetPdfPreviewV3;
