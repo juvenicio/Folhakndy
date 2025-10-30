@@ -242,7 +242,7 @@ const GenerateTimesheetPage = () => {
 
           if (isCurrentDateWeekend) {
             notes = dayNamePtBr.toUpperCase(); // SÁBADO ou DOMINGO
-          } else if (month === 10 && i === 11) { // Corrigido: 'day' para 'i'
+          } else if (month === 10 && i === 11) { 
             notes = "FERIADO DIA DA CIDADE";
           } else {
             notes = null; // Dias de semana normais ficam em branco
