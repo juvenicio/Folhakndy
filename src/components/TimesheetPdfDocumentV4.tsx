@@ -121,6 +121,8 @@ interface Employee {
   work_days: string[];
   shift: string[] | null;
   vinculo: string;
+  discipline: string | null; // Novo campo
+  weekly_hours: number | null; // Novo campo
 }
 
 interface TimesheetPdfDocumentV4Props {

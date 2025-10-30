@@ -26,6 +26,8 @@ interface Employee {
   work_days: string[];
   shift: string[] | null; // Alterado para array de strings
   vinculo: string; // Novo: "Tipo de Vínculo"
+  discipline: string | null; // Novo campo
+  weekly_hours: number | null; // Novo campo
 }
 
 interface TimesheetPdfDocumentProps {

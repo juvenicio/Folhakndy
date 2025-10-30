@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { PDFViewer, pdf } from "@react-pdf/renderer";
-import TimesheetPdfDocumentV4 from "./TimesheetPdfDocumentV4";
+import BatchTimesheetPdfDocument from "./BatchTimesheetPdfDocument";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
@@ -21,6 +21,7 @@ interface DailyRecord {
 }
 
 interface Employee {
+  id: string;
   name: string;
   employee_type: string;
   function: string;
@@ -29,46 +30,47 @@ interface Employee {
   work_days: string[];
   shift: string[] | null;
   vinculo: string;
-  discipline: string | null; // Novo campo
-  weekly_hours: number | null; // Novo campo
+  discipline: string | null;
+  weekly_hours: number | null;
 }
 
-interface TimesheetPdfPreviewV4Props {
+interface BatchTimesheetData {
   employee: Employee;
   month: number;
   year: number;
   dailyRecords: DailyRecord[];
+}
+
+interface BatchTimesheetPdfPreviewProps {
+  batchData: BatchTimesheetData[];
   logoSrc: string | null;
 }
 
-const TimesheetPdfPreviewV4 = ({ employee, month, year, dailyRecords, logoSrc }: TimesheetPdfPreviewV4Props) => {
+const BatchTimesheetPdfPreview = ({ batchData, logoSrc }: BatchTimesheetPdfPreviewProps) => {
   const isMobile = useIsMobile();
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
 
   const handleDownloadPdfDirect = async () => {
     setIsGeneratingPdf(true);
     try {
-      const doc = <TimesheetPdfDocumentV4
-        employee={employee}
-        month={month}
-        year={year}
-        dailyRecords={dailyRecords}
+      const doc = <BatchTimesheetPdfDocument
+        batchData={batchData}
         logoSrc={logoSrc}
       />;
       const blob = await pdf(doc).toBlob();
-      const filename = `Folha_de_Ponto_V4_${employee.name.replace(/\s/g, '_')}_${month}_${year}.pdf`;
+      const filename = `Folhas_de_Ponto_Lote_${batchData[0]?.month}_${batchData[0]?.year}.pdf`;
       saveAs(blob, filename);
-      toast.success("PDF baixado com sucesso!");
+      toast.success("PDF em lote baixado com sucesso!");
     } catch (error) {
-      console.error("Erro ao gerar e baixar o PDF:", error);
-      toast.error("Erro ao gerar e baixar o PDF.");
+      console.error("Erro ao gerar e baixar o PDF em lote:", error);
+      toast.error("Erro ao gerar e baixar o PDF em lote.");
     } finally {
       setIsGeneratingPdf(false);
     }
   };
 
-  if (!employee || dailyRecords.length === 0) {
-    return <div className="flex items-center justify-center h-full text-muted-foreground">Nenhum dado para pré-visualizar.</div>;
+  if (!batchData || batchData.length === 0) {
+    return <div className="flex items-center justify-center h-full text-muted-foreground">Nenhum dado para pré-visualizar em lote.</div>;
   }
 
   if (isMobile) {
@@ -76,18 +78,18 @@ const TimesheetPdfPreviewV4 = ({ employee, month, year, dailyRecords, logoSrc }:
       <div className="flex flex-col items-center justify-center p-4 h-full text-center">
         <p className="text-lg mb-4">
           A pré-visualização de PDF não está disponível diretamente em dispositivos móveis.
-          Por favor, clique no botão abaixo para baixar o documento.
+          Por favor, clique no botão abaixo para baixar o documento em lote.
         </p>
         <Button onClick={handleDownloadPdfDirect} disabled={isGeneratingPdf}>
           {isGeneratingPdf ? (
             <>
               <Download className="mr-2 h-4 w-4 animate-bounce" />
-              Gerando PDF...
+              Gerando PDF em lote...
             </>
           ) : (
             <>
               <Download className="mr-2 h-4 w-4" />
-              Baixar PDF
+              Baixar PDF em Lote
             </>
           )}
         </Button>
@@ -97,15 +99,12 @@ const TimesheetPdfPreviewV4 = ({ employee, month, year, dailyRecords, logoSrc }:
 
   return (
     <PDFViewer width="100%" height="800px" style={{ border: '1px solid #e2e8f0', borderRadius: '0.5rem' }}>
-      <TimesheetPdfDocumentV4
-        employee={employee}
-        month={month}
-        year={year}
-        dailyRecords={dailyRecords}
+      <BatchTimesheetPdfDocument
+        batchData={batchData}
         logoSrc={logoSrc}
       />
     </PDFViewer>
   );
 };
 
-export default TimesheetPdfPreviewV4;
+export default BatchTimesheetPdfPreview;

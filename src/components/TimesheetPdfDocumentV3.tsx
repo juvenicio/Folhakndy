@@ -121,6 +121,8 @@ interface Employee {
   work_days: string[];
   shift: string[] | null;
   vinculo: string;
+  discipline: string | null; // Novo campo
+  weekly_hours: number | null; // Novo campo
 }
 
 interface TimesheetPdfDocumentV3Props {
@@ -269,13 +271,13 @@ const TimesheetPdfDocumentV3 = ({ employee, month, year, dailyRecords, logoSrc }
           {/* Linha de Resumo */}
           <View style={styles.tableRow}>
             <View style={[styles.infoCellBase, { width: '33.33%' }]}>
-              <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Dias Trabalhados:</Text>
+              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Dias Trabalhados:</Text>
             </View>
             <View style={[styles.infoCellBase, { width: '33.33%' }]}>
-              <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Total de Aulas:</Text>
+              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Total de Aulas:</Text>
             </View>
             <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}>
-              <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Total de Faltas:</Text>
+              <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Total de Faltas:</Text>
             </View>
           </View>
 

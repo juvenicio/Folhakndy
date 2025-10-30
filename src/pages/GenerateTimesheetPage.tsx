@@ -27,6 +27,8 @@ import {
   CommandItem,
 } from "@/components/ui/command";
 import { normalizeString } from "@/lib/utils"; // Importar a nova função
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"; // Importar Tabs
+import BatchTimesheetGenerator from "@/components/BatchTimesheetGenerator"; // Importar o novo componente
 
 interface Employee {
   id: string;
@@ -360,144 +362,155 @@ const GenerateTimesheetPage = () => {
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-6">Gerar Folha de Ponto</h1>
 
-      <Card className="mb-8 shadow-sm"> {/* Adicionado shadow-sm */}
-        <CardHeader>
-          <CardTitle>Configurações da Folha de Ponto</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div>
-            <Label htmlFor="employee-select">Selecionar Funcionário</Label>
-            <Popover open={isComboboxOpen} onOpenChange={setIsComboboxOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  role="combobox"
-                  aria-expanded={isComboboxOpen}
-                  className="w-full justify-between"
-                >
-                  {selectedEmployeeId && currentEmployee
-                    ? `${currentEmployee.name} (${currentEmployee.registration_number}) - ${currentEmployee.school_name || 'N/A'}`
-                    : "Selecione um funcionário..."}
-                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-                <Command>
-                  <CommandInput placeholder="Pesquisar funcionário..." />
-                  <CommandEmpty>Nenhum funcionário encontrado.</CommandEmpty>
-                  <CommandGroup>
-                    {employees.map((employee) => (
-                      <CommandItem
-                        key={employee.id}
-                        value={`${normalizeString(employee.name)} ${normalizeString(employee.registration_number)} ${normalizeString(employee.function)} ${normalizeString(employee.school_name)}`}
-                        onSelect={(currentValue) => {
-                          const selected = employees.find(emp => 
-                            `${normalizeString(emp.name)} ${normalizeString(emp.registration_number)} ${normalizeString(emp.function)} ${normalizeString(emp.school_name)}` === currentValue
-                          );
-                          setSelectedEmployeeId(selected?.id === selectedEmployeeId ? null : selected?.id);
-                          setIsComboboxOpen(false);
-                        }}
-                      >
-                        <Check
-                          className={cn(
-                            "mr-2 h-4 w-4",
-                            selectedEmployeeId === employee.id ? "opacity-100" : "opacity-0"
-                          )}
-                        />
-                        {employee.name} ({employee.registration_number || 'N/A'}) - {employee.function} - {employee.school_name || 'N/A'}
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                </Command>
-              </PopoverContent>
-            </Popover>
-          </div>
+      <Tabs defaultValue="individual" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="individual">Geração Individual</TabsTrigger>
+          <TabsTrigger value="batch">Geração em Lote</TabsTrigger>
+        </TabsList>
+        <TabsContent value="individual">
+          <Card className="mb-8 shadow-sm">
+            <CardHeader>
+              <CardTitle>Configurações da Folha de Ponto Individual</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <Label htmlFor="employee-select">Selecionar Funcionário</Label>
+                <Popover open={isComboboxOpen} onOpenChange={setIsComboboxOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={isComboboxOpen}
+                      className="w-full justify-between"
+                    >
+                      {selectedEmployeeId && currentEmployee
+                        ? `${currentEmployee.name} (${currentEmployee.registration_number}) - ${currentEmployee.school_name || 'N/A'}`
+                        : "Selecione um funcionário..."}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                    <Command>
+                      <CommandInput placeholder="Pesquisar funcionário..." />
+                      <CommandEmpty>Nenhum funcionário encontrado.</CommandEmpty>
+                      <CommandGroup>
+                        {employees.map((employee) => (
+                          <CommandItem
+                            key={employee.id}
+                            value={`${normalizeString(employee.name)} ${normalizeString(employee.registration_number)} ${normalizeString(employee.function)} ${normalizeString(employee.school_name)}`}
+                            onSelect={(currentValue) => {
+                              const selected = employees.find(emp => 
+                                `${normalizeString(emp.name)} ${normalizeString(emp.registration_number)} ${normalizeString(emp.function)} ${normalizeString(emp.school_name)}` === currentValue
+                              );
+                              setSelectedEmployeeId(selected?.id === selectedEmployeeId ? null : selected?.id);
+                              setIsComboboxOpen(false);
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                selectedEmployeeId === employee.id ? "opacity-100" : "opacity-0"
+                              )}
+                            />
+                            {employee.name} ({employee.registration_number || 'N/A'}) - {employee.function} - {employee.school_name || 'N/A'}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+              </div>
 
-          <div>
-            <Label htmlFor="month-year-picker">Mês e Ano</Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant={"outline"}
-                  className={cn(
-                    "w-full justify-start text-left font-normal",
-                    !selectedDate && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {selectedDate ? (
-                    format(selectedDate, "MMMM yyyy", { locale: ptBR })
+              <div>
+                <Label htmlFor="month-year-picker">Mês e Ano</Label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-full justify-start text-left font-normal",
+                        !selectedDate && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {selectedDate ? (
+                        format(selectedDate, "MMMM yyyy", { locale: ptBR })
+                      ) : (
+                        <span>Selecione um mês</span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      mode="single"
+                      selected={selectedDate}
+                      onSelect={setSelectedDate}
+                      initialFocus
+                      captionLayout="dropdown-buttons"
+                      fromYear={2020}
+                      toYear={2050}
+                      locale={ptBR}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+
+              <div className="flex space-x-2">
+                <Button onClick={generateTimesheet} disabled={loading || !selectedEmployeeId || !selectedDate} className="flex-1">
+                  {loading ? (
+                    <>
+                      <FileText className="mr-2 h-4 w-4 animate-pulse" />
+                      Gerando...
+                    </>
                   ) : (
-                    <span>Selecione um mês</span>
+                    <>
+                      <FileText className="mr-2 h-4 w-4" />
+                      Gerar Folha de Ponto
+                    </>
                   )}
                 </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  selected={selectedDate}
-                  onSelect={setSelectedDate}
-                  initialFocus
-                  captionLayout="dropdown-buttons"
-                  fromYear={2020}
-                  toYear={2050}
-                  locale={ptBR}
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
+                <Dialog open={isPdfPreviewOpen} onOpenChange={setIsPdfPreviewOpen}>
+                  <DialogTrigger asChild>
+                    <Button
+                      variant="outline"
+                      disabled={!generatedTimesheet}
+                      onClick={() => setIsPdfPreviewOpen(true)}
+                    >
+                      <FileDown className="mr-2 h-4 w-4" /> Visualizar PDF
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-lg md:max-w-2xl lg:max-w-5xl h-[90vh] p-0">
+                    <DialogHeader className="p-6 pb-0">
+                      <DialogTitle>Pré-visualização da Folha de Ponto</DialogTitle>
+                    </DialogHeader>
+                    {generatedTimesheet && (
+                      <PdfPreviewComponent
+                        employee={generatedTimesheet.employee}
+                        month={generatedTimesheet.month}
+                        year={generatedTimesheet.year}
+                        dailyRecords={generatedTimesheet.dailyRecords}
+                        logoSrc={logoBase64}
+                      />
+                    )}
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </CardContent>
+          </Card>
 
-          <div className="flex space-x-2">
-            <Button onClick={generateTimesheet} disabled={loading || !selectedEmployeeId || !selectedDate} className="flex-1">
-              {loading ? (
-                <>
-                  <FileText className="mr-2 h-4 w-4 animate-pulse" />
-                  Gerando...
-                </>
-              ) : (
-                <>
-                  <FileText className="mr-2 h-4 w-4" />
-                  Gerar Folha de Ponto
-                </>
-              )}
-            </Button>
-            <Dialog open={isPdfPreviewOpen} onOpenChange={setIsPdfPreviewOpen}>
-              <DialogTrigger asChild>
-                <Button
-                  variant="outline"
-                  disabled={!generatedTimesheet}
-                  onClick={() => setIsPdfPreviewOpen(true)}
-                >
-                  <FileDown className="mr-2 h-4 w-4" /> Visualizar PDF
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-lg md:max-w-2xl lg:max-w-5xl h-[90vh] p-0">
-                <DialogHeader className="p-6 pb-0">
-                  <DialogTitle>Pré-visualização da Folha de Ponto</DialogTitle>
-                </DialogHeader>
-                {generatedTimesheet && (
-                  <PdfPreviewComponent
-                    employee={generatedTimesheet.employee}
-                    month={generatedTimesheet.month}
-                    year={generatedTimesheet.year}
-                    dailyRecords={generatedTimesheet.dailyRecords}
-                    logoSrc={logoBase64}
-                  />
-                )}
-              </DialogContent>
-            </Dialog>
-          </div>
-        </CardContent>
-      </Card>
-
-      {generatedTimesheet && (
-        <TimesheetDisplay
-          employee={generatedTimesheet.employee}
-          month={generatedTimesheet.month}
-          year={generatedTimesheet.year}
-          dailyRecords={generatedTimesheet.dailyRecords}
-        />
-      )}
+          {generatedTimesheet && (
+            <TimesheetDisplay
+              employee={generatedTimesheet.employee}
+              month={generatedTimesheet.month}
+              year={generatedTimesheet.year}
+              dailyRecords={generatedTimesheet.dailyRecords}
+            />
+          )}
+        </TabsContent>
+        <TabsContent value="batch">
+          <BatchTimesheetGenerator employees={employees} logoBase64={logoBase64} />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
