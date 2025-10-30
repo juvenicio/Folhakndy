@@ -17,23 +17,23 @@ const styles = StyleSheet.create({
     fontSize: 8,
     fontFamily: 'Calibri',
   },
-  // headerContainer: { // Removido
-  //   flexDirection: 'column',
-  //   alignItems: 'center',
-  //   marginBottom: 5,
-  //   width: '100%',
-  // },
-  // headerTextContent: { // Removido
-  //   width: '100%',
-  //   textAlign: 'center',
-  //   marginTop: 5,
-  // },
-  // headerText: { // Removido
-  //   fontSize: 7,
-  //   fontWeight: 'bold',
-  //   marginBottom: 1,
-  //   fontFamily: 'Calibri-Bold',
-  // },
+  headerContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginBottom: 5,
+    width: '100%',
+  },
+  headerTextContent: {
+    width: '100%',
+    textAlign: 'center',
+    marginTop: 5,
+  },
+  headerText: {
+    fontSize: 7,
+    fontWeight: 'bold',
+    marginBottom: 1,
+    fontFamily: 'Calibri-Bold',
+  },
   mainTableContainer: {
     display: 'table',
     width: 'auto',
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
   centeredChargeHoursCell: {
     width: '100%',
-    borderRightWidth: 0,
+    borderRightWidth: 1.5, // Alterado de 0 para 1.5
     textAlign: 'center',
     justifyContent: 'center',
     alignItems: 'center',
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   colDia: { width: '5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
   colTime: { width: '22.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
   colSignature: { width: '22.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
-  colSignatureLast: { width: '22.5%', padding: 1, textAlign: 'center', borderRightWidth: 0, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
+  colSignatureLast: { width: '22.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' }, // Alterado de 0 para 1.5
   
   sectionTitle: {
     fontSize: 9,
@@ -103,10 +103,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 8,
   },
-  // logo: { // Removido
-  //   width: 24,
-  //   height: 33,
-  // },
+  logo: {
+    width: 24,
+    height: 33,
+  },
   boldText: {
     fontFamily: 'Calibri-Bold',
   },
@@ -181,12 +181,12 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
       <View style={styles.mainTableContainer}>
         {/* Detalhes do Funcionário */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0, paddingLeft: 10 }]}>
+          <View style={[styles.infoCellBase, { width: '100%', paddingLeft: 10 }]}> {/* Removido borderRightWidth: 0 */}
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Unidade de Trabalho: {employee.school_name || 'N/A'}</Text>
           </View>
         </View>
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0 }]}>
+          <View style={[styles.infoCellBase, { width: '100%' }]}> {/* Removido borderRightWidth: 0 */}
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>NOME: {employee.name}</Text>
           </View>
         </View>
@@ -204,7 +204,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           <View style={[styles.infoCellBase, { width: '25%' }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Mês: {monthNameFormatted}</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '25%', borderRightWidth: 0 }]}>
+          <View style={[styles.infoCellBase, { width: '25%' }]}> {/* Removido borderRightWidth: 0 */}
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Ano: {year}</Text>
           </View>
         </View>
@@ -276,7 +276,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           <View style={[styles.infoCellBase, { width: '50%' }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Dias trabalhados:</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}>
+          <View style={[styles.infoCellBase, { width: '50%' }]}> {/* Removido borderRightWidth: 0 */}
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Total de Faltas:</Text>
           </View>
         </View>
@@ -286,7 +286,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           <View style={[styles.infoCellBase, { width: '5%', borderBottomWidth: 1.5, borderRightWidth: 1.5, padding: 3, justifyContent: 'center' }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Obs:</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '95%', borderRightWidth: 0, borderBottomWidth: 1.5, padding: 3, flexDirection: 'column', justifyContent: 'flex-end', minHeight: 60 }]}>
+          <View style={[styles.infoCellBase, { width: '95%', borderBottomWidth: 1.5, padding: 3, flexDirection: 'column', justifyContent: 'flex-end', minHeight: 60 }]}> {/* Removido borderRightWidth: 0 */}
             <Text></Text>
           </View>
         </View>

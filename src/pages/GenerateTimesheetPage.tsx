@@ -239,14 +239,11 @@ const GenerateTimesheetPage = () => {
             if (isCurrentDateWeekend) {
               notes = dayNamePtBr.toUpperCase(); // SÁBADO ou DOMINGO
             } else {
-              // Para dias de semana não trabalhados, o esboço mostra em branco, exceto feriados
+              // Para dias de semana não trabalhados, o esboço mostra em branco
               notes = null; 
             }
           }
-          // Exemplo de FERIADO para o dia 11 (Outubro)
-          if (month === 10 && i === 11) { // Outubro, dia 11
-            notes = "FERIADO DIA DA CIDADE";
-          }
+          // A lógica de feriado específica foi removida daqui, conforme solicitado.
         }
         // Lógica de notas específica para V5 (Professor Fundamental II com Prestador(a) de Serviços OU Contrato)
         else if (employee.employee_type === "Professor Fundamental II" && (employee.vinculo === "Prestador(a) de Serviços" || employee.vinculo === "Contrato")) {
