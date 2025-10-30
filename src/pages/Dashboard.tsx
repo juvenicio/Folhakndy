@@ -96,7 +96,7 @@ const Dashboard = () => {
   if (loading) {
     return (
       <div className="container mx-auto py-8">
-        <Card className="mb-8 p-6 text-center shadow-md">
+        <Card className="mb-8 p-6 text-center shadow-sm"> {/* Adicionado shadow-sm */}
           <CardHeader className="pb-4">
             <Skeleton className="h-8 w-3/4 mx-auto mb-2" />
             <Skeleton className="h-5 w-1/2 mx-auto" />
@@ -110,7 +110,7 @@ const Dashboard = () => {
         </Card>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <Card className="shadow-md">
+          <Card className="shadow-sm"> {/* Adicionado shadow-sm */}
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total de Funcionários</CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
@@ -119,7 +119,7 @@ const Dashboard = () => {
               <Skeleton className="h-8 w-24" />
             </CardContent>
           </Card>
-          <Card className="shadow-md">
+          <Card className="shadow-sm"> {/* Adicionado shadow-sm */}
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Folhas de Ponto Geradas</CardTitle>
               <FileClock className="h-4 w-4 text-muted-foreground" />
@@ -130,7 +130,7 @@ const Dashboard = () => {
           </Card>
         </div>
 
-        <Card className="shadow-md">
+        <Card className="shadow-sm"> {/* Adicionado shadow-sm */}
           <CardHeader>
             <CardTitle className="text-lg">Distribuição por Função</CardTitle>
           </CardHeader>
@@ -145,7 +145,7 @@ const Dashboard = () => {
   return (
     <div className="container mx-auto py-8">
       {/* Seção de Boas-Vindas */}
-      <Card className="mb-8 p-6 text-center shadow-md hover:shadow-lg transition-shadow duration-200">
+      <Card className="mb-8 p-6 text-center shadow-sm hover:shadow-lg transition-shadow duration-200"> {/* Adicionado shadow-sm */}
         <CardHeader className="pb-4">
           <h1 className="text-4xl font-bold text-primary mb-2">
             Bem-vindo ao seu Dashboard!
@@ -166,7 +166,7 @@ const Dashboard = () => {
 
       {/* Cartões de Métricas */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <Card className="shadow-md hover:shadow-lg transition-shadow duration-200">
+        <Card className="shadow-sm hover:shadow-lg transition-shadow duration-200"> {/* Adicionado shadow-sm */}
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total de Funcionários</CardTitle>
             <Users className="h-5 w-5 text-muted-foreground" />
@@ -178,7 +178,7 @@ const Dashboard = () => {
             </p>
           </CardContent>
         </Card>
-        <Card className="shadow-md hover:shadow-lg transition-shadow duration-200">
+        <Card className="shadow-sm hover:shadow-lg transition-shadow duration-200"> {/* Adicionado shadow-sm */}
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Folhas de Ponto Geradas</CardTitle>
             <FileClock className="h-5 w-5 text-muted-foreground" />
@@ -193,7 +193,7 @@ const Dashboard = () => {
       </div>
 
       {/* Gráfico de Distribuição por Função */}
-      <Card className="shadow-md hover:shadow-lg transition-shadow duration-200">
+      <Card className="shadow-sm hover:shadow-lg transition-shadow duration-200"> {/* Adicionado shadow-sm */}
         <CardHeader>
           <CardTitle className="text-lg">Distribuição de Funcionários por Função</CardTitle>
         </CardHeader>
