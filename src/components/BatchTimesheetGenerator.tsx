@@ -214,13 +214,22 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
           const isWorkDay = employee.work_days.includes(dayName);
           const isCurrentDateWeekend = (getDay(currentDate) === 0 || getDay(currentDate) === 6);
 
+          const normalizedEmployeeFunction = normalizeString(employee.function);
+          
+          const isVigia12x36Contrato = employee.employee_type === "Vigia" && employee.vinculo === "Contrato" && normalizedEmployeeFunction.includes("vigia") && normalizedEmployeeFunction.includes("12h x 36h");
+          const isGenericVigiaContratoOrASGContrato = (employee.employee_type === "Vigia" && employee.vinculo === "Contrato" && normalizedEmployeeFunction.includes("vigia") && !normalizedEmployeeFunction.includes("12h x 36h")) || 
+                                                       (normalizedEmployeeFunction.includes("asg") && employee.vinculo === "Contrato");
+
+          // Lógica de notas específica para V5 (Professor Fundamental II com Prestador(a) de Serviços OU Contrato)
           if (employee.employee_type === "Professor Fundamental II" && (employee.vinculo === "Prestador(a) de Serviços" || employee.vinculo === "Contrato")) {
             if (isCurrentDateWeekend) {
               notes = dayNamePtBr.toUpperCase();
             } else if (!isWorkDay) {
               notes = null;
             }
-          } else if (employee.vinculo === "Educador Voluntário") {
+          }
+          // Lógica de notas específica para V4 (Educador Voluntário)
+          else if (employee.vinculo === "Educador Voluntário") {
             if (!isWorkDay) {
               if (isCurrentDateWeekend) {
                 notes = dayNamePtBr.toUpperCase();
@@ -231,26 +240,36 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
             if (i === 7 && !isWorkDay) {
               notes = "FERIADO";
             }
-          } else {
-            const normalizedEmployeeFunction = normalizeString(employee.function);
-            if (normalizedEmployeeFunction.includes("asg") && employee.vinculo === "Contrato") {
-              if (!isWorkDay) {
-                if (isCurrentDateWeekend) {
-                  notes = dayNamePtBr.toUpperCase();
-                } else {
-                  notes = "-------------------------";
-                }
+          }
+          // Lógica de notas para V3 (Vigia 12x36 Contrato) - Deixar em branco
+          else if (isVigia12x36Contrato) {
+            if (!isWorkDay) {
+              notes = null; // Deixar em branco conforme solicitado
+            }
+            if (i === 7 && !isWorkDay) { // Exemplo de FERIADO para o dia 7
+              notes = "FERIADO";
+            }
+          }
+          // Lógica de notas para V3 (ASG e Contrato) ou Vigia (Contrato, genérico)
+          else if (isGenericVigiaContratoOrASGContrato) {
+            if (!isWorkDay) {
+              if (isCurrentDateWeekend) {
+                notes = dayNamePtBr.toUpperCase(); // "SÁBADO" or "DOMINGO"
+              } else {
+                notes = "-------------------------"; // Para dias de semana não trabalhados
               }
-              if (i === 7 && !isWorkDay) {
-                notes = "FERIADO";
-              }
-            } else {
-              if (!isWorkDay) {
-                if (isCurrentDateWeekend) {
-                  notes = dayNamePtBr;
-                } else {
-                  notes = "SÁBADO E DOMINGO";
-                }
+            }
+            if (i === 7 && !isWorkDay) { // Exemplo de FERIADO para o dia 7
+              notes = "FERIADO";
+            }
+          }
+          // Lógica de notas para V1 e V2 (padrão)
+          else {
+            if (!isWorkDay) {
+              if (isCurrentDateWeekend) {
+                notes = dayNamePtBr;
+              } else {
+                notes = "SÁBADO E DOMINGO";
               }
             }
           }

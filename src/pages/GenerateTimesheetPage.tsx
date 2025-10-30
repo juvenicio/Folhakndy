@@ -226,55 +226,62 @@ const GenerateTimesheetPage = () => {
         const isWorkDay = employee.work_days.includes(dayName);
         const isCurrentDateWeekend = (getDay(currentDate) === 0 || getDay(currentDate) === 6);
 
+        const normalizedEmployeeFunction = normalizeString(employee.function);
+        
+        const isVigia12x36Contrato = employee.employee_type === "Vigia" && employee.vinculo === "Contrato" && normalizedEmployeeFunction.includes("vigia") && normalizedEmployeeFunction.includes("12h x 36h");
+        const isGenericVigiaContratoOrASGContrato = (employee.employee_type === "Vigia" && employee.vinculo === "Contrato" && normalizedEmployeeFunction.includes("vigia") && !normalizedEmployeeFunction.includes("12h x 36h")) || 
+                                                     (normalizedEmployeeFunction.includes("asg") && employee.vinculo === "Contrato");
+
         // Lógica de notas específica para V5 (Professor Fundamental II com Prestador(a) de Serviços OU Contrato)
         if (employee.employee_type === "Professor Fundamental II" && (employee.vinculo === "Prestador(a) de Serviços" || employee.vinculo === "Contrato")) {
-          if (isCurrentDateWeekend) { // Se for um sábado ou domingo
-            notes = dayNamePtBr.toUpperCase(); // "SÁBADO" ou "DOMINGO"
-          } else if (!isWorkDay) { // Se for um dia de semana E não for um dia de trabalho configurado
-            notes = null; // Deixa em branco
+          if (isCurrentDateWeekend) {
+            notes = dayNamePtBr.toUpperCase();
+          } else if (!isWorkDay) {
+            notes = null;
           }
-          // A linha que adicionava "FERIADO" automaticamente foi removida daqui.
         }
         // Lógica de notas específica para V4 (Educador Voluntário)
         else if (employee.vinculo === "Educador Voluntário") {
           if (!isWorkDay) {
             if (isCurrentDateWeekend) {
-              notes = dayNamePtBr.toUpperCase(); // "SÁBADO" or "DOMINGO"
+              notes = dayNamePtBr.toUpperCase();
             } else {
-              notes = "------------------------------"; // Para dias de semana não trabalhados
+              notes = "------------------------------";
             }
           }
-          // Exemplo de FERIADO para o dia 7, como no exemplo do usuário.
-          // Em um cenário real, isso viria de um calendário de feriados.
-          if (i === 7 && !isWorkDay) { // Se o dia 7 não for um dia de trabalho, e for o dia 7
+          if (i === 7 && !isWorkDay) {
             notes = "FERIADO";
           }
-        } else {
-          // Lógica de notas específica para V3 (ASG e Contrato) e agora para Vigia
-          const normalizedEmployeeFunction = normalizeString(employee.function);
-
-          if ((normalizedEmployeeFunction.includes("asg") && employee.vinculo === "Contrato") ||
-              (employee.employee_type === "Vigia" && employee.vinculo === "Contrato" && normalizedEmployeeFunction.includes("vigia"))) { // Updated condition
-            if (!isWorkDay) {
-              if (isCurrentDateWeekend) {
-                notes = dayNamePtBr.toUpperCase(); // "SÁBADO" or "DOMINGO"
-              } else {
-                notes = "-------------------------"; // Para dias de semana não trabalhados
-              }
+        }
+        // Lógica de notas para V3 (Vigia 12x36 Contrato) - Deixar em branco
+        else if (isVigia12x36Contrato) {
+          if (!isWorkDay) {
+            notes = null; // Deixar em branco conforme solicitado
+          }
+          if (i === 7 && !isWorkDay) { // Exemplo de FERIADO para o dia 7
+            notes = "FERIADO";
+          }
+        }
+        // Lógica de notas para V3 (ASG e Contrato) ou Vigia (Contrato, genérico)
+        else if (isGenericVigiaContratoOrASGContrato) {
+          if (!isWorkDay) {
+            if (isCurrentDateWeekend) {
+              notes = dayNamePtBr.toUpperCase(); // "SÁBADO" or "DOMINGO"
+            } else {
+              notes = "-------------------------"; // Para dias de semana não trabalhados
             }
-            // Exemplo de FERIADO para o dia 7, como no exemplo do usuário.
-            // Em um cenário real, isso viria de um calendário de feriados.
-            if (i === 7 && !isWorkDay) { // Se o dia 7 não for um dia de trabalho, e for o dia 7
-              notes = "FERIADO";
-            }
-          } else {
-            // Lógica de notas para V1 e V2
-            if (!isWorkDay) {
-              if (isCurrentDateWeekend) {
-                notes = dayNamePtBr;
-              } else {
-                notes = "SÁBADO E DOMINGO";
-              }
+          }
+          if (i === 7 && !isWorkDay) { // Exemplo de FERIADO para o dia 7
+            notes = "FERIADO";
+          }
+        }
+        // Lógica de notas para V1 e V2 (padrão)
+        else {
+          if (!isWorkDay) {
+            if (isCurrentDateWeekend) {
+              notes = dayNamePtBr;
+            } else {
+              notes = "SÁBADO E DOMINGO";
             }
           }
         }
@@ -349,7 +356,7 @@ const GenerateTimesheetPage = () => {
     PdfPreviewComponent = TimesheetPdfPreviewV5;
   } else if (currentEmployeeVinculo === "Educador Voluntário") {
     PdfPreviewComponent = TimesheetPdfPreviewV4;
-  } else if (currentEmployeeType === "Vigia" && currentEmployeeVinculo === "Contrato" && normalizedCurrentFunction.includes("vigia")) { // Updated condition
+  } else if (currentEmployeeType === "Vigia" && currentEmployeeVinculo === "Contrato" && normalizedCurrentFunction.includes("vigia")) {
     PdfPreviewComponent = TimesheetPdfPreviewV3;
   } else if (normalizedCurrentFunction.includes("asg") && currentEmployeeVinculo === "Contrato") {
     PdfPreviewComponent = TimesheetPdfPreviewV3;
