@@ -221,54 +221,42 @@ const GenerateTimesheetPage = () => {
         let exit_time_1: string | null = null;
         let entry_time_2: string | null = null;
         let exit_time_2: string | null = null;
-        let notes: string | null = null; // Initialize notes as null
+        let notes: string | null = null;
 
         const isWorkDay = employee.work_days.includes(dayName);
         const isCurrentDateWeekend = (getDay(currentDate) === 0 || getDay(currentDate) === 6);
 
         const normalizedEmployeeFunction = normalizeString(employee.function);
-        const isVigia12x36Contrato = employee.employee_type === "Vigia" && employee.vinculo === "Contrato" && normalizedEmployeeFunction.includes("vigia") && normalizedEmployeeFunction.includes("12h x 36h");
-        const isASGContratoOrGenericVigiaContrato = (normalizedEmployeeFunction.includes("asg") && employee.vinculo === "Contrato") ||
-                                                    (employee.employee_type === "Vigia" && employee.vinculo === "Contrato" && normalizedEmployeeFunction.includes("vigia") && !normalizedEmployeeFunction.includes("12h x 36h")); // Exclude the 12x36 case here
+        
+        // Define the combined V3 notes logic condition
+        const isV3NotesLogic = (employee.employee_type === "Vigia" && employee.vinculo === "Contrato" && normalizedEmployeeFunction.includes("vigia")) || 
+                               (normalizedEmployeeFunction.includes("asg") && employee.vinculo === "Contrato");
 
         // Lógica de notas específica para V5 (Professor Fundamental II com Prestador(a) de Serviços OU Contrato)
         if (employee.employee_type === "Professor Fundamental II" && (employee.vinculo === "Prestador(a) de Serviços" || employee.vinculo === "Contrato")) {
-          if (isCurrentDateWeekend) { // Se for um sábado ou domingo
-            notes = dayNamePtBr.toUpperCase(); // "SÁBADO" ou "DOMINGO"
-          } else if (!isWorkDay) { // Se for um dia de semana E não for um dia de trabalho configurado
-            notes = null; // Deixa em branco
+          if (isCurrentDateWeekend) {
+            notes = dayNamePtBr.toUpperCase();
+          } else if (!isWorkDay) {
+            notes = null;
           }
         }
         // Lógica de notas específica para V4 (Educador Voluntário)
         else if (employee.vinculo === "Educador Voluntário") {
           if (!isWorkDay) {
             if (isCurrentDateWeekend) {
-              notes = dayNamePtBr.toUpperCase(); // "SÁBADO" or "DOMINGO"
+              notes = dayNamePtBr.toUpperCase();
             } else {
-              notes = "------------------------------"; // Para dias de semana não trabalhados
+              notes = "------------------------------";
             }
           }
-          if (i === 7 && !isWorkDay) { // Exemplo de FERIADO para o dia 7
+          if (i === 7 && !isWorkDay) {
             notes = "FERIADO";
           }
         }
-        // Lógica de notas específica para V3 (Vigia 12x36 Contrato) - Deixar em branco
-        else if (isVigia12x36Contrato) {
+        // Lógica de notas para V3 (Vigia Contrato ou ASG Contrato)
+        else if (isV3NotesLogic) {
           if (!isWorkDay) {
-            notes = null; // Deixar em branco conforme solicitado
-          }
-          if (i === 7 && !isWorkDay) { // Exemplo de FERIADO para o dia 7
-            notes = "FERIADO";
-          }
-        }
-        // Lógica de notas específica para V3 (ASG e Contrato) ou Vigia (Contrato, genérico)
-        else if (isASGContratoOrGenericVigiaContrato) {
-          if (!isWorkDay) {
-            if (isCurrentDateWeekend) {
-              notes = dayNamePtBr.toUpperCase(); // "SÁBADO" or "DOMINGO"
-            } else {
-              notes = "-------------------------"; // Para dias de semana não trabalhados
-            }
+            notes = null; // Deixar em branco para dias não trabalhados
           }
           if (i === 7 && !isWorkDay) { // Exemplo de FERIADO para o dia 7
             notes = "FERIADO";
@@ -355,7 +343,7 @@ const GenerateTimesheetPage = () => {
     PdfPreviewComponent = TimesheetPdfPreviewV5;
   } else if (currentEmployeeVinculo === "Educador Voluntário") {
     PdfPreviewComponent = TimesheetPdfPreviewV4;
-  } else if (currentEmployeeType === "Vigia" && currentEmployeeVinculo === "Contrato" && normalizedCurrentFunction.includes("vigia") && normalizedCurrentFunction.includes("12h x 36h")) {
+  } else if (currentEmployeeType === "Vigia" && currentEmployeeVinculo === "Contrato" && normalizedCurrentFunction.includes("vigia")) {
     PdfPreviewComponent = TimesheetPdfPreviewV3;
   } else if (normalizedCurrentFunction.includes("asg") && currentEmployeeVinculo === "Contrato") {
     PdfPreviewComponent = TimesheetPdfPreviewV3;

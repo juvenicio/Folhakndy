@@ -214,13 +214,22 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
           const isWorkDay = employee.work_days.includes(dayName);
           const isCurrentDateWeekend = (getDay(currentDate) === 0 || getDay(currentDate) === 6);
 
+          const normalizedEmployeeFunction = normalizeString(employee.function);
+          
+          // Define the combined V3 notes logic condition
+          const isV3NotesLogic = (employee.employee_type === "Vigia" && employee.vinculo === "Contrato" && normalizedEmployeeFunction.includes("vigia")) || 
+                                 (normalizedEmployeeFunction.includes("asg") && employee.vinculo === "Contrato");
+
+          // Lógica de notas específica para V5 (Professor Fundamental II com Prestador(a) de Serviços OU Contrato)
           if (employee.employee_type === "Professor Fundamental II" && (employee.vinculo === "Prestador(a) de Serviços" || employee.vinculo === "Contrato")) {
             if (isCurrentDateWeekend) {
               notes = dayNamePtBr.toUpperCase();
             } else if (!isWorkDay) {
               notes = null;
             }
-          } else if (employee.vinculo === "Educador Voluntário") {
+          }
+          // Lógica de notas específica para V4 (Educador Voluntário)
+          else if (employee.vinculo === "Educador Voluntário") {
             if (!isWorkDay) {
               if (isCurrentDateWeekend) {
                 notes = dayNamePtBr.toUpperCase();
@@ -231,26 +240,23 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
             if (i === 7 && !isWorkDay) {
               notes = "FERIADO";
             }
-          } else {
-            const normalizedEmployeeFunction = normalizeString(employee.function);
-            if (normalizedEmployeeFunction.includes("asg") && employee.vinculo === "Contrato") {
-              if (!isWorkDay) {
-                if (isCurrentDateWeekend) {
-                  notes = dayNamePtBr.toUpperCase();
-                } else {
-                  notes = "-------------------------";
-                }
-              }
-              if (i === 7 && !isWorkDay) {
-                notes = "FERIADO";
-              }
-            } else {
-              if (!isWorkDay) {
-                if (isCurrentDateWeekend) {
-                  notes = dayNamePtBr;
-                } else {
-                  notes = "SÁBADO E DOMINGO";
-                }
+          }
+          // Lógica de notas para V3 (Vigia Contrato ou ASG Contrato)
+          else if (isV3NotesLogic) {
+            if (!isWorkDay) {
+              notes = null; // Deixar em branco para dias não trabalhados
+            }
+            if (i === 7 && !isWorkDay) { // Exemplo de FERIADO para o dia 7
+              notes = "FERIADO";
+            }
+          }
+          // Lógica de notas para V1 e V2 (padrão)
+          else {
+            if (!isWorkDay) {
+              if (isCurrentDateWeekend) {
+                notes = dayNamePtBr;
+              } else {
+                notes = "SÁBADO E DOMINGO";
               }
             }
           }
