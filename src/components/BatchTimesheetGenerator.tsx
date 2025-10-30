@@ -279,6 +279,26 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
     setLoading(false);
   };
 
+  const handleSelectAll = () => {
+    if (selectedEmployeeIds.length === employees.length) {
+      // All are selected, deselect all
+      setSelectedEmployeeIds([]);
+    } else {
+      // Not all are selected, select all
+      setSelectedEmployeeIds(employees.map(emp => emp.id));
+    }
+  };
+
+  const getComboboxTriggerText = () => {
+    if (selectedEmployeeIds.length === 0) {
+      return "Selecione funcionários...";
+    }
+    if (selectedEmployeeIds.length === employees.length) {
+      return "Todos os funcionários selecionados";
+    }
+    return `${selectedEmployeeIds.length} funcionário(s) selecionado(s)`;
+  };
+
   return (
     <Card className="mb-8 shadow-sm">
       <CardHeader>
@@ -295,9 +315,7 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
                 aria-expanded={isComboboxOpen}
                 className="w-full justify-between"
               >
-                {selectedEmployeeIds.length > 0
-                  ? `${selectedEmployeeIds.length} funcionário(s) selecionado(s)`
-                  : "Selecione funcionários..."}
+                {getComboboxTriggerText()}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
@@ -306,6 +324,20 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
                 <CommandInput placeholder="Pesquisar funcionário..." />
                 <CommandEmpty>Nenhum funcionário encontrado.</CommandEmpty>
                 <CommandGroup>
+                  <CommandItem
+                    onSelect={handleSelectAll}
+                    className="flex items-center justify-between text-primary font-semibold"
+                  >
+                    <span>
+                      {selectedEmployeeIds.length === employees.length ? "Desselecionar Todos" : "Selecionar Todos"}
+                    </span>
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        selectedEmployeeIds.length === employees.length ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                  </CommandItem>
                   {employees.map((employee) => (
                     <CommandItem
                       key={employee.id}
