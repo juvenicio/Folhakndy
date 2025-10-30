@@ -4,39 +4,7 @@ import { Document, Page, View, Text, StyleSheet, Image } from '@react-pdf/render
 import { format, parseISO, isValid, getDay, getDaysInMonth } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import '../utils/pdfFonts'; // Importar o registro de fontes
-
-// Definindo as interfaces para os dados
-interface DailyRecord {
-  id: string;
-  record_date: string; // ISO date string
-  entry_time_1: string | null;
-  exit_time_1: string | null;
-  entry_time_2: string | null;
-  exit_time_2: string | null;
-  total_hours_worked: number | null;
-  notes: string | null;
-}
-
-interface Employee {
-  name: string;
-  employee_type: string; // Novo: "Cargo"
-  function: string; // Existente: "Função"
-  registration_number: string;
-  school_name: string | null; // Alterado para permitir null
-  work_days: string[];
-  shift: string[] | null; // Alterado para array de strings
-  vinculo: string; // Novo: "Tipo de Vínculo"
-  discipline: string | null; // Novo campo
-  weekly_hours: number | null; // Novo campo
-}
-
-interface TimesheetPdfDocumentProps {
-  employee: Employee;
-  month: number;
-  year: number;
-  dailyRecords: DailyRecord[];
-  logoSrc: string | null; // Nova prop para a imagem do logo em base64
-}
+import { DailyRecord, Employee } from "@/types"; // Importando as interfaces
 
 // Estilos para o PDF
 const styles = StyleSheet.create({

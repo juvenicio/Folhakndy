@@ -1,9 +1,10 @@
 /** @jsxRuntime classic */
 import React from 'react';
-import { Document, Page, View, Text, StyleSheet, Image } from '@react-pdf/renderer';
+import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer';
 import { format, parseISO, isValid, getDay, getDaysInMonth } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import '../utils/pdfFonts'; // Importar o registro de fontes
+import { DailyRecord, Employee } from "@/types"; // Importando as interfaces
 
 // Estilos para o PDF
 const styles = StyleSheet.create({
@@ -98,30 +99,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
-interface DailyRecord {
-  id: string;
-  record_date: string; // ISO date string
-  entry_time_1: string | null;
-  exit_time_1: string | null;
-  entry_time_2: string | null; // Not used in V6, but kept for type consistency
-  exit_time_2: string | null; // Not used in V6, but kept for type consistency
-  total_hours_worked: number | null;
-  notes: string | null;
-}
-
-interface Employee {
-  name: string;
-  employee_type: string;
-  function: string;
-  registration_number: string;
-  school_name: string | null;
-  work_days: string[];
-  shift: string[] | null;
-  vinculo: string;
-  discipline: string | null;
-  weekly_hours: number | null;
-}
 
 interface TimesheetPdfDocumentV6Props {
   employee: Employee;

@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Employee } from "@/types"; // Importando a interface Employee
 
 const employeeFormSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
@@ -51,7 +52,7 @@ const employeeFormSchema = z.object({
 type EmployeeFormValues = z.infer<typeof employeeFormSchema>;
 
 interface EmployeeFormProps {
-  employee?: any; // Existing employee data for editing
+  employee?: Employee; // Existing employee data for editing
   onSuccess: () => void;
 }
 
