@@ -256,9 +256,11 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
 
         {/* Seção de Observação (Last row of the entire table) */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0, borderBottomWidth: 0, padding: 3, justifyContent: 'flex-start', minHeight: 60 }]}>
-            <Text style={[styles.sectionTitle, { fontFamily: 'Calibri-Bold', fontSize: 9 }]}>Obs:</Text>
-            <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
+          <View style={[styles.infoCellBase, { width: '10%', justifyContent: 'center', minHeight: 60 }]}>
+            <Text style={[styles.sectionTitle, { fontFamily: 'Calibri-Bold', fontSize: 9, marginBottom: 0 }]}>Obs:</Text>
+          </View>
+          <View style={[styles.infoCellBase, { width: '90%', borderRightWidth: 0, minHeight: 60 }]}>
+            {/* Content area, currently empty as per image */}
           </View>
         </View>
       </View>
