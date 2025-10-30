@@ -144,6 +144,9 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
 
   return (
     <Page size="A4" style={styles.page}>
+      {/* Espaço em branco para o cabeçalho */}
+      <View style={{ height: 70, marginBottom: 5 }} /> 
+
       {/* Tabela Principal */}
       <View style={styles.mainTableContainer}>
         {/* Detalhes do Funcionário */}
@@ -171,7 +174,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           <View style={[styles.infoCellBase, { width: '25%' }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Mês: {monthNameFormatted}</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '25%', borderRightWidth: 0 }]}> {/* Última célula da linha, sem borda direita */}
+          <View style={[styles.infoCellBase, { width: '25%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Ano: {year}</Text>
           </View>
         </View>
@@ -190,7 +193,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           <View style={[styles.tableHeaderCell, styles.colTime]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Saída</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colSignatureLast, { borderRightWidth: 0 }]}> {/* Última célula da linha, sem borda direita */}
+          <View style={[styles.tableHeaderCell, styles.colSignatureLast, { borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>ASSINATURA</Text>
           </View>
         </View>
@@ -230,7 +233,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
               <Text style={[styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }, isLastDailyRecordRow && { borderBottomWidth: 1.5 }]}>{displayTime(record?.exit_time_1)}</Text>
               <Text style={[
                 styles.colSignatureLast,
-                { fontFamily: 'Calibri', fontSize: 8, borderRightWidth: 0 }, // Última célula da linha, sem borda direita
+                { fontFamily: 'Calibri', fontSize: 8, borderRightWidth: 0 },
                 isLastDailyRecordRow && { borderBottomWidth: 1.5 },
                 (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO") || displayNotes.includes("FERIADO")) && styles.boldText
               ]}>{displayNotes}</Text>
@@ -243,7 +246,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           <View style={[styles.infoCellBase, { width: '50%' }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Dias trabalhados:</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}> {/* Última célula da linha, sem borda direita */}
+          <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Total de Faltas:</Text>
           </View>
         </View>
