@@ -29,32 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-// Interfaces (repetidas aqui para clareza, mas idealmente seriam importadas de um arquivo de tipos comum)
-interface Employee {
-  id: string;
-  name: string;
-  employee_type: string;
-  function: string;
-  registration_number: string;
-  school_name: string | null;
-  work_days: string[];
-  shift: string[] | null;
-  vinculo: string;
-  discipline: string | null;
-  weekly_hours: number | null;
-}
-
-interface DailyRecord {
-  id: string;
-  record_date: string;
-  entry_time_1: string | null;
-  exit_time_1: string | null;
-  entry_time_2: string | null;
-  exit_time_2: string | null;
-  total_hours_worked: number | null;
-  notes: string | null;
-}
+import { DailyRecord, Employee } from "@/types"; // Importando as interfaces
 
 interface BatchTimesheetData {
   employee: Employee;

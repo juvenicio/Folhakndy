@@ -12,29 +12,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { format, parseISO, isValid } from "date-fns";
 import { ptBR } from "date-fns/locale";
-
-interface DailyRecord {
-  id: string;
-  record_date: string; // ISO date string
-  entry_time_1: string | null;
-  exit_time_1: string | null;
-  entry_time_2: string | null;
-  exit_time_2: string | null;
-  total_hours_worked: number | null;
-  notes: string | null;
-}
-
-interface Employee {
-  name: string;
-  employee_type: string; // Novo: "Cargo"
-  function: string; // Existente: "Função"
-  registration_number: string;
-  school_name: string | null; // Alterado para permitir null
-  shift: string[] | null; // Alterado para array de strings
-  vinculo: string; // Novo: "Tipo de Vínculo"
-  discipline: string | null; // Novo campo
-  weekly_hours: number | null; // Novo campo
-}
+import { DailyRecord, Employee } from "@/types"; // Importando as interfaces
 
 interface TimesheetDisplayProps {
   employee: Employee;
@@ -60,15 +38,15 @@ const TimesheetDisplay = ({ employee, month, year, dailyRecords }: TimesheetDisp
         <div className="grid grid-cols-2 gap-2 mt-4 text-sm">
           <div>
             <p><strong>Funcionário:</strong> {employee.name}</p>
-            <p><strong>Vínculo:</strong> {employee.vinculo}</p> {/* Novo campo */}
-            <p><strong>Cargo:</strong> {employee.employee_type}</p> {/* Novo campo */}
+            <p><strong>Vínculo:</strong> {employee.vinculo}</p>
+            <p><strong>Cargo:</strong> {employee.employee_type}</p>
             <p><strong>Função:</strong> {employee.function}</p>
-            <p><strong>Disciplina:</strong> {employee.discipline || 'N/A'}</p> {/* Novo campo */}
+            <p><strong>Disciplina:</strong> {employee.discipline || 'N/A'}</p>
           </div>
           <div className="text-right">
             <p><strong>Matrícula:</strong> {employee.registration_number}</p>
             <p><strong>Escola:</strong> {employee.school_name || 'N/A'}</p>
-            <p><strong>Carga Horária Semanal:</strong> {employee.weekly_hours ? `${employee.weekly_hours} H` : 'N/A'}</p> {/* Novo campo */}
+            <p><strong>Carga Horária Semanal:</strong> {employee.weekly_hours ? `${employee.weekly_hours} H` : 'N/A'}</p>
             <p><strong>Período:</strong> {monthName.charAt(0).toUpperCase() + monthName.slice(1)}/{year}</p>
           </div>
         </div>

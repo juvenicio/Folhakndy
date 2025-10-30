@@ -30,31 +30,7 @@ import {
 import { normalizeString } from "@/lib/utils"; // Importar a nova função
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"; // Importar Tabs
 import BatchTimesheetGenerator from "@/components/BatchTimesheetGenerator"; // Importar o novo componente
-
-interface Employee {
-  id: string;
-  name: string;
-  employee_type: string; // Novo: "Cargo"
-  function: string; // Existente: "Função"
-  registration_number: string;
-  school_name: string | null; // Alterado para permitir null
-  work_days: string[];
-  shift: string[] | null; // Alterado para array de strings
-  vinculo: string; // Novo: "Tipo de Vínculo"
-  discipline: string | null; // Novo campo
-  weekly_hours: number | null; // Novo campo
-}
-
-interface DailyRecord {
-  id: string;
-  record_date: string;
-  entry_time_1: string | null;
-  exit_time_1: string | null;
-  entry_time_2: string | null;
-  exit_time_2: string | null;
-  total_hours_worked: number | null;
-  notes: string | null;
-}
+import { DailyRecord, Employee } from "@/types"; // Importando as interfaces
 
 const GenerateTimesheetPage = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);

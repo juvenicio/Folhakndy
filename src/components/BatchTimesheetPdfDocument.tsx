@@ -13,32 +13,7 @@ import TimesheetPdfDocumentV4 from './TimesheetPdfDocumentV4';
 import TimesheetPdfDocumentV5 from './TimesheetPdfDocumentV5';
 import TimesheetPdfDocumentV6 from './TimesheetPdfDocumentV6'; // Importar o novo V6
 import { normalizeString } from '@/lib/utils';
-
-// Definindo as interfaces para os dados
-interface DailyRecord {
-  id: string;
-  record_date: string; // ISO date string
-  entry_time_1: string | null;
-  exit_time_1: string | null;
-  entry_time_2: string | null;
-  exit_time_2: string | null;
-  total_hours_worked: number | null;
-  notes: string | null;
-}
-
-interface Employee {
-  id: string;
-  name: string;
-  employee_type: string;
-  function: string;
-  registration_number: string;
-  school_name: string | null;
-  work_days: string[];
-  shift: string[] | null;
-  vinculo: string;
-  discipline: string | null;
-  weekly_hours: number | null;
-}
+import { DailyRecord, Employee } from "@/types"; // Importando as interfaces
 
 interface BatchTimesheetData {
   employee: Employee;

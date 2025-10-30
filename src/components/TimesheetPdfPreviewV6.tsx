@@ -8,30 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 import { saveAs } from "file-saver";
 import { toast } from "sonner";
-
-interface DailyRecord {
-  id: string;
-  record_date: string; // ISO date string
-  entry_time_1: string | null;
-  exit_time_1: string | null;
-  entry_time_2: string | null;
-  exit_time_2: string | null;
-  total_hours_worked: number | null;
-  notes: string | null;
-}
-
-interface Employee {
-  name: string;
-  employee_type: string;
-  function: string;
-  registration_number: string;
-  school_name: string | null;
-  work_days: string[];
-  shift: string[] | null;
-  vinculo: string;
-  discipline: string | null;
-  weekly_hours: number | null;
-}
+import { DailyRecord, Employee } from "@/types"; // Importando as interfaces
 
 interface TimesheetPdfPreviewV6Props {
   employee: Employee;

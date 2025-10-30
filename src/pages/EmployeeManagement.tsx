@@ -19,20 +19,7 @@ import EmployeeForm from "@/components/EmployeeForm";
 import { Edit, Trash2, PlusCircle, Search, Users } from "lucide-react";
 import EmployeeTableSkeleton from "@/components/EmployeeTableSkeleton";
 import { normalizeString } from "@/lib/utils"; // Importar a nova função
-
-interface Employee {
-  id: string;
-  name: string;
-  employee_type: string; // Novo: "Cargo"
-  function: string; // Existente: "Função"
-  registration_number: string | null; // Pode ser null
-  school_name: string | null; // Alterado para permitir null
-  work_days: string[];
-  shift: string[] | null;
-  vinculo: string; // Novo: "Tipo de Vínculo"
-  discipline: string | null; // Novo campo
-  weekly_hours: number | null; // Novo campo
-}
+import { Employee } from "@/types"; // Importando a interface Employee
 
 const EmployeeManagement = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
