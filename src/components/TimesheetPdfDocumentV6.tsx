@@ -21,10 +21,7 @@ const styles = StyleSheet.create({
     display: 'table',
     width: 'auto',
     marginBottom: 0,
-    borderTopWidth: 1.5, // Apenas borda superior e inferior para o container
-    borderBottomWidth: 1.5,
-    borderLeftWidth: 0, // As bordas laterais serão definidas pelas células
-    borderRightWidth: 0, // As bordas laterais serão definidas pelas células
+    borderWidth: 0, // A borda principal será definida pelas células externas
     borderColor: '#000000',
     borderStyle: 'solid',
   },
@@ -33,7 +30,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   infoCellBase: {
-    // Removido borderRightWidth e borderBottomWidth do estilo base
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
@@ -45,7 +41,6 @@ const styles = StyleSheet.create({
   },
   centeredChargeHoursCell: {
     width: '100%',
-    // Removido borderRightWidth e borderBottomWidth do estilo base
     textAlign: 'center',
     justifyContent: 'center',
     alignItems: 'center',
@@ -54,7 +49,6 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
   },
   tableHeaderCell: {
-    // Removido borderRightWidth e borderBottomWidth do estilo base
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 1,
@@ -147,26 +141,27 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
       {/* Espaço em branco para o cabeçalho */}
       <View style={{ height: 70, marginBottom: 5 }} /> 
 
-      {/* Tabela Principal */}
+      {/* Tabela Principal Unificada */}
       <View style={styles.mainTableContainer}>
-        {/* Detalhes do Funcionário */}
+        {/* Row 1: Unidade de Trabalho */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '100%', paddingLeft: 10, borderLeftWidth: 1.5, borderRightWidth: 1.5, borderTopWidth: 1.5, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '100%', borderLeftWidth: 1.5, borderRightWidth: 1.5, borderTopWidth: 1.5, borderBottomWidth: 1.5 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Unidade de Trabalho: {employee.school_name || 'N/A'}</Text>
           </View>
         </View>
+        {/* Row 2: NOME */}
         <View style={styles.tableRow}>
           <View style={[styles.infoCellBase, { width: '100%', borderLeftWidth: 1.5, borderRightWidth: 1.5, borderBottomWidth: 1.5 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>NOME: {employee.name}</Text>
           </View>
         </View>
-        {/* Nova linha para CARGA HORÁRIA */}
+        {/* Row 3: CARGA HORÁRIA */}
         <View style={styles.tableRow}>
           <View style={[styles.centeredChargeHoursCell, { borderLeftWidth: 1.5, borderRightWidth: 1.5, borderBottomWidth: 1.5 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>CARGA HORÁRIA: {employee.weekly_hours ? `${employee.weekly_hours} HORAS` : 'N/A'}</Text>
           </View>
         </View>
-        {/* Linha para Turno, Mês e Ano */}
+        {/* Row 4: Turno, Mês e Ano */}
         <View style={styles.tableRow}>
           <View style={[styles.infoCellBase, { width: '50%', borderLeftWidth: 1.5, borderRightWidth: 1.5, borderBottomWidth: 1.5 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text>
@@ -181,19 +176,19 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
 
         {/* Cabeçalho da Tabela de Registros Diários */}
         <View style={styles.tableRow} fixed>
-          <View style={[styles.tableHeaderCell, styles.colDia, { borderLeftWidth: 1.5, borderTopWidth: 1.5, borderBottomWidth: 1.5, borderRightWidth: 1.5 }]}>
+          <View style={[styles.tableHeaderCell, styles.colDia, { borderLeftWidth: 1.5, borderBottomWidth: 1.5, borderRightWidth: 1.5 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Dia</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colTime, { borderTopWidth: 1.5, borderBottomWidth: 1.5, borderRightWidth: 1.5 }]}>
+          <View style={[styles.tableHeaderCell, styles.colTime, { borderBottomWidth: 1.5, borderRightWidth: 1.5 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Entrada</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colSignature, { borderTopWidth: 1.5, borderBottomWidth: 1.5, borderRightWidth: 1.5 }]}>
+          <View style={[styles.tableHeaderCell, styles.colSignature, { borderBottomWidth: 1.5, borderRightWidth: 1.5 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>ASSINATURA</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colTime, { borderTopWidth: 1.5, borderBottomWidth: 1.5, borderRightWidth: 1.5 }]}>
+          <View style={[styles.tableHeaderCell, styles.colTime, { borderBottomWidth: 1.5, borderRightWidth: 1.5 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Saída</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colSignatureLast, { borderTopWidth: 1.5, borderBottomWidth: 1.5, borderRightWidth: 1.5 }]}>
+          <View style={[styles.tableHeaderCell, styles.colSignatureLast, { borderBottomWidth: 1.5, borderRightWidth: 1.5 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>ASSINATURA</Text>
           </View>
         </View>
