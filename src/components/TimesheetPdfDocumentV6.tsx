@@ -256,10 +256,10 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
 
         {/* Seção de Observação (Last row of the entire table) */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '10%', justifyContent: 'center', minHeight: 60 }]}>
+          <View style={[styles.infoCellBase, { width: '5%', justifyContent: 'center', minHeight: 60 }]}>
             <Text style={[styles.sectionTitle, { fontFamily: 'Calibri-Bold', fontSize: 9, marginBottom: 0 }]}>Obs:</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '90%', borderRightWidth: 0, minHeight: 60 }]}>
+          <View style={[styles.infoCellBase, { width: '95%', borderRightWidth: 0, minHeight: 60 }]}>
             {/* Content area, currently empty as per image */}
           </View>
         </View>
