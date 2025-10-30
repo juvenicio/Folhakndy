@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-// Função para normalizar strings, removendo acentos e convertendo para minúsculas
+// Função para normalizar strings, removendo acentos e convertendo para minúsculas e removendo espaços extras
 export function normalizeString(str: string | null | undefined): string {
   if (str === null || str === undefined) {
     return "";
@@ -13,5 +13,6 @@ export function normalizeString(str: string | null | undefined): string {
   return str
     .normalize("NFD") // Normaliza para forma de decomposição (separa acentos)
     .replace(/[\u0300-\u036f]/g, "") // Remove os caracteres diacríticos (acentos)
-    .toLowerCase(); // Converte para minúsculas
+    .toLowerCase() // Converte para minúsculas
+    .trim(); // Remove espaços em branco do início e fim
 }
