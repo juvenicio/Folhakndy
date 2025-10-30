@@ -242,7 +242,7 @@ const GenerateTimesheetPage = () => {
 
           if (isCurrentDateWeekend) {
             notes = dayNamePtBr.toUpperCase(); // SÁBADO ou DOMINGO
-          } else if (month === 10 && day === 11) { // Exemplo para Outubro, dia 11
+          } else if (month === 10 && i === 11) { // Corrigido: 'day' para 'i'
             notes = "FERIADO DIA DA CIDADE";
           } else {
             notes = null; // Dias de semana normais ficam em branco
@@ -274,7 +274,7 @@ const GenerateTimesheetPage = () => {
           if (!isWorkDay) {
             notes = null; // Deixar em branco conforme solicitado
           }
-          if (i === 7 && !isWorkDay) { // Exemplo de FERIADO para o dia 7
+          if (i === 7 && !isWorkDay) {
             notes = "FERIADO";
           }
         }
@@ -287,7 +287,7 @@ const GenerateTimesheetPage = () => {
               notes = "-------------------------"; // Para dias de semana não trabalhados
             }
           }
-          if (i === 7 && !isWorkDay) { // Exemplo de FERIADO para o dia 7
+          if (i === 7 && !isWorkDay) {
             notes = "FERIADO";
           }
         }
