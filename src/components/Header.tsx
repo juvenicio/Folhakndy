@@ -16,7 +16,7 @@ const Header = ({ title, className, isSidebarCollapsed, setIsSidebarCollapsed, .
   return (
     <header
       className={cn(
-        "flex items-center h-14 border-b bg-background px-4",
+        "flex items-center h-14 border-b bg-background px-4 shadow-sm", // Adicionado shadow-sm
         className,
       )}
       {...props}
