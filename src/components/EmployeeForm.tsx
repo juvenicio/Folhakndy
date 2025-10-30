@@ -28,13 +28,13 @@ import {
 
 const employeeFormSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
-  employee_type: z.enum(["ASG", "Merendeira", "Vigia", "Secretário(a)", "Professor", "Assistente Social", "Psicólogo(a)", "Gestor(a)", "Educador Voluntário", "Professor Fundamental II", "Supervisor(a)", "Educador Voluntário 20H"], {
+  employee_type: z.enum(["ASG", "Merendeira", "Vigia", "Secretário(a)", "Professor", "Assistente Social", "Psicólogo(a)", "Gestor(a)", "Educador Voluntário", "Professor Fundamental II", "Supervisor(a)"], { // 'Educador Voluntário 20H' removido daqui
     required_error: "Cargo é obrigatório",
   }),
   function: z.string().min(1, "Função é obrigatória"),
   registration_number: z.string().nullable().optional().transform(e => e === "" ? null : e), // Modificado para tratar string vazia como null
   school_name: z.string().min(1, "Nome da Escola é obrigatório"),
-  vinculo: z.enum(["Efetivo", "Contrato", "Terceirizado(a)", "Educador Voluntário", "Prestador(a) de Serviços"], { // Adicionado "Prestador(a) de Serviços"
+  vinculo: z.enum(["Efetivo", "Contrato", "Terceirizado(a)", "Educador Voluntário", "Prestador(a) de Serviços", "Educador Voluntário 20H"], { // 'Educador Voluntário 20H' adicionado aqui
     required_error: "Tipo de vínculo é obrigatório",
   }),
   discipline: z.string().nullable().optional().transform(e => e === "" ? null : e), // Novo campo
@@ -172,6 +172,7 @@ const EmployeeForm = ({ employee, onSuccess }: EmployeeFormProps) => {
                   <SelectItem value="Terceirizado(a)">Terceirizado(a)</SelectItem>
                   <SelectItem value="Educador Voluntário">Educador Voluntário</SelectItem>
                   <SelectItem value="Prestador(a) de Serviços">Prestador(a) de Serviços</SelectItem>
+                  <SelectItem value="Educador Voluntário 20H">Educador Voluntário 20H</SelectItem> {/* Adicionado aqui */}
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -201,7 +202,7 @@ const EmployeeForm = ({ employee, onSuccess }: EmployeeFormProps) => {
                   <SelectItem value="Psicólogo(a)">Psicólogo(a)</SelectItem>
                   <SelectItem value="Gestor(a)">Gestor(a)</SelectItem>
                   <SelectItem value="Educador Voluntário">Educador Voluntário</SelectItem>
-                  <SelectItem value="Educador Voluntário 20H">Educador Voluntário 20H</SelectItem>
+                  {/* <SelectItem value="Educador Voluntário 20H">Educador Voluntário 20H</SelectItem> Removido daqui */}
                   <SelectItem value="Supervisor(a)">Supervisor(a)</SelectItem>
                 </SelectContent>
               </Select>

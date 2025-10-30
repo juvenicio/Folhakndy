@@ -234,7 +234,7 @@ const GenerateTimesheetPage = () => {
                                                      (normalizedEmployeeFunction.includes("asg") && employee.vinculo === "Contrato");
 
         // Lógica de notas específica para V6 (Educador Voluntário 20H)
-        if (employee.employee_type === "Educador Voluntário 20H") {
+        if (employee.vinculo === "Educador Voluntário 20H") { // Condição alterada para 'vinculo'
           if (!isWorkDay) {
             if (isCurrentDateWeekend) {
               notes = dayNamePtBr.toUpperCase(); // SÁBADO ou DOMINGO
@@ -368,7 +368,7 @@ const GenerateTimesheetPage = () => {
   const currentEmployeeType = currentEmployee?.employee_type;
   const currentEmployeeVinculo = currentEmployee?.vinculo;
 
-  if (currentEmployeeType === "Educador Voluntário 20H") { // Nova condição para V6
+  if (currentEmployeeVinculo === "Educador Voluntário 20H") { // Condição alterada para 'vinculo'
     PdfPreviewComponent = TimesheetPdfPreviewV6;
   } else if (currentEmployeeType === "Professor Fundamental II" && (currentEmployeeVinculo === "Prestador(a) de Serviços" || currentEmployeeVinculo === "Contrato")) { // Prioriza Professor Fundamental II para V5
     PdfPreviewComponent = TimesheetPdfPreviewV5;

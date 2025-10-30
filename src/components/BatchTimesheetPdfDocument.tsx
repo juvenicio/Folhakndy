@@ -60,7 +60,7 @@ const BatchTimesheetPdfDocument = ({ batchData, logoSrc }: BatchTimesheetPdfDocu
     const currentEmployeeType = employee.employee_type;
     const currentEmployeeVinculo = employee.vinculo;
 
-    if (currentEmployeeType === "Educador Voluntário 20H") { // Nova condição para V6
+    if (currentEmployeeVinculo === "Educador Voluntário 20H") { // Nova condição para V6 baseada no Vínculo
       return TimesheetPdfDocumentV6;
     } else if (currentEmployeeType === "Professor Fundamental II" && (currentEmployeeVinculo === "Prestador(a) de Serviços" || currentEmployeeVinculo === "Contrato")) {
       return TimesheetPdfDocumentV5;
