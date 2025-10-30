@@ -155,25 +155,25 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
         {/* Row 1: Unidade de Trabalho */}
         <View style={styles.tableRow}>
           <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0 }]}>
-            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Unidade de Trabalho: {employee.school_name || 'N/A'}</Text>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Unidade de Trabalho: {employee?.school_name || 'N/A'}</Text>
           </View>
         </View>
         {/* Row 2: NOME */}
         <View style={styles.tableRow}>
           <View style={[styles.infoCellBase, { width: '100%', borderRightWidth: 0 }]}>
-            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>NOME: {employee.name}</Text>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>NOME: {employee?.name || 'N/A'}</Text>
           </View>
         </View>
         {/* Row 3: CARGA HORÁRIA */}
         <View style={styles.tableRow}>
           <View style={[styles.centeredChargeHoursCell, { borderRightWidth: 0 }]}>
-            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>CARGA HORÁRIA: {employee.weekly_hours ? `${employee.weekly_hours} HORAS` : 'N/A'}</Text>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>CARGA HORÁRIA: {employee?.weekly_hours ? `${employee.weekly_hours} HORAS` : 'N/A'}</Text>
           </View>
         </View>
         {/* Row 4: Turno, Mês e Ano */}
         <View style={styles.tableRow}>
           <View style={[styles.infoCellBase, { width: '50%' }]}>
-            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text>
+            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Turno: ({getShiftMark(employee?.shift, "Manhã")}) Manhã ({getShiftMark(employee?.shift, "Tarde")}) Tarde ({getShiftMark(employee?.shift, "Noite")}) Noite</Text>
           </View>
           <View style={[styles.infoCellBase, { width: '25%' }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Mês: {monthNameFormatted}</Text>
@@ -210,7 +210,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           });
           const currentDate = new Date(year, month - 1, day);
           const dayNameEnglish = daysOfWeekMapForComparison[getDay(currentDate)];
-          const isWorkDayConfigured = employee.work_days.includes(dayNameEnglish);
+          const isWorkDayConfigured = employee?.work_days.includes(dayNameEnglish);
 
           const isLastDailyRecordRow = index === daysInMonth - 1;
 
