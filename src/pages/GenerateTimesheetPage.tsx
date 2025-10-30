@@ -228,9 +228,9 @@ const GenerateTimesheetPage = () => {
 
         const normalizedEmployeeFunction = normalizeString(employee.function);
         
-        // Define the combined V3 notes logic condition
-        const isV3NotesLogic = (employee.employee_type === "Vigia" && employee.vinculo === "Contrato" && normalizedEmployeeFunction.includes("vigia")) || 
-                               (normalizedEmployeeFunction.includes("asg") && employee.vinculo === "Contrato");
+        const isVigia12x36Contrato = employee.employee_type === "Vigia" && employee.vinculo === "Contrato" && normalizedEmployeeFunction.includes("vigia") && normalizedEmployeeFunction.includes("12h x 36h");
+        const isGenericVigiaContratoOrASGContrato = (employee.employee_type === "Vigia" && employee.vinculo === "Contrato" && normalizedEmployeeFunction.includes("vigia") && !normalizedEmployeeFunction.includes("12h x 36h")) || 
+                                                     (normalizedEmployeeFunction.includes("asg") && employee.vinculo === "Contrato");
 
         // Lógica de notas específica para V5 (Professor Fundamental II com Prestador(a) de Serviços OU Contrato)
         if (employee.employee_type === "Professor Fundamental II" && (employee.vinculo === "Prestador(a) de Serviços" || employee.vinculo === "Contrato")) {
@@ -253,10 +253,23 @@ const GenerateTimesheetPage = () => {
             notes = "FERIADO";
           }
         }
-        // Lógica de notas para V3 (Vigia Contrato ou ASG Contrato)
-        else if (isV3NotesLogic) {
+        // Lógica de notas para V3 (Vigia 12x36 Contrato) - Deixar em branco
+        else if (isVigia12x36Contrato) {
           if (!isWorkDay) {
-            notes = null; // Deixar em branco para dias não trabalhados
+            notes = null; // Deixar em branco conforme solicitado
+          }
+          if (i === 7 && !isWorkDay) { // Exemplo de FERIADO para o dia 7
+            notes = "FERIADO";
+          }
+        }
+        // Lógica de notas para V3 (ASG e Contrato) ou Vigia (Contrato, genérico)
+        else if (isGenericVigiaContratoOrASGContrato) {
+          if (!isWorkDay) {
+            if (isCurrentDateWeekend) {
+              notes = dayNamePtBr.toUpperCase(); // "SÁBADO" or "DOMINGO"
+            } else {
+              notes = "-------------------------"; // Para dias de semana não trabalhados
+            }
           }
           if (i === 7 && !isWorkDay) { // Exemplo de FERIADO para o dia 7
             notes = "FERIADO";
