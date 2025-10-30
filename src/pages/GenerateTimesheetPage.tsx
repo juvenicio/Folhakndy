@@ -270,9 +270,9 @@ const GenerateTimesheetPage = () => {
             // Lógica de notas para V1 e V2
             if (!isWorkDay) {
               if (isCurrentDateWeekend) {
-                notes = dayNamePtBr; // "Sábado" or "Domingo"
+                notes = dayNamePtBr;
               } else {
-                notes = "SÁBADO E DOMINGO"; // Para dias de semana não trabalhados
+                notes = "SÁBADO E DOMINGO";
               }
             }
           }
@@ -353,7 +353,8 @@ const GenerateTimesheetPage = () => {
   } else if (currentEmployeeType === "Professor" && currentEmployeeVinculo === "Contrato") {
     PdfPreviewComponent = TimesheetPdfPreviewV2;
   } else {
-    const isV2Role = ["Professor", "Assistente Social", "Psicólogo(a)", "Gestor(a)"].includes(currentEmployeeType || "");
+    // Adicionado "Supervisor(a)" à lista de cargos que usam V2
+    const isV2Role = ["Professor", "Assistente Social", "Psicólogo(a)", "Gestor(a)", "Supervisor(a)"].includes(currentEmployeeType || "");
     const isEfetivo = currentEmployeeVinculo === "Efetivo";
     PdfPreviewComponent = (isV2Role && isEfetivo) ? TimesheetPdfPreviewV2 : TimesheetPdfPreview;
   }
