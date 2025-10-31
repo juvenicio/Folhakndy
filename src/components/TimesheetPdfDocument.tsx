@@ -78,9 +78,9 @@ const styles = StyleSheet.create({
 
   // Specific widths for each column in the main timesheet table
   colDia: { width: '5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
-  colTime: { width: '12.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
-  colSignature: { width: '22.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' },
-  colExtraTime: { width: '12.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
+  colTime: { width: '15%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' }, // Ajustado de 12.5% para 15%
+  colSignature: { width: '20%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' }, // Ajustado de 22.5% para 20%
+  colExtraTime: { width: '12.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' }, // Mantido em 12.5%
 
   sectionTitle: {
     fontSize: 9,
@@ -182,21 +182,21 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
             <Text>Dia</Text>
           </View>
           {/* Entrada 1 */}
-          <View style={[styles.tableHeaderCell, { width: '12.5%' }]}>
+          <View style={[styles.tableHeaderCell, { width: '15%' }]}> {/* Ajustado para 15% */}
             <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>Entrada</Text>
             <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
           </View>
           {/* Assinatura 1 */}
-          <View style={[styles.tableHeaderCell, { width: '22.5%' }]}>
+          <View style={[styles.tableHeaderCell, { width: '20%' }]}> {/* Ajustado para 20% */}
             <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>ASSINATURA/JUSTIFICATIVA</Text>
           </View>
           {/* Saída 1 */}
-          <View style={[styles.tableHeaderCell, { width: '12.5%' }]}>
+          <View style={[styles.tableHeaderCell, { width: '15%' }]}> {/* Ajustado para 15% */}
             <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>Saída</Text>
             <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
           </View>
           {/* Assinatura 2 */}
-          <View style={[styles.tableHeaderCell, { width: '22.5%' }]}>
+          <View style={[styles.tableHeaderCell, { width: '20%' }]}> {/* Ajustado para 20% */}
             <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>ASSINATURA/JUSTIFICATIVA</Text>
           </View>
           {/* Hora Extra - Nested View to simulate column and row span */}
