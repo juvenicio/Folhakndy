@@ -105,7 +105,7 @@ const GenerateTimesheetPage = () => {
     fetchLogo();
   }, []);
 
-  const calculateHours = (entry1: string | null, exit1: string | null, entry2: string | null, exit2: string | null): number => {
+  const calculateHours = (entry1: string | null, exit1: string | null, entry2: string | null, exit2: string | null, entry3: string | null, exit3: string | null): number => {
     let totalMinutes = 0;
 
     const parseTime = (timeStr: string) => {
@@ -122,6 +122,11 @@ const GenerateTimesheetPage = () => {
       const start2 = parseTime(entry2);
       const end2 = parseTime(exit2);
       if (end2 > start2) totalMinutes += (end2 - start2);
+    }
+    if (entry3 && exit3) { // Incluir a nova hora extra
+      const start3 = parseTime(entry3);
+      const end3 = parseTime(exit3);
+      if (end3 > start3) totalMinutes += (end3 - start3);
     }
 
     return totalMinutes / 60;
@@ -198,6 +203,8 @@ const GenerateTimesheetPage = () => {
         let exit_time_1: string | null = null;
         let entry_time_2: string | null = null;
         let exit_time_2: string | null = null;
+        let entry_time_3: string | null = null; // Novo campo
+        let exit_time_3: string | null = null;  // Novo campo
         let notes: string | null = null;
 
         const isWorkDay = employee.work_days.includes(dayName);
@@ -215,6 +222,8 @@ const GenerateTimesheetPage = () => {
           exit_time_1 = null; // Vazio para preenchimento manual
           entry_time_2 = null; // Vazio para preenchimento manual (não usado no PDF, mas para consistência)
           exit_time_2 = null; // Vazio para preenchimento manual (não usado no PDF, mas para consistência)
+          entry_time_3 = null; // Novo campo, vazio
+          exit_time_3 = null;  // Novo campo, vazio
 
           if (isCurrentDateWeekend) {
             notes = dayNamePtBr.toUpperCase(); // SÁBADO ou DOMINGO
@@ -280,7 +289,7 @@ const GenerateTimesheetPage = () => {
 
         // Os campos de horário são inicializados como null e não são preenchidos automaticamente
         // para permitir o preenchimento manual.
-        const total_hours_worked = calculateHours(entry_time_1, exit_time_1, entry_time_2, exit_time_2);
+        const total_hours_worked = calculateHours(entry_time_1, exit_time_1, entry_time_2, exit_time_2, entry_time_3, exit_time_3);
 
         dailyRecords.push({
           id: `temp-${i}`,
@@ -289,6 +298,8 @@ const GenerateTimesheetPage = () => {
           exit_time_1,
           entry_time_2,
           exit_time_2,
+          entry_time_3, // Novo campo
+          exit_time_3,  // Novo campo
           total_hours_worked,
           notes,
         });
@@ -301,6 +312,8 @@ const GenerateTimesheetPage = () => {
         exit_time_1: record.entry_time_1, // Usar entry_time_1 para exit_time_1 para V6 (ambos vazios)
         entry_time_2: record.entry_time_2,
         exit_time_2: record.exit_time_2,
+        entry_time_3: record.entry_time_3, // Novo campo
+        exit_time_3: record.exit_time_3,  // Novo campo
         total_hours_worked: record.total_hours_worked,
         notes: record.notes,
       }));
