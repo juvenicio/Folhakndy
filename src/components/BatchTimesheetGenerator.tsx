@@ -19,6 +19,7 @@ import {
   CommandEmpty,
   CommandGroup,
   CommandItem,
+  CommandList, // Importado CommandList
 } from "@/components/ui/command";
 import { normalizeString } from "@/lib/utils";
 import BatchTimesheetPdfPreview from "./BatchTimesheetPdfPreview";
@@ -388,47 +389,49 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+            <PopoverContent className="w-[--radix-popover-trigger-width] p-0 z-50"> {/* Adicionado z-50 */}
               <Command>
                 <CommandInput placeholder="Pesquisar funcionário..." />
                 <CommandEmpty>Nenhum funcionário encontrado.</CommandEmpty>
-                <CommandGroup>
-                  <CommandItem
-                    onSelect={handleSelectAll}
-                    className="flex items-center justify-between text-primary font-semibold"
-                  >
-                    <span>
-                      {selectedEmployeeIds.length === filteredEmployees.length && filteredEmployees.length > 0 ? "Desselecionar Todos" : "Selecionar Todos"}
-                    </span>
-                    <Check
-                      className={cn(
-                        "mr-2 h-4 w-4",
-                        selectedEmployeeIds.length === filteredEmployees.length && filteredEmployees.length > 0 ? "opacity-100" : "opacity-0"
-                      )}
-                    />
-                  </CommandItem>
-                  {filteredEmployees.map((employee) => (
+                <CommandList> {/* Adicionado CommandList aqui */}
+                  <CommandGroup>
                     <CommandItem
-                      key={employee.id}
-                      value={`${normalizeString(employee.name)} ${normalizeString(employee.registration_number)} ${normalizeString(employee.function)} ${normalizeString(employee.school_name)}`}
-                      onSelect={() => {
-                        setSelectedEmployeeIds((prev) =>
-                          prev.includes(employee.id)
-                            ? prev.filter((id) => id !== employee.id)
-                            : [...prev, employee.id]
-                        );
-                      }}
+                      onSelect={handleSelectAll}
+                      className="flex items-center justify-between text-primary font-semibold"
                     >
+                      <span>
+                        {selectedEmployeeIds.length === filteredEmployees.length && filteredEmployees.length > 0 ? "Desselecionar Todos" : "Selecionar Todos"}
+                      </span>
                       <Check
                         className={cn(
                           "mr-2 h-4 w-4",
-                          selectedEmployeeIds.includes(employee.id) ? "opacity-100" : "opacity-0"
+                          selectedEmployeeIds.length === filteredEmployees.length && filteredEmployees.length > 0 ? "opacity-100" : "opacity-0"
                         )}
                       />
-                      {employee.name} ({employee.registration_number || 'N/A'}) - {employee.function} - {employee.school_name || 'N/A'}
                     </CommandItem>
-                  ))}
-                </CommandGroup>
+                    {filteredEmployees.map((employee) => (
+                      <CommandItem
+                        key={employee.id}
+                        value={`${normalizeString(employee.name)} ${normalizeString(employee.registration_number)} ${normalizeString(employee.function)} ${normalizeString(employee.school_name)}`}
+                        onSelect={() => {
+                          setSelectedEmployeeIds((prev) =>
+                            prev.includes(employee.id)
+                              ? prev.filter((id) => id !== employee.id)
+                              : [...prev, employee.id]
+                          );
+                        }}
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            selectedEmployeeIds.includes(employee.id) ? "opacity-100" : "opacity-0"
+                          )}
+                        />
+                        {employee.name} ({employee.registration_number || 'N/A'}) - {employee.function} - {employee.school_name || 'N/A'}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList> {/* Fechando CommandList */}
               </Command>
             </PopoverContent>
           </Popover>
