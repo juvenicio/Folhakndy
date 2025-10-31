@@ -78,9 +78,9 @@ const styles = StyleSheet.create({
 
   // Specific widths for each column in the main timesheet table
   colDia: { width: '5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
-  colTime: { width: '10%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' }, // Reduzido para 10%
-  colSignature: { width: '17.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' }, // Ajustado para 17.5%
-  colExtraTime: { width: '6.25%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' }, // Ajustado para 6.25%
+  colTime: { width: '12.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
+  colSignature: { width: '22.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' },
+  colExtraTime: { width: '12.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
 
   sectionTitle: {
     fontSize: 9,
@@ -145,10 +145,10 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
           </View>
         </View>
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '60%', fontSize: 10 }]}>
+          <View style={[styles.cellBase, { width: '66.66%', fontSize: 10 }]}>
             <Text style={{ flexGrow: 0 }}>Servidor(a): {employee.name}</Text>
           </View>
-          <View style={[styles.cellBase, { width: '40%', borderRightWidth: 0 }]}>
+          <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 0 }]}>
             <Text style={{ flexGrow: 0 }}>Matrícula: {employee.registration_number}</Text>
           </View>
         </View>
@@ -182,44 +182,36 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
             <Text>Dia</Text>
           </View>
           {/* Entrada 1 */}
-          <View style={[styles.tableHeaderCell, { width: '10%' }]}>
+          <View style={[styles.tableHeaderCell, { width: '12.5%' }]}>
             <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>Entrada</Text>
             <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
           </View>
           {/* Assinatura 1 */}
-          <View style={[styles.tableHeaderCell, { width: '17.5%' }]}>
+          <View style={[styles.tableHeaderCell, { width: '22.5%' }]}>
             <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>ASSINATURA/JUSTIFICATIVA</Text>
           </View>
           {/* Saída 1 */}
-          <View style={[styles.tableHeaderCell, { width: '10%' }]}>
+          <View style={[styles.tableHeaderCell, { width: '12.5%' }]}>
             <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>Saída</Text>
             <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
           </View>
           {/* Assinatura 2 */}
-          <View style={[styles.tableHeaderCell, { width: '17.5%' }]}>
+          <View style={[styles.tableHeaderCell, { width: '22.5%' }]}>
             <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>ASSINATURA/JUSTIFICATIVA</Text>
           </View>
           {/* Hora Extra - Nested View to simulate column and row span */}
-          <View style={[styles.tableHeaderCell, { width: '40%', borderRightWidth: 0, flexDirection: 'column', padding: 0, borderBottomWidth: 0 }]}> {/* Aumentado para 40% */}
+          <View style={[styles.tableHeaderCell, { width: '25%', borderRightWidth: 0, flexDirection: 'column', padding: 0, borderBottomWidth: 0 }]}>
             <View style={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', padding: 0, minHeight: 15, width: '100%', borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid' }}>
               <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>Hora Extra</Text>
             </View>
             <View style={{ flexDirection: 'row', width: '100%', flexGrow: 1 }}>
-              <View style={[styles.tableHeaderCell, { width: '25%', borderBottomWidth: 0, borderTopWidth: 0 }]}> {/* 25% de 40% = 10% do total */}
-                <Text style={{ fontSize: 10, fontFamily: 'Calibri' }}>Entrada 1</Text>
-                <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(H | M | S)</Text>
+              <View style={[styles.tableHeaderCell, { width: '50%', borderBottomWidth: 0, borderTopWidth: 0 }]}>
+                <Text style={{ fontSize: 10, fontFamily: 'Calibri' }}>Entrada</Text>
+                <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
               </View>
-              <View style={[styles.tableHeaderCell, { width: '25%', borderBottomWidth: 0, borderTopWidth: 0 }]}> {/* 25% de 40% = 10% do total */}
-                <Text style={{ fontSize: 10, fontFamily: 'Calibri' }}>Saída 1</Text>
-                <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(H | M | S)</Text>
-              </View>
-              <View style={[styles.tableHeaderCell, { width: '25%', borderBottomWidth: 0, borderTopWidth: 0 }]}> {/* Nova Entrada 2 */}
-                <Text style={{ fontSize: 10, fontFamily: 'Calibri' }}>Entrada 2</Text>
-                <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(H | M | S)</Text>
-              </View>
-              <View style={[styles.tableHeaderCell, { width: '25%', borderRightWidth: 0, borderBottomWidth: 0, borderTopWidth: 0 }]}> {/* Nova Saída 2 */}
-                <Text style={{ fontSize: 10, fontFamily: 'Calibri' }}>Saída 2</Text>
-                <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(H | M | S)</Text>
+              <View style={[styles.tableHeaderCell, { width: '50%', borderRightWidth: 0, borderBottomWidth: 0, borderTopWidth: 0 }]}>
+                <Text style={{ fontSize: 10, fontFamily: 'Calibri' }}>Saída</Text>
+                <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
               </View>
             </View>
           </View>
@@ -250,14 +242,10 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
               <Text style={[styles.colSignature, isLastRow && { borderBottomWidth: 1.5 }]}>{displaySignatureValue}</Text>
               <Text style={[styles.colTime, isLastRow && { borderBottomWidth: 1.5 }]}>{displayTimeValue(record?.exit_time_1)}</Text>
               <Text style={[styles.colSignature, isLastRow && { borderBottomWidth: 1.5 }]}>{displaySignatureValue}</Text>
-              {/* Hora Extra Entrada 1 */}
+              {/* Hora Extra Entrada */}
               <Text style={[styles.colExtraTime, isLastRow && { borderBottomWidth: 1.5 }]}>{formatFullTime(record?.entry_time_2)}</Text>
-              {/* Hora Extra Saída 1 */}
-              <Text style={[styles.colExtraTime, isLastRow && { borderBottomWidth: 1.5 }]}>{formatFullTime(record?.exit_time_2)}</Text>
-              {/* Hora Extra Entrada 2 (novo) */}
-              <Text style={[styles.colExtraTime, isLastRow && { borderBottomWidth: 1.5 }]}>{formatFullTime(record?.entry_time_3)}</Text>
-              {/* Hora Extra Saída 2 (novo) */}
-              <Text style={[styles.colExtraTime, { borderRightWidth: 0 }, isLastRow && { borderBottomWidth: 1.5 }]}>{formatFullTime(record?.exit_time_3)}</Text>
+              {/* Hora Extra Saída */}
+              <Text style={[styles.colExtraTime, { borderRightWidth: 0 }, isLastRow && { borderBottomWidth: 1.5 }]}>{formatFullTime(record?.exit_time_2)}</Text>
             </View>
           );
         })}

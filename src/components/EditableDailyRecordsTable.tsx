@@ -44,7 +44,7 @@ const EditableDailyRecordsTable = ({
   onSave,
   onCancel,
   isLoading,
-}: EditableDailyDailyRecordsTableProps) => {
+}: EditableDailyRecordsTableProps) => {
   const [editableRecords, setEditableRecords] = useState<DailyRecord[]>([]);
   const [hasChanges, setHasChanges] = useState(false);
 
@@ -69,8 +69,6 @@ const EditableDailyRecordsTable = ({
           exit_time_1: null,
           entry_time_2: null,
           exit_time_2: null,
-          entry_time_3: null, // Novo campo
-          exit_time_3: null,  // Novo campo
           total_hours_worked: null,
           notes: null,
         });
@@ -80,7 +78,7 @@ const EditableDailyRecordsTable = ({
     setHasChanges(false); // Reset changes flag on initial load
   }, [initialDailyRecords, month, year]);
 
-  const calculateHours = useCallback((entry1: string | null, exit1: string | null, entry2: string | null, exit2: string | null, entry3: string | null, exit3: string | null): number => {
+  const calculateHours = useCallback((entry1: string | null, exit1: string | null, entry2: string | null, exit2: string | null): number => {
     let totalMinutes = 0;
 
     const parseTime = (timeStr: string | null): number => {
@@ -105,12 +103,6 @@ const EditableDailyRecordsTable = ({
       totalMinutes += (exit2Parsed - start2);
     }
 
-    const start3 = parseTime(entry3); // Incluir a nova hora extra
-    const exit3Parsed = parseTime(exit3); // Incluir a nova hora extra
-    if (!isNaN(start3) && !isNaN(exit3Parsed) && exit3Parsed > start3) {
-      totalMinutes += (exit3Parsed - start3);
-    }
-
     const hours = totalMinutes / 60;
     return isNaN(hours) ? 0 : hours;
   }, []);
@@ -129,17 +121,13 @@ const EditableDailyRecordsTable = ({
         field === "entry_time_1" ||
         field === "exit_time_1" ||
         field === "entry_time_2" ||
-        field === "exit_time_2" ||
-        field === "entry_time_3" || // Novo campo
-        field === "exit_time_3"    // Novo campo
+        field === "exit_time_2"
       ) {
         recordToUpdate.total_hours_worked = calculateHours(
           recordToUpdate.entry_time_1,
           recordToUpdate.exit_time_1,
           recordToUpdate.entry_time_2,
-          recordToUpdate.exit_time_2,
-          recordToUpdate.entry_time_3, // Novo campo
-          recordToUpdate.exit_time_3  // Novo campo
+          recordToUpdate.exit_time_2
         );
       }
       newRecords[index] = recordToUpdate;
@@ -185,8 +173,6 @@ const EditableDailyRecordsTable = ({
               <TableHead className="w-[100px]">Saída 1</TableHead>
               <TableHead className="w-[100px]">Entrada 2</TableHead>
               <TableHead className="w-[100px]">Saída 2</TableHead>
-              <TableHead className="w-[100px]">Entrada Extra 1</TableHead> {/* Novo cabeçalho */}
-              <TableHead className="w-[100px]">Saída Extra 1</TableHead>   {/* Novo cabeçalho */}
               <TableHead className="w-[100px] text-right">Total Horas</TableHead>
               <TableHead className="min-w-[200px]">Observações</TableHead>
             </TableRow>
@@ -235,24 +221,6 @@ const EditableDailyRecordsTable = ({
                       type="time"
                       value={record.exit_time_2 || ""}
                       onChange={(e) => handleFieldChange(index, "exit_time_2", e.target.value || null)}
-                      disabled={isLoading || isWeekend}
-                      className="h-8"
-                    />
-                  </TableCell>
-                  <TableCell> {/* Nova célula para Entrada Extra 1 */}
-                    <Input
-                      type="time"
-                      value={record.entry_time_3 || ""}
-                      onChange={(e) => handleFieldChange(index, "entry_time_3", e.target.value || null)}
-                      disabled={isLoading || isWeekend}
-                      className="h-8"
-                    />
-                  </TableCell>
-                  <TableCell> {/* Nova célula para Saída Extra 1 */}
-                    <Input
-                      type="time"
-                      value={record.exit_time_3 || ""}
-                      onChange={(e) => handleFieldChange(index, "exit_time_3", e.target.value || null)}
                       disabled={isLoading || isWeekend}
                       className="h-8"
                     />

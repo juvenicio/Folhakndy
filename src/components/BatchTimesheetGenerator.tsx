@@ -83,7 +83,7 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
   }, [employees, selectedEmployeeTypeFilter, selectedVinculoFilter]);
 
 
-  const calculateHours = (entry1: string | null, exit1: string | null, entry2: string | null, exit2: string | null, entry3: string | null, exit3: string | null): number => {
+  const calculateHours = (entry1: string | null, exit1: string | null, entry2: string | null, exit2: string | null): number => {
     let totalMinutes = 0;
 
     const parseTime = (timeStr: string | null): number => {
@@ -106,12 +106,6 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
     const exit2Parsed = parseTime(exit2);
     if (!isNaN(start2) && !isNaN(exit2Parsed) && exit2Parsed > start2) {
       totalMinutes += (exit2Parsed - start2);
-    }
-
-    const start3 = parseTime(entry3); // Incluir a nova hora extra
-    const exit3Parsed = parseTime(exit3); // Incluir a nova hora extra
-    if (!isNaN(start3) && !isNaN(exit3Parsed) && exit3Parsed > start3) {
-      totalMinutes += (exit3Parsed - start3);
     }
 
     const hours = totalMinutes / 60;
@@ -190,8 +184,6 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
           let exit_time_1: string | null = null;
           let entry_time_2: string | null = null;
           let exit_time_2: string | null = null;
-          let entry_time_3: string | null = null; // Novo campo
-          let exit_time_3: string | null = null;  // Novo campo
           let notes: string | null = null;
 
           const isWorkDay = employee.work_days.includes(dayName);
@@ -257,7 +249,7 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
             }
           }
 
-          const total_hours_worked = calculateHours(entry_time_1, exit_time_1, entry_time_2, exit_time_2, entry_time_3, exit_time_3);
+          const total_hours_worked = calculateHours(entry_time_1, exit_time_1, entry_time_2, exit_time_2);
 
           dailyRecords.push({
             id: `temp-${i}`,
@@ -266,8 +258,6 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
             exit_time_1,
             entry_time_2,
             exit_time_2,
-            entry_time_3, // Novo campo
-            exit_time_3,  // Novo campo
             total_hours_worked,
             notes,
           });
@@ -280,8 +270,6 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
           exit_time_1: record.exit_time_1,
           entry_time_2: record.entry_time_2,
           exit_time_2: record.exit_time_2,
-          entry_time_3: record.entry_time_3, // Novo campo
-          exit_time_3: record.exit_time_3,  // Novo campo
           total_hours_worked: record.total_hours_worked,
           notes: record.notes,
         }));
@@ -388,7 +376,7 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
         {/* Seleção de Funcionários (Combobox) */}
         <div>
           <Label htmlFor="employee-select-batch">Selecionar Funcionários</Label>
-          <Popover open={isComboboxOpen} onOpenChange={setIsComboboxOpen}>
+          <Popover open={isComboboxOpen} onOnOpenChange={setIsComboboxOpen}>
             <PopoverTrigger asChild>
               <Button
                 variant="outline"

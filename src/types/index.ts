@@ -19,8 +19,6 @@ export interface DailyRecord {
   exit_time_1: string | null;
   entry_time_2: string | null;
   exit_time_2: string | null;
-  entry_time_3: string | null; // Nova coluna de hora extra
-  exit_time_3: string | null;  // Nova coluna de hora extra
   total_hours_worked: number | null;
   notes: string | null;
 }
