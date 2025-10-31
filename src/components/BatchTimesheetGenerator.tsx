@@ -376,7 +376,7 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
         {/* Seleção de Funcionários (Combobox) */}
         <div>
           <Label htmlFor="employee-select-batch">Selecionar Funcionários</Label>
-          <Popover open={isComboboxOpen} onOpenChange={setIsComboboxOpen}>
+          <Popover open={isComboboxOpen} onOnOpenChange={setIsComboboxOpen}>
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
