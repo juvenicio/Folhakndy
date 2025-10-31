@@ -4,9 +4,10 @@ import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Users, FileClock, BriefcaseBusiness } from "lucide-react"; // Adicionado BriefcaseBusiness
+import { Users, FileClock, BriefcaseBusiness, Trash2 } from "lucide-react"; // Adicionado Trash2
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button"; // Importar Button
 
 interface Employee {
   id: string;
@@ -30,73 +31,109 @@ const Dashboard = () => {
   const [totalTimesheets, setTotalTimesheets] = useState<number>(0);
   const [functionDistribution, setFunctionDistribution] = useState<FunctionDistribution[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isResetting, setIsResetting] = useState(false); // Novo estado para o loading do reset
+
+  const fetchData = async () => {
+    setLoading(true);
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      toast.error("Você precisa estar logado para ver o dashboard.");
+      setLoading(false);
+      return;
+    }
+
+    // Fetch total employees
+    const { count: employeesCount, error: employeesError } = await supabase
+      .from("employees")
+      .select("id", { count: "exact" })
+      .eq("user_id", user.id);
+
+    if (employeesError) {
+      toast.error("Erro ao carregar total de funcionários: " + employeesError.message);
+      console.error("Erro ao carregar total de funcionários:", employeesError);
+    } else {
+      setTotalEmployees(employeesCount || 0);
+    }
+
+    // Fetch total timesheets
+    const { count: timesheetsCount, error: timesheetsError } = await supabase
+      .from("timesheets")
+      .select("id", { count: "exact" })
+      .eq("user_id", user.id);
+
+    if (timesheetsError) {
+      toast.error("Erro ao carregar total de folhas de ponto: " + timesheetsError.message);
+      console.error("Erro ao carregar total de folhas de ponto:", timesheetsError);
+    } else {
+      setTotalTimesheets(timesheetsCount || 0);
+    }
+
+    // Fetch employees for function distribution
+    const { data: employeesData, error: employeesDataError } = await supabase
+      .from("employees")
+      .select("function")
+      .eq("user_id", user.id);
+
+    if (employeesDataError) {
+      toast.error("Erro ao carregar dados de funcionários para o gráfico: " + employeesDataError.message);
+      console.error("Erro ao carregar dados de funcionários para o gráfico:", employeesDataError);
+    } else {
+      const distributionMap = new Map<string, number>();
+      employeesData?.forEach(employee => {
+        const func = employee.function || "Não Definido";
+        distributionMap.set(func, (distributionMap.get(func) || 0) + 1);
+      });
+      const formattedDistribution = Array.from(distributionMap.entries()).map(([name, value]) => ({ name, value }));
+      setFunctionDistribution(formattedDistribution);
+    }
+
+    setLoading(false);
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      const { data: { user } } = await supabase.auth.getUser();
-
-      if (!user) {
-        toast.error("Você precisa estar logado para ver o dashboard.");
-        setLoading(false);
-        return;
-      }
-
-      // Fetch total employees
-      const { count: employeesCount, error: employeesError } = await supabase
-        .from("employees")
-        .select("id", { count: "exact" })
-        .eq("user_id", user.id);
-
-      if (employeesError) {
-        toast.error("Erro ao carregar total de funcionários: " + employeesError.message);
-        console.error("Erro ao carregar total de funcionários:", employeesError);
-      } else {
-        setTotalEmployees(employeesCount || 0);
-      }
-
-      // Fetch total timesheets
-      const { count: timesheetsCount, error: timesheetsError } = await supabase
-        .from("timesheets")
-        .select("id", { count: "exact" })
-        .eq("user_id", user.id);
-
-      if (timesheetsError) {
-        toast.error("Erro ao carregar total de folhas de ponto: " + timesheetsError.message);
-        console.error("Erro ao carregar total de folhas de ponto:", timesheetsError);
-      } else {
-        setTotalTimesheets(timesheetsCount || 0);
-      }
-
-      // Fetch employees for function distribution
-      const { data: employeesData, error: employeesDataError } = await supabase
-        .from("employees")
-        .select("function")
-        .eq("user_id", user.id);
-
-      if (employeesDataError) {
-        toast.error("Erro ao carregar dados de funcionários para o gráfico: " + employeesDataError.message);
-        console.error("Erro ao carregar dados de funcionários para o gráfico:", employeesDataError);
-      } else {
-        const distributionMap = new Map<string, number>();
-        employeesData?.forEach(employee => {
-          const func = employee.function || "Não Definido";
-          distributionMap.set(func, (distributionMap.get(func) || 0) + 1);
-        });
-        const formattedDistribution = Array.from(distributionMap.entries()).map(([name, value]) => ({ name, value }));
-        setFunctionDistribution(formattedDistribution);
-      }
-
-      setLoading(false);
-    };
-
     fetchData();
   }, []);
+
+  const handleResetTimesheets = async () => {
+    if (!window.confirm("Tem certeza que deseja zerar TODAS as folhas de ponto geradas? Esta ação é irreversível.")) {
+      return;
+    }
+
+    setIsResetting(true);
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      toast.error("Você precisa estar logado para realizar esta ação.");
+      setIsResetting(false);
+      return;
+    }
+
+    try {
+      // Excluir todas as folhas de ponto do usuário
+      const { error: deleteError } = await supabase
+        .from("timesheets")
+        .delete()
+        .eq("user_id", user.id);
+
+      if (deleteError) {
+        throw deleteError;
+      }
+
+      toast.success("Todas as folhas de ponto foram zeradas com sucesso!");
+      fetchData(); // Atualizar os dados do dashboard
+    } catch (error: any) {
+      console.error("Erro ao zerar folhas de ponto:", error);
+      toast.error("Erro ao zerar folhas de ponto: " + error.message);
+    } finally {
+      setIsResetting(false);
+    }
+  };
 
   if (loading) {
     return (
       <div className="container mx-auto py-8">
-        <Card className="mb-8 p-6 text-center shadow-sm"> {/* Adicionado shadow-sm */}
+        <Card className="mb-8 p-6 text-center shadow-sm">
           <CardHeader className="pb-4">
             <Skeleton className="h-8 w-3/4 mx-auto mb-2" />
             <Skeleton className="h-5 w-1/2 mx-auto" />
@@ -110,7 +147,7 @@ const Dashboard = () => {
         </Card>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <Card className="shadow-sm"> {/* Adicionado shadow-sm */}
+          <Card className="shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total de Funcionários</CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
@@ -119,7 +156,7 @@ const Dashboard = () => {
               <Skeleton className="h-8 w-24" />
             </CardContent>
           </Card>
-          <Card className="shadow-sm"> {/* Adicionado shadow-sm */}
+          <Card className="shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Folhas de Ponto Geradas</CardTitle>
               <FileClock className="h-4 w-4 text-muted-foreground" />
@@ -130,7 +167,7 @@ const Dashboard = () => {
           </Card>
         </div>
 
-        <Card className="shadow-sm"> {/* Adicionado shadow-sm */}
+        <Card className="shadow-sm">
           <CardHeader>
             <CardTitle className="text-lg">Distribuição por Função</CardTitle>
           </CardHeader>
@@ -145,7 +182,7 @@ const Dashboard = () => {
   return (
     <div className="container mx-auto py-8">
       {/* Seção de Boas-Vindas */}
-      <Card className="mb-8 p-6 text-center shadow-sm hover:shadow-lg transition-shadow duration-200"> {/* Adicionado shadow-sm */}
+      <Card className="mb-8 p-6 text-center shadow-sm hover:shadow-lg transition-shadow duration-200">
         <CardHeader className="pb-4">
           <h1 className="text-4xl font-bold text-primary mb-2">
             Bem-vindo ao seu Dashboard!
@@ -166,7 +203,7 @@ const Dashboard = () => {
 
       {/* Cartões de Métricas */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <Card className="shadow-sm hover:shadow-lg transition-shadow duration-200"> {/* Adicionado shadow-sm */}
+        <Card className="shadow-sm hover:shadow-lg transition-shadow duration-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total de Funcionários</CardTitle>
             <Users className="h-5 w-5 text-muted-foreground" />
@@ -178,7 +215,7 @@ const Dashboard = () => {
             </p>
           </CardContent>
         </Card>
-        <Card className="shadow-sm hover:shadow-lg transition-shadow duration-200"> {/* Adicionado shadow-sm */}
+        <Card className="shadow-sm hover:shadow-lg transition-shadow duration-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Folhas de Ponto Geradas</CardTitle>
             <FileClock className="h-5 w-5 text-muted-foreground" />
@@ -193,7 +230,7 @@ const Dashboard = () => {
       </div>
 
       {/* Gráfico de Distribuição por Função */}
-      <Card className="shadow-sm hover:shadow-lg transition-shadow duration-200"> {/* Adicionado shadow-sm */}
+      <Card className="shadow-sm hover:shadow-lg transition-shadow duration-200 mb-8">
         <CardHeader>
           <CardTitle className="text-lg">Distribuição de Funcionários por Função</CardTitle>
         </CardHeader>
@@ -224,6 +261,35 @@ const Dashboard = () => {
               Nenhum funcionário cadastrado para exibir o gráfico.
             </div>
           )}
+        </CardContent>
+      </Card>
+
+      {/* Cartão de Ações Administrativas */}
+      <Card className="shadow-sm hover:shadow-lg transition-shadow duration-200">
+        <CardHeader>
+          <CardTitle className="text-lg">Ações Administrativas</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground mb-4">
+            Cuidado: Esta ação excluirá permanentemente todas as folhas de ponto e seus registros diários associados para sua conta.
+          </p>
+          <Button
+            variant="destructive"
+            onClick={handleResetTimesheets}
+            disabled={isResetting || totalTimesheets === 0}
+          >
+            {isResetting ? (
+              <>
+                <Trash2 className="mr-2 h-4 w-4 animate-spin" />
+                Zerando...
+              </>
+            ) : (
+              <>
+                <Trash2 className="mr-2 h-4 w-4" />
+                Zerar Folhas de Ponto
+              </>
+            )}
+          </Button>
         </CardContent>
       </Card>
     </div>
