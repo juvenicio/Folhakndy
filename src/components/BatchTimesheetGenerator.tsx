@@ -377,7 +377,7 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
         {/* Seleção de Funcionários (Combobox) */}
         <div>
           <Label htmlFor="employee-select-batch">Selecionar Funcionários</Label>
-          <Popover open={isComboboxOpen} onOnOpenChange={setIsComboboxOpen}>
+          <Popover open={isComboboxOpen} onOpenChange={setIsComboboxOpen}> {/* Corrigido de onOnOpenChange para onOpenChange */}
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
@@ -389,11 +389,11 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[--radix-popover-trigger-width] p-0 z-50"> {/* Adicionado z-50 */}
+            <PopoverContent className="w-[--radix-popover-trigger-width] p-0 z-50">
               <Command>
                 <CommandInput placeholder="Pesquisar funcionário..." />
                 <CommandEmpty>Nenhum funcionário encontrado.</CommandEmpty>
-                <CommandList> {/* Adicionado CommandList aqui */}
+                <CommandList>
                   <CommandGroup>
                     <CommandItem
                       onSelect={handleSelectAll}
@@ -431,7 +431,7 @@ const BatchTimesheetGenerator = ({ employees, logoBase64 }: BatchTimesheetGenera
                       </CommandItem>
                     ))}
                   </CommandGroup>
-                </CommandList> {/* Fechando CommandList */}
+                </CommandList>
               </Command>
             </PopoverContent>
           </Popover>
