@@ -45,8 +45,8 @@ const styles = StyleSheet.create({
 
   // Estilo base para todas as células internas
   cellBase: {
-    borderTopWidth: 1.5, // Nova: borda superior para todas as células
-    borderLeftWidth: 1.5, // Nova: borda esquerda para todas as células
+    borderRightWidth: 1.5, // Alterado para borderRightWidth
+    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
@@ -160,13 +160,13 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
         </View>
         {/* Row 2: NOME */}
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, styles.infoCell, { width: '100%', borderLeftWidth: 0 }]}>
+          <View style={[styles.cellBase, styles.infoCell, { width: '100%', borderLeftWidth: 0, borderRightWidth: 0 }]}> {/* Removido borderRightWidth aqui */}
             <Text>NOME: {employee.name}</Text>
           </View>
         </View>
         {/* Nova linha para CARGA HORÁRIA */}
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, styles.centeredChargeHoursCell, { width: '100%', borderLeftWidth: 0 }]}>
+          <View style={[styles.cellBase, styles.centeredChargeHoursCell, { width: '100%', borderLeftWidth: 0, borderRightWidth: 0 }]}> {/* Removido borderRightWidth aqui */}
             <Text>CARGA HORÁRIA: 40 HORAS</Text>
           </View>
         </View>
@@ -183,7 +183,7 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
               </Text>
             </Text>
           </View>
-          <View style={[styles.cellBase, styles.infoCell, { width: '25%' }]}>
+          <View style={[styles.cellBase, styles.infoCell, { width: '25%', borderRightWidth: 0 }]}> {/* Removido borderRightWidth aqui */}
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Ano: {year}</Text>
           </View>
         </View>
@@ -208,7 +208,7 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
           <View style={[styles.cellBase, styles.headerCell, { width: '10%' }]}>
             <Text>Saída</Text>
           </View>
-          <View style={[styles.cellBase, styles.headerCell, { width: '25%' }]}>
+          <View style={[styles.cellBase, styles.headerCell, { width: '25%', borderRightWidth: 0 }]}> {/* Removido borderRightWidth aqui */}
             <Text>ASSINATURA</Text>
           </View>
         </View>
@@ -256,7 +256,7 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
                 <Text>{displayTime(record?.exit_time_2)}</Text>
               </View>
               <View style={[
-                styles.cellBase, styles.dailyRecordCell, { width: '25%' },
+                styles.cellBase, styles.dailyRecordCell, { width: '25%', borderRightWidth: 0 }, // Removido borderRightWidth aqui
                 (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.arialBold8
               ]}>
                 <Text>{displayNotes}</Text>
@@ -270,7 +270,7 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
           <View style={[styles.cellBase, styles.infoCell, { width: '50%', borderLeftWidth: 0 }]}>
             <Text>Dias Trabalhados:</Text>
           </View>
-          <View style={[styles.cellBase, styles.infoCell, { width: '50%' }]}>
+          <View style={[styles.cellBase, styles.infoCell, { width: '50%', borderRightWidth: 0 }]}> {/* Removido borderRightWidth aqui */}
             <Text>Total de Faltas:</Text>
           </View>
         </View>
@@ -280,7 +280,7 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
           <View style={[styles.cellBase, styles.infoCell, { width: '5%', padding: 3, justifyContent: 'center', borderLeftWidth: 0 }]}>
             <Text>Obs:</Text>
           </View>
-          <View style={[styles.cellBase, styles.infoCell, { width: '95%', padding: 3, flexDirection: 'column', justifyContent: 'flex-end', flexGrow: 1, minHeight: 90, borderBottomWidth: 0 }]}>
+          <View style={[styles.cellBase, styles.infoCell, { width: '95%', padding: 3, flexDirection: 'column', justifyContent: 'flex-end', flexGrow: 1, minHeight: 90, borderBottomWidth: 0, borderRightWidth: 0 }]}> {/* Removido borderRightWidth e borderBottomWidth aqui */}
             {/* Conteúdo da área, atualmente vazio conforme a imagem */}
           </View>
         </View>

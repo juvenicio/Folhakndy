@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
   },
   // Estilos para as células internas (bordas de 1.5pt)
   cellBase: {
-    borderTopWidth: 1.5, // Nova: borda superior para todas as células
-    borderLeftWidth: 1.5, // Nova: borda esquerda para todas as células
+    borderRightWidth: 1.5, // Alterado para borderRightWidth
+    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
@@ -64,8 +64,8 @@ const styles = StyleSheet.create({
   },
   // Estilos para as células do cabeçalho da folha de ponto
   tableHeaderCell: {
-    borderTopWidth: 1.5, // Nova: borda superior para todas as células
-    borderLeftWidth: 1.5, // Nova: borda esquerda para todas as células
+    borderRightWidth: 1.5, // Alterado para borderRightWidth
+    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 1,
@@ -209,7 +209,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
             <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>ASSINATURA/JUSTIFICATIVA</Text>
           </View>
           {/* Hora Extra - Nested View to simulate column and row span */}
-          <View style={[styles.tableHeaderCell, { width: '25%', flexDirection: 'column', padding: 0 }]}>
+          <View style={[styles.tableHeaderCell, { width: '25%', flexDirection: 'column', padding: 0, borderRightWidth: 0 }]}> {/* Removido borderRightWidth aqui para a última coluna */}
             <View style={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', padding: 0, minHeight: 15, width: '100%', borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid' }}>
               <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>Hora Extra</Text>
             </View>
@@ -218,7 +218,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
                 <Text style={{ fontSize: 10, fontFamily: 'Calibri' }}>Entrada</Text>
                 <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
               </View>
-              <View style={[styles.tableHeaderCell, { width: '50%', borderTopWidth: 0 }]}>
+              <View style={[styles.tableHeaderCell, { width: '50%', borderTopWidth: 0, borderRightWidth: 0 }]}> {/* Removido borderRightWidth aqui */}
                 <Text style={{ fontSize: 10, fontFamily: 'Calibri' }}>Saída</Text>
                 <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
               </View>
@@ -252,7 +252,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
               {/* Hora Extra Entrada */}
               <Text style={[styles.cellBase, styles.colExtraTime]}>{formatFullTime(record?.entry_time_2)}</Text>
               {/* Hora Extra Saída */}
-              <Text style={[styles.cellBase, styles.colExtraTime]}>{formatFullTime(record?.exit_time_2)}</Text>
+              <Text style={[styles.cellBase, styles.colExtraTime, { borderRightWidth: 0 }]}>{formatFullTime(record?.exit_time_2)}</Text> {/* Removido borderRightWidth aqui */}
             </View>
           );
         })}
@@ -267,7 +267,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
             <Text style={{ flexGrow: 0 }}>Total de Faltas:</Text>
             <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
           </View>
-          <View style={[styles.cellBase, { width: '33.33%' }]}>
+          <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 0 }]}> {/* Removido borderRightWidth aqui */}
             <Text style={{ flexGrow: 0 }}>Quantidade de horas-extras:</Text>
             <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
           </View>
@@ -283,7 +283,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
 
         {/* Seção de Justificativa/Horas Extras */}
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '100%', padding: 3, borderLeftWidth: 0, borderBottomWidth: 0 }]}> {/* Última linha, sem borda inferior */}
+          <View style={[styles.cellBase, { width: '100%', padding: 3, borderLeftWidth: 0, borderBottomWidth: 0, borderRightWidth: 0 }]}> {/* Última linha, sem borda inferior e direita */}
             <Text style={[styles.sectionTitle, { flexGrow: 0 }]}>Justificativa/Horas Extras:</Text>
             <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
           </View>
