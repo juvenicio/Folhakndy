@@ -216,7 +216,7 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
 
         {/* Cabeçalho da Tabela de Registros Diários (FIXED) */}
         <View style={styles.tableRow} fixed>
-          <View style={[styles.tableHeaderCell, styles.colDia, { borderLeftWidth: 0 }]}>
+          <View style={[styles.tableHeaderCell, styles.colDia]}> {/* Removido borderLeftWidth: 0 */}
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Dia</Text>
           </View>
           <View style={[styles.tableHeaderCell, styles.colTime]}>
@@ -268,7 +268,7 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
 
           return (
             <View style={styles.tableRow} key={day}>
-              <Text style={[styles.infoCellBase, styles.colDia, { borderLeftWidth: 0 }]}>{day}</Text>
+              <Text style={[styles.infoCellBase, styles.colDia]}>{day}</Text> {/* Removido borderLeftWidth: 0 */}
               <Text style={[styles.infoCellBase, styles.colTime]}>{displayTime(record?.entry_time_1)}</Text>
               <Text style={[styles.infoCellBase, styles.colTime]}>{displayTime(record?.exit_time_1)}</Text>
               <Text style={[styles.infoCellBase, styles.colSignature, (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText]}>{displayNotes}</Text>

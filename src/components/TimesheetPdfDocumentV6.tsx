@@ -186,7 +186,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
 
         {/* Cabeçalho da Tabela de Registros Diários (5 colunas) */}
         <View style={styles.tableRow} fixed>
-          <View style={[styles.tableHeaderCell, styles.colDia, { borderLeftWidth: 0 }]}>
+          <View style={[styles.tableHeaderCell, styles.colDia]}> {/* Removido borderLeftWidth: 0 */}
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Dia</Text>
           </View>
           <View style={[styles.tableHeaderCell, styles.colTime]}>
@@ -216,7 +216,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
 
           return (
             <View style={styles.tableRow} key={day}>
-              <Text style={[styles.infoCellBase, styles.colDia, { borderLeftWidth: 0 }]}>{day}</Text>
+              <Text style={[styles.infoCellBase, styles.colDia]}>{day}</Text> {/* Removido borderLeftWidth: 0 */}
               <Text style={[styles.infoCellBase, styles.colTime]}>{displayTimeValue(record?.notes)}</Text>
               <Text style={[
                 styles.infoCellBase, styles.colSignature,

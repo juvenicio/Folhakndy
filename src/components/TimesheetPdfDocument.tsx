@@ -187,7 +187,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
         {/* Cabeçalho da Tabela de Registros Diários (FIXED) */}
         <View style={styles.tableRow} fixed>
           {/* Dia */}
-          <View style={[styles.tableHeaderCell, styles.colDia, { borderLeftWidth: 0 }]}>
+          <View style={[styles.tableHeaderCell, styles.colDia]}> {/* Removido borderLeftWidth: 0 */}
             <Text>Dia</Text>
           </View>
           {/* Entrada 1 */}
@@ -244,7 +244,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
 
           return (
             <View style={styles.tableRow} key={day}>
-              <Text style={[styles.cellBase, styles.colDia, { borderLeftWidth: 0 }]}>{day}</Text>
+              <Text style={[styles.cellBase, styles.colDia]}>{day}</Text> {/* Removido borderLeftWidth: 0 */}
               <Text style={[styles.cellBase, styles.colTime]}>{displayTimeValue(record?.entry_time_1)}</Text>
               <Text style={[styles.cellBase, styles.colSignature]}>{displaySignatureValue}</Text>
               <Text style={[styles.cellBase, styles.colTime]}>{displayTimeValue(record?.exit_time_1)}</Text>

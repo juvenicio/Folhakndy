@@ -187,7 +187,7 @@ const TimesheetPdfDocumentV3 = ({ employee, month, year, dailyRecords, logoSrc }
 
         {/* Cabeçalho da Tabela de Registros Diários */}
         <View style={styles.tableRow} fixed>
-          <View style={[styles.tableHeaderCell, { width: '5%', borderLeftWidth: 0 }]}>
+          <View style={[styles.tableHeaderCell, { width: '5%', borderLeftWidth: 0 }]}> {/* Removido borderLeftWidth: 0 */}
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Dia</Text>
           </View>
           <View style={[styles.tableHeaderCell, { width: '10%' }]}>
@@ -232,7 +232,7 @@ const TimesheetPdfDocumentV3 = ({ employee, month, year, dailyRecords, logoSrc }
 
           return (
             <View style={styles.tableRow} key={day}>
-              <Text style={[styles.infoCellBase, styles.colDia, { borderLeftWidth: 0 }]}>{day}</Text>
+              <Text style={[styles.infoCellBase, styles.colDia]}>{day}</Text> {/* Removido borderLeftWidth: 0 */}
               <Text style={[styles.infoCellBase, styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }]}>{displayTime(record?.entry_time_1)}</Text>
               <Text style={[styles.infoCellBase, styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }]}>{displayTime(record?.exit_time_1)}</Text>
               <Text style={[styles.infoCellBase, styles.colSignature, { fontFamily: 'Calibri', fontSize: 8 }, displayNotes !== '' && styles.boldText]}>{displayNotes}</Text>

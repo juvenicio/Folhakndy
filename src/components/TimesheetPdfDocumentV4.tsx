@@ -190,7 +190,7 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
 
         {/* Cabeçalho da Tabela de Registros Diários */}
         <View style={styles.tableRow} fixed>
-          <View style={[styles.cellBase, styles.headerCell, { width: '5%', borderLeftWidth: 0 }]}>
+          <View style={[styles.cellBase, styles.headerCell, { width: '5%' }]}> {/* Removido borderLeftWidth: 0 */}
             <Text>Dia</Text>
           </View>
           <View style={[styles.cellBase, styles.headerCell, { width: '10%' }]}>
@@ -234,7 +234,7 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
 
           return (
             <View style={styles.tableRow} key={day}>
-              <View style={[styles.cellBase, styles.dailyRecordCell, { width: '5%', borderLeftWidth: 0 }]}>
+              <View style={[styles.cellBase, styles.dailyRecordCell, { width: '5%' }]}> {/* Removido borderLeftWidth: 0 */}
                 <Text>{day}</Text>
               </View>
               <View style={[styles.cellBase, styles.dailyRecordCell, { width: '10%' }]}>
