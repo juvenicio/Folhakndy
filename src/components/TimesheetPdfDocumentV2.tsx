@@ -44,7 +44,6 @@ const styles = StyleSheet.create({
     display: 'table',
     width: 'auto',
     marginBottom: 0,
-    // Removido borderWidth, borderColor, borderStyle daqui
     flexGrow: 1, // Adicionado para ocupar o espaço restante
   },
   tableRow: {
@@ -53,8 +52,7 @@ const styles = StyleSheet.create({
   },
   // Estilos para as células de detalhes do funcionário (e agora para resumo/observação)
   infoCellBase: {
-    borderRightWidth: 1.5,
-    borderBottomWidth: 1.5,
+    borderWidth: 1.5, // Todas as bordas por padrão
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
@@ -67,8 +65,7 @@ const styles = StyleSheet.create({
   },
   // Estilos para as células do cabeçalho da folha de ponto
   tableHeaderCell: {
-    borderRightWidth: 1.5,
-    borderBottomWidth: 1.5,
+    borderWidth: 1.5, // Todas as bordas por padrão
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 1,
@@ -174,67 +171,67 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
       <View style={styles.mainTableContainer}>
         {/* Detalhes do Funcionário */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '100%', borderLeftWidth: 1.5, borderTopWidth: 1.5, borderRightWidth: 1.5, paddingLeft: 10 }]}>
+          <View style={[styles.infoCellBase, { width: '100%', borderTopWidth: 0, borderLeftWidth: 0, borderRightWidth: 0, paddingLeft: 10 }]}>
             <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Unidade de Trabalho: {employee.school_name || 'N/A'}</Text>
           </View>
         </View>
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '60%', borderLeftWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '60%', borderLeftWidth: 0 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Servidor (a): {employee.name}</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '40%', borderRightWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '40%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>
               Gestor(a) ({getRoleMark(employee.employee_type, employee.function, "Gestor")}) Técnico ({getRoleMark(employee.employee_type, employee.function, "Técnico")}) Professor(a) ({getRoleMark(employee.employee_type, employee.function, "Professora")})
             </Text>
           </View>
         </View>
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '33.33%', borderLeftWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '33.33%', borderLeftWidth: 0 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Cargo: {employee.employee_type}</Text>
           </View>
           <View style={[styles.infoCellBase, { width: '33.33%' }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Função: {employee.function}</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text>
           </View>
         </View>
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '25%', borderLeftWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '25%', borderLeftWidth: 0, borderBottomWidth: 0 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Vínculo: {employee.vinculo}</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '25%' }]}>
+          <View style={[styles.infoCellBase, { width: '25%', borderBottomWidth: 0 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Matrícula: {employee.registration_number}</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '25%' }]}>
+          <View style={[styles.infoCellBase, { width: '25%', borderBottomWidth: 0 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Mês: {monthName.charAt(0).toUpperCase() + monthName.slice(1)}</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '25%', borderRightWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '25%', borderRightWidth: 0, borderBottomWidth: 0 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Ano: {year}</Text>
           </View>
         </View>
 
         {/* Cabeçalho da Tabela de Registros Diários (FIXED) */}
         <View style={styles.tableRow} fixed>
-          <View style={[styles.tableHeaderCell, styles.colDia, { borderLeftWidth: 1.5 }]}>
+          <View style={[styles.tableHeaderCell, styles.colDia, { borderTopWidth: 1.5, borderLeftWidth: 0 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Dia</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colTime]}>
+          <View style={[styles.tableHeaderCell, styles.colTime, { borderTopWidth: 1.5 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Entrada</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colTime]}>
+          <View style={[styles.tableHeaderCell, styles.colTime, { borderTopWidth: 1.5 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Saída</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colSignature]}>
+          <View style={[styles.tableHeaderCell, styles.colSignature, { borderTopWidth: 1.5 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>ASSINATURA/JUSTIFICATIVA</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colTime]}>
+          <View style={[styles.tableHeaderCell, styles.colTime, { borderTopWidth: 1.5 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Entrada</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colTime]}>
+          <View style={[styles.tableHeaderCell, styles.colTime, { borderTopWidth: 1.5 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Saída</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colSignatureLast, { borderRightWidth: 1.5 }]}>
+          <View style={[styles.tableHeaderCell, styles.colSignatureLast, { borderRightWidth: 0, borderTopWidth: 1.5 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>ASSINATURA/JUSTIFICATIVA</Text>
           </View>
         </View>
@@ -251,7 +248,7 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
           const isWorkDayConfigured = employee.work_days.includes(dayNameEnglish);
           const dayNamePtBr = daysOfWeekMapForDisplay[dayOfWeek];
 
-          const isLastRow = index === daysInMonth - 1;
+          const isLastDailyRecordRow = index === daysInMonth - 1;
 
           // Lógica para exibir o traço ou o nome do dia apenas se NÃO for um dia de trabalho configurado
           const getNotesForDay = (recordNotes: string | null): string => {
@@ -268,62 +265,62 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
 
           return (
             <View style={styles.tableRow} key={day}>
-              <Text style={[styles.infoCellBase, styles.colDia, { borderLeftWidth: 1.5, borderBottomWidth: isLastRow ? 1.5 : 1.5 }]}>{day}</Text>
-              <Text style={[styles.infoCellBase, styles.colTime, { borderBottomWidth: isLastRow ? 1.5 : 1.5 }]}>{displayTime(record?.entry_time_1)}</Text>
-              <Text style={[styles.infoCellBase, styles.colTime, { borderBottomWidth: isLastRow ? 1.5 : 1.5 }]}>{displayTime(record?.exit_time_1)}</Text>
-              <Text style={[styles.infoCellBase, styles.colSignature, (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText, { borderBottomWidth: isLastRow ? 1.5 : 1.5 }]}>{displayNotes}</Text>
-              <Text style={[styles.infoCellBase, styles.colTime, { borderBottomWidth: isLastRow ? 1.5 : 1.5 }]}>{displayTime(record?.entry_time_2)}</Text>
-              <Text style={[styles.infoCellBase, styles.colTime, { borderBottomWidth: isLastRow ? 1.5 : 1.5 }]}>{displayTime(record?.exit_time_2)}</Text>
-              <Text style={[styles.infoCellBase, styles.colSignatureLast, (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText, { borderRightWidth: 1.5, borderBottomWidth: isLastRow ? 1.5 : 1.5 }]}>{displayNotes}</Text>
+              <Text style={[styles.infoCellBase, styles.colDia, { borderLeftWidth: 0, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{day}</Text>
+              <Text style={[styles.infoCellBase, styles.colTime, { borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayTime(record?.entry_time_1)}</Text>
+              <Text style={[styles.infoCellBase, styles.colTime, { borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayTime(record?.exit_time_1)}</Text>
+              <Text style={[styles.infoCellBase, styles.colSignature, (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText, { borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayNotes}</Text>
+              <Text style={[styles.infoCellBase, styles.colTime, { borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayTime(record?.entry_time_2)}</Text>
+              <Text style={[styles.infoCellBase, styles.colTime, { borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayTime(record?.exit_time_2)}</Text>
+              <Text style={[styles.infoCellBase, styles.colSignatureLast, (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText, { borderRightWidth: 0, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayNotes}</Text>
             </View>
           );
         })}
 
         {/* Linha de Resumo: Dias Trabalhados */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '100%', borderLeftWidth: 1.5, borderRightWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '100%', borderTopWidth: 1.5, borderLeftWidth: 0, borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 9 }}>Dias Trabalhados:</Text>
           </View>
         </View>
 
         {/* Seção de Observação */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '10%', borderLeftWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '10%', borderLeftWidth: 0 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 9 }}>Obs:</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '90%', borderRightWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '90%', borderRightWidth: 0 }]}>
             <Text></Text>
           </View>
         </View>
         {/* Linhas vazias para Obs - 3 linhas como na imagem */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '10%', borderLeftWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '10%', borderLeftWidth: 0 }]}>
             <Text></Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '90%', borderRightWidth: 1.5 }]}>
-            <Text></Text>
-          </View>
-        </View>
-        <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '10%', borderLeftWidth: 1.5 }]}>
-            <Text></Text>
-          </View>
-          <View style={[styles.infoCellBase, { width: '90%', borderRightWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '90%', borderRightWidth: 0 }]}>
             <Text></Text>
           </View>
         </View>
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '10%', borderLeftWidth: 1.5, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '10%', borderLeftWidth: 0 }]}>
             <Text></Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '90%', borderBottomWidth: 1.5, borderRightWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '90%', borderRightWidth: 0 }]}>
+            <Text></Text>
+          </View>
+        </View>
+        <View style={styles.tableRow}>
+          <View style={[styles.infoCellBase, { width: '10%', borderLeftWidth: 0, borderBottomWidth: 0 }]}>
+            <Text></Text>
+          </View>
+          <View style={[styles.infoCellBase, { width: '90%', borderBottomWidth: 0, borderRightWidth: 0 }]}>
             <Text></Text>
           </View>
         </View>
 
         {/* Seção de Horas Extras (agora a última linha da tabela) */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '100%', borderLeftWidth: 1.5, borderBottomWidth: 1.5, borderRightWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '100%', borderTopWidth: 1.5, borderLeftWidth: 0, borderBottomWidth: 0, borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 8 }}>Horas Extras:</Text>
           </View>
         </View>
