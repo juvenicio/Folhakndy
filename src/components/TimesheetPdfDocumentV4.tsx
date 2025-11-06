@@ -1,4 +1,3 @@
-/** @jsxRuntime classic */
 import React from 'react';
 import { Document, Page, View, Text, StyleSheet, Image } from '@react-pdf/renderer';
 import { format, parseISO, isValid, getDay, getDaysInMonth } from 'date-fns';
@@ -273,7 +272,7 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={[styles.cellBase, styles.infoCell, { width: '50%', borderRightWidth: 0 }]}>
             <Text>Total de Faltas:</Text>
-          </Text>
+          </View>
         </View>
 
         {/* Seção de Observação */}
