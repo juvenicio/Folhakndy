@@ -55,8 +55,8 @@ const styles = StyleSheet.create({
   },
   // Estilos para as células de detalhes do funcionário (e agora para resumo/observação)
   infoCellBase: {
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
@@ -68,8 +68,8 @@ const styles = StyleSheet.create({
   },
   // Estilos para as células do cabeçalho da folha de ponto
   tableHeaderCell: {
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 1,
@@ -268,13 +268,13 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
 
           return (
             <View style={styles.tableRow} key={day}>
-              <Text style={[styles.infoCellBase, styles.colDia, { borderLeftWidth: 0 }]}>{day}</Text>
-              <Text style={[styles.infoCellBase, styles.colTime]}>{displayTime(record?.entry_time_1)}</Text>
-              <Text style={[styles.infoCellBase, styles.colTime]}>{displayTime(record?.exit_time_1)}</Text>
-              <Text style={[styles.infoCellBase, styles.colSignature, (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText]}>{displayNotes}</Text>
-              <Text style={[styles.infoCellBase, styles.colTime]}>{displayTime(record?.entry_time_2)}</Text>
-              <Text style={[styles.infoCellBase, styles.colTime]}>{displayTime(record?.exit_time_2)}</Text>
-              <Text style={[styles.infoCellBase, styles.colSignatureLast, (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText, { borderRightWidth: 0 }]}>{displayNotes}</Text>
+              <Text style={[styles.infoCellBase, styles.colDia, { borderLeftWidth: 0, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{day}</Text>
+              <Text style={[styles.infoCellBase, styles.colTime, { borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayTime(record?.entry_time_1)}</Text>
+              <Text style={[styles.infoCellBase, styles.colTime, { borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayTime(record?.exit_time_1)}</Text>
+              <Text style={[styles.infoCellBase, styles.colSignature, (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText, { borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayNotes}</Text>
+              <Text style={[styles.infoCellBase, styles.colTime, { borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayTime(record?.entry_time_2)}</Text>
+              <Text style={[styles.infoCellBase, styles.colTime, { borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayTime(record?.exit_time_2)}</Text>
+              <Text style={[styles.infoCellBase, styles.colSignatureLast, (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText, { borderRightWidth: 0, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayNotes}</Text>
             </View>
           );
         })}

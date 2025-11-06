@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   infoCellBase: {
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Calibri',
   },
   tableHeaderCell: {
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 1,
@@ -171,7 +171,7 @@ const TimesheetPdfDocumentV3 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}> {/* Ajustado para 33.33% e removido borderRightWidth */}
             <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Vínculo: {employee.vinculo}</Text>
-          </View>
+          </Text>
         </View>
         <View style={styles.tableRow}>
           <View style={[styles.infoCellBase, { width: '50%', borderLeftWidth: 0 }]}>
@@ -229,16 +229,17 @@ const TimesheetPdfDocumentV3 = ({ employee, month, year, dailyRecords, logoSrc }
           };
 
           const displayNotes = (record?.notes || '').toUpperCase();
+          const isLastDailyRecordRow = index === daysInMonth - 1;
 
           return (
             <View style={styles.tableRow} key={day}>
-              <Text style={[styles.infoCellBase, styles.colDia, { borderLeftWidth: 0 }]}>{day}</Text>
-              <Text style={[styles.infoCellBase, styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }]}>{displayTime(record?.entry_time_1)}</Text>
-              <Text style={[styles.infoCellBase, styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }]}>{displayTime(record?.exit_time_1)}</Text>
-              <Text style={[styles.infoCellBase, styles.colSignature, { fontFamily: 'Calibri', fontSize: 8 }, displayNotes !== '' && styles.boldText]}>{displayNotes}</Text>
-              <Text style={[styles.infoCellBase, styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }]}>{displayTime(record?.entry_time_2)}</Text>
-              <Text style={[styles.infoCellBase, styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }]}>{displayTime(record?.exit_time_2)}</Text>
-              <Text style={[styles.infoCellBase, styles.colSignatureLast, { fontFamily: 'Calibri', fontSize: 8 }, displayNotes !== '' && styles.boldText, { borderRightWidth: 0 }]}>{displayNotes}</Text>
+              <Text style={[styles.infoCellBase, styles.colDia, { borderLeftWidth: 0, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{day}</Text>
+              <Text style={[styles.infoCellBase, styles.colTime, { fontFamily: 'Calibri', fontSize: 8, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayTime(record?.entry_time_1)}</Text>
+              <Text style={[styles.infoCellBase, styles.colTime, { fontFamily: 'Calibri', fontSize: 8, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayTime(record?.exit_time_1)}</Text>
+              <Text style={[styles.infoCellBase, styles.colSignature, { fontFamily: 'Calibri', fontSize: 8 }, displayNotes !== '' && styles.boldText, { borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayNotes}</Text>
+              <Text style={[styles.infoCellBase, styles.colTime, { fontFamily: 'Calibri', fontSize: 8, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayTime(record?.entry_time_2)}</Text>
+              <Text style={[styles.infoCellBase, styles.colTime, { fontFamily: 'Calibri', fontSize: 8, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayTime(record?.exit_time_2)}</Text>
+              <Text style={[styles.infoCellBase, styles.colSignatureLast, { fontFamily: 'Calibri', fontSize: 8 }, displayNotes !== '' && styles.boldText, { borderRightWidth: 0, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayNotes}</Text>
             </View>
           );
         })}

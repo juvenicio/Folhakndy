@@ -52,14 +52,14 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     fontSize: 8,
     fontFamily: 'Calibri',
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
   },
   // Estilo para a célula de carga horária (100% de largura)
   centeredChargeHoursCell: {
     width: '100%',
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
     borderColor: '#000000',
     borderStyle: 'solid',
     textAlign: 'center',
@@ -78,8 +78,8 @@ const styles = StyleSheet.create({
     fontSize: 8,
     minHeight: 15,
     fontFamily: 'Calibri',
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
   },
   // Estilos específicos para as colunas da tabela de registros diários (5 colunas)
   colDia: { width: '5%', textAlign: 'center' },
@@ -181,7 +181,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={[styles.infoCellBase, { width: '25%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Ano: {year}</Text>
-          </View>
+          </Text>
         </View>
 
         {/* Cabeçalho da Tabela de Registros Diários (5 colunas) */}
@@ -200,7 +200,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={[styles.tableHeaderCell, styles.colSignatureLast, { borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>ASSINATURA</Text>
-          </View>
+          </Text>
         </View>
 
         {/* Linhas de Registros Diários (5 colunas) */}
@@ -213,21 +213,22 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           const displayNotes = (record?.notes || '').toUpperCase();
 
           const isWeekendNote = displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO");
+          const isLastDailyRecordRow = index === daysInMonth - 1;
 
           return (
             <View style={styles.tableRow} key={day}>
-              <Text style={[styles.infoCellBase, styles.colDia, { borderLeftWidth: 0 }]}>{day}</Text>
-              <Text style={[styles.infoCellBase, styles.colTime]}>{displayTimeValue(record?.notes)}</Text>
+              <Text style={[styles.infoCellBase, styles.colDia, { borderLeftWidth: 0, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{day}</Text>
+              <Text style={[styles.infoCellBase, styles.colTime, { borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayTimeValue(record?.notes)}</Text>
               <Text style={[
                 styles.infoCellBase, styles.colSignature,
                 isWeekendNote ? styles.arialBold8 : styles.boldText, // Aplicar Arial, negrito, 8pt para SÁBADO/DOMINGO
-                { textAlign: 'center' } // Centralizar o texto
+                { textAlign: 'center', borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 } // Centralizar o texto
               ]}>{displayNotes}</Text>
-              <Text style={[styles.infoCellBase, styles.colTime]}>{displayTimeValue(record?.notes)}</Text>
+              <Text style={[styles.infoCellBase, styles.colTime, { borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayTimeValue(record?.notes)}</Text>
               <Text style={[
                 styles.infoCellBase, styles.colSignatureLast,
                 isWeekendNote ? styles.arialBold8 : styles.boldText, // Aplicar Arial, negrito, 8pt para SÁBADO/DOMINGO
-                { textAlign: 'center', borderRightWidth: 0 } // Centralizar o texto e removido borderRightWidth
+                { textAlign: 'center', borderRightWidth: 0, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 } // Centralizar o texto e removido borderRightWidth
               ]}>{displayNotes}</Text>
             </View>
           );
@@ -240,7 +241,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Total de Faltas:</Text>
-          </View>
+          </Text>
         </View>
 
         {/* Seção de Observação (Last row of the entire table) */}
