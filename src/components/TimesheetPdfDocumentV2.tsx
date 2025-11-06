@@ -216,7 +216,7 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
 
         {/* Cabeçalho da Tabela de Registros Diários (FIXED) */}
         <View style={styles.tableRow} fixed>
-          <View style={[styles.tableHeaderCell, styles.colDia]}> {/* Removido borderLeftWidth: 0 */}
+          <View style={[styles.tableHeaderCell, styles.colDia, { borderLeftWidth: 0 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Dia</Text>
           </View>
           <View style={[styles.tableHeaderCell, styles.colTime]}>
@@ -268,20 +268,34 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
 
           return (
             <View style={styles.tableRow} key={day}>
-              <Text style={[styles.infoCellBase, styles.colDia]}>{day}</Text> {/* Removido borderLeftWidth: 0 */}
-              <Text style={[styles.infoCellBase, styles.colTime]}>{displayTime(record?.entry_time_1)}</Text>
-              <Text style={[styles.infoCellBase, styles.colTime]}>{displayTime(record?.exit_time_1)}</Text>
-              <Text style={[styles.infoCellBase, styles.colSignature, (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText]}>{displayNotes}</Text>
-              <Text style={[styles.infoCellBase, styles.colTime]}>{displayTime(record?.entry_time_2)}</Text>
-              <Text style={[styles.infoCellBase, styles.colTime]}>{displayTime(record?.exit_time_2)}</Text>
-              <Text style={[styles.infoCellBase, styles.colSignatureLast, (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText, { borderRightWidth: 0 }]}>{displayNotes}</Text>
+              <View style={[styles.infoCellBase, styles.colDia, { borderLeftWidth: 0 }]}>
+                <Text>{day}</Text>
+              </View>
+              <View style={[styles.infoCellBase, styles.colTime]}>
+                <Text>{displayTime(record?.entry_time_1)}</Text>
+              </View>
+              <View style={[styles.infoCellBase, styles.colTime]}>
+                <Text>{displayTime(record?.exit_time_1)}</Text>
+              </View>
+              <View style={[styles.infoCellBase, styles.colSignature, (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText]}>
+                <Text>{displayNotes}</Text>
+              </View>
+              <View style={[styles.infoCellBase, styles.colTime]}>
+                <Text>{displayTime(record?.entry_time_2)}</Text>
+              </View>
+              <View style={[styles.infoCellBase, styles.colTime]}>
+                <Text>{displayTime(record?.exit_time_2)}</Text>
+              </View>
+              <View style={[styles.infoCellBase, styles.colSignatureLast, (displayNotes.includes("SÁBADO") || displayNotes.includes("DOMINGO")) && styles.boldText, { borderRightWidth: 0 }]}>
+                <Text>{displayNotes}</Text>
+              </View>
             </View>
           );
         })}
 
         {/* Linha de Resumo: Dias Trabalhados */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '100%', borderLeftWidth: 0, minHeight: 20, borderRightWidth: 0 }]}>
+          <View style={[styles.infoCellBase, { width: '100%', borderLeftWidth: 0, minHeight: 20, borderRightWidth: 0, borderBottomWidth: 0 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 9 }}>Dias Trabalhados:</Text>
           </View>
         </View>
