@@ -299,7 +299,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
           <Text style={{ fontSize: 10, fontFamily: 'Calibri-Bold', opacity: 0 }}>________________________________________</Text>
           <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Campina Grande, ____/____/____</Text>
         </View>
-        <View style={{ width: '40%', textAlign: 'center', flexDirection: 'column', justifyContent: 'flex-end' }}>
+        <View style={{ width: '40%', textAlign: 'center', flexDirection: 'column', justifyContent: 'flex-end', marginTop: 2 }}> {/* Adicionado marginTop aqui */}
           <Text style={{ width: '100%', textAlign: 'center', fontSize: 10, fontFamily: 'Calibri-Bold' }}>________________________________________</Text>
           <Text style={{ fontSize: 10, fontFamily: 'Calibri-Bold' }}>Assinatura do(a) Gestor(a)</Text>
         </View>
