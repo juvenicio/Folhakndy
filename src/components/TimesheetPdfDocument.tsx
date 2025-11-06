@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
   },
   // Estilos para as células internas (bordas de 1.5pt)
   cellBase: {
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
@@ -64,8 +64,8 @@ const styles = StyleSheet.create({
   },
   // Estilos para as células do cabeçalho da folha de ponto
   tableHeaderCell: {
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 1,
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Calibri',
   },
 
-  // Specific widths for each column in the main timesheet table, agora sem bordas base
+  // Specific widths for each column in the main timesheet table
   colDia: { width: '5%', padding: 1, textAlign: 'center', fontSize: 8, fontFamily: 'Calibri' },
   colTime: { width: '12.5%', padding: 1, textAlign: 'center', fontSize: 8, fontFamily: 'Calibri' },
   colSignature: { width: '22.5%', padding: 1, textAlign: 'center', fontSize: 9, fontFamily: 'Calibri' },
@@ -275,7 +275,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
 
         {/* Seção de Observação */}
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '100%', padding: 3, borderLeftWidth: 0 }]}>
+          <View style={[styles.cellBase, { width: '100%', padding: 3, borderLeftWidth: 0, borderRightWidth: 0 }]}>
             <Text style={[styles.sectionTitle, { flexGrow: 0 }]}>Observação:</Text>
             <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
           </View>

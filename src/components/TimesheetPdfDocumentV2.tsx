@@ -55,8 +55,8 @@ const styles = StyleSheet.create({
   },
   // Estilos para as células de detalhes do funcionário (e agora para resumo/observação)
   infoCellBase: {
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
@@ -68,8 +68,8 @@ const styles = StyleSheet.create({
   },
   // Estilos para as células do cabeçalho da folha de ponto
   tableHeaderCell: {
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 1,

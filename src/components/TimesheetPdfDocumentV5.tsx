@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   infoCellBase: {
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Calibri',
   },
   tableHeaderCell: {
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 1,
@@ -156,7 +156,7 @@ const TimesheetPdfDocumentV5 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={[styles.infoCellBase, { width: '40%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Vínculo: {employee.vinculo}</Text>
-          </View>
+          </Text>
         </View>
         <View style={styles.tableRow}>
           <View style={[styles.infoCellBase, { width: '50%', borderLeftWidth: 0 }]}>
@@ -190,7 +190,7 @@ const TimesheetPdfDocumentV5 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={[styles.infoCellBase, { width: '16.67%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Ano: {year}</Text>
-          </View>
+          </Text>
         </View>
 
         {/* Cabeçalho da Tabela de Registros Diários */}
@@ -250,7 +250,7 @@ const TimesheetPdfDocumentV5 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Total de faltas:</Text>
-          </View>
+          </Text>
         </View>
 
         {/* Seção de Observação */}
