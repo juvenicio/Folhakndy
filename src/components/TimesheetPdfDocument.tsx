@@ -294,12 +294,12 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
 
       {/* Rodapé */}
       <View style={styles.footer}>
-        <View style={{ width: '40%', textAlign: 'center', flexDirection: 'column' }}> {/* Adicionado flexDirection: 'column' */}
-          {/* Spacer para alinhar com a linha de assinatura */}
+        <View style={{ width: '40%', textAlign: 'center', flexDirection: 'column', justifyContent: 'flex-end' }}>
+          {/* Linha invisível para alinhar com a linha de assinatura */}
           <Text style={{ fontSize: 10, fontFamily: 'Calibri-Bold', opacity: 0 }}>________________________________________</Text>
           <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Campina Grande, ____/____/____</Text>
         </View>
-        <View style={{ width: '40%', textAlign: 'center' }}>
+        <View style={{ width: '40%', textAlign: 'center', flexDirection: 'column', justifyContent: 'flex-end' }}>
           <Text style={{ width: '100%', textAlign: 'center', fontSize: 10, fontFamily: 'Calibri-Bold' }}>________________________________________</Text>
           <Text style={{ fontSize: 10, fontFamily: 'Calibri-Bold' }}>Assinatura do(a) Gestor(a)</Text>
         </View>
