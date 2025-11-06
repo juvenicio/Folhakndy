@@ -287,7 +287,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
         <View style={styles.tableRow}>
           <View style={[styles.cellBase, { width: '100%', padding: 3, borderLeftWidth: 0, borderBottomWidth: 0, borderRightWidth: 0 }]}>
             <Text style={[styles.sectionTitle, { flexGrow: 0 }]}>Justificativa/Horas Extras:</Text>
-            <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
+            <Text style={{ minHeight: 9, flexGrow: 0 }}></Text> {/* Alterado minHeight de 15 para 9 */}
           </View>
         </View>
       </View>
@@ -299,7 +299,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
           <Text style={{ fontSize: 10, fontFamily: 'Calibri-Bold', opacity: 0 }}>________________________________________</Text>
           <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Campina Grande, ____/____/____</Text>
         </View>
-        <View style={{ width: '40%', textAlign: 'center', flexDirection: 'column', justifyContent: 'flex-end', marginTop: 2 }}> {/* Adicionado marginTop aqui */}
+        <View style={{ width: '40%', textAlign: 'center', flexDirection: 'column', justifyContent: 'flex-end', marginTop: 2 }}>
           <Text style={{ width: '100%', textAlign: 'center', fontSize: 10, fontFamily: 'Calibri-Bold' }}>________________________________________</Text>
           <Text style={{ fontSize: 10, fontFamily: 'Calibri-Bold' }}>Assinatura do(a) Gestor(a)</Text>
         </View>
