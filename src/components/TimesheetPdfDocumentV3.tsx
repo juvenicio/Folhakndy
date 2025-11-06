@@ -156,12 +156,12 @@ const TimesheetPdfDocumentV3 = ({ employee, month, year, dailyRecords, logoSrc }
       <View style={styles.mainTableContainer}>
         {/* Detalhes do Funcionário */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '100%', borderLeftWidth: 0, borderTopWidth: 0, paddingLeft: 10 }]}>
+          <View style={[styles.infoCellBase, { width: '100%', borderLeftWidth: 0, borderTopWidth: 0, borderRightWidth: 0, paddingLeft: 10 }]}>
             <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Unidade escolar: {employee.school_name || 'N/A'}</Text>
           </View>
         </View>
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '100%', borderLeftWidth: 0, borderRightWidth: 0 }]}> {/* Removido borderRightWidth aqui */}
+          <View style={[styles.infoCellBase, { width: '100%', borderLeftWidth: 0, borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Nome: {employee.name}</Text>
           </View>
         </View>
@@ -238,7 +238,7 @@ const TimesheetPdfDocumentV3 = ({ employee, month, year, dailyRecords, logoSrc }
               <Text style={[styles.infoCellBase, styles.colSignature, { fontFamily: 'Calibri', fontSize: 8 }, displayNotes !== '' && styles.boldText]}>{displayNotes}</Text>
               <Text style={[styles.infoCellBase, styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }]}>{displayTime(record?.entry_time_2)}</Text>
               <Text style={[styles.infoCellBase, styles.colTime, { fontFamily: 'Calibri', fontSize: 8 }]}>{displayTime(record?.exit_time_2)}</Text>
-              <Text style={[styles.infoCellBase, styles.colSignatureLast, { fontFamily: 'Calibri', fontSize: 8 }, displayNotes !== '' && styles.boldText, { borderRightWidth: 0 }]}>{displayNotes}</Text> {/* Removido borderRightWidth aqui */}
+              <Text style={[styles.infoCellBase, styles.colSignatureLast, { fontFamily: 'Calibri', fontSize: 8 }, displayNotes !== '' && styles.boldText, { borderRightWidth: 0 }]}>{displayNotes}</Text>
             </View>
           );
         })}
@@ -251,14 +251,14 @@ const TimesheetPdfDocumentV3 = ({ employee, month, year, dailyRecords, logoSrc }
           <View style={[styles.infoCellBase, { width: '33.33%' }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Total de Aulas:</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}> {/* Removido borderRightWidth aqui */}
+          <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Total de Faltas:</Text>
           </View>
         </View>
 
         {/* Seção de Observação */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '100%', padding: 3, borderLeftWidth: 0, borderBottomWidth: 0, borderRightWidth: 0, minHeight: 60 }]}> {/* Removido borderRightWidth aqui */}
+          <View style={[styles.infoCellBase, { width: '100%', padding: 3, borderLeftWidth: 0, borderBottomWidth: 0, borderRightWidth: 0, minHeight: 60 }]}>
             <Text style={[styles.sectionTitle, { fontFamily: 'Calibri-Bold', fontSize: 9 }]}>Obs:</Text>
             <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
           </View>

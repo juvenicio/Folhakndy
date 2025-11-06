@@ -155,19 +155,19 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
       <View style={styles.mainTableContainer}>
         {/* Row 1: Unidade de Trabalho */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '100%', borderLeftWidth: 0, borderTopWidth: 0, borderRightWidth: 0 }]}> {/* Removido borderRightWidth aqui */}
+          <View style={[styles.infoCellBase, { width: '100%', borderLeftWidth: 0, borderTopWidth: 0, borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Unidade de Trabalho: {employee?.school_name || 'N/A'}</Text>
           </View>
         </View>
         {/* Row 2: NOME */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '100%', borderLeftWidth: 0, borderRightWidth: 0 }]}> {/* Removido borderRightWidth aqui */}
+          <View style={[styles.infoCellBase, { width: '100%', borderLeftWidth: 0, borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>NOME: {employee?.name || 'N/A'}</Text>
           </View>
         </View>
         {/* Row 3: CARGA HORÁRIA */}
         <View style={styles.tableRow}>
-          <View style={[styles.centeredChargeHoursCell, { borderLeftWidth: 0, borderRightWidth: 0 }]}> {/* Removido borderRightWidth aqui */}
+          <View style={[styles.centeredChargeHoursCell, { borderLeftWidth: 0, borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>CARGA HORÁRIA: {employee?.weekly_hours ? `${employee.weekly_hours} HORAS` : 'N/A'}</Text>
           </View>
         </View>
@@ -179,7 +179,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           <View style={[styles.infoCellBase, { width: '25%' }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Mês: {monthNameFormatted}</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '25%', borderRightWidth: 0 }]}> {/* Removido borderRightWidth aqui */}
+          <View style={[styles.infoCellBase, { width: '25%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Ano: {year}</Text>
           </View>
         </View>
@@ -198,7 +198,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           <View style={[styles.tableHeaderCell, styles.colTime]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Saída</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colSignatureLast, { borderRightWidth: 0 }]}> {/* Removido borderRightWidth aqui */}
+          <View style={[styles.tableHeaderCell, styles.colSignatureLast, { borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>ASSINATURA</Text>
           </View>
         </View>
@@ -238,7 +238,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           <View style={[styles.infoCellBase, { width: '50%', borderLeftWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Dias trabalhados:</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}> {/* Removido borderRightWidth aqui */}
+          <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Total de Faltas:</Text>
           </View>
         </View>
@@ -248,7 +248,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           <View style={[styles.infoCellBase, { width: '5%', justifyContent: 'center', borderLeftWidth: 0, borderBottomWidth: 0 }]}>
             <Text style={[styles.sectionTitle, { fontFamily: 'Calibri-Bold', fontSize: 9, marginBottom: 0 }]}>Obs:</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '95%', borderBottomWidth: 0, borderRightWidth: 0 }]}> {/* Removido borderRightWidth e borderBottomWidth aqui */}
+          <View style={[styles.infoCellBase, { width: '95%', borderBottomWidth: 0, borderRightWidth: 0 }]}>
             {/* Content area, currently empty as per image */}
           </View>
         </View>
