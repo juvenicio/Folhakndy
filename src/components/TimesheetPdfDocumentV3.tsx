@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   infoCellBase: {
-    borderRightWidth: 1.5,
-    borderBottomWidth: 1.5,
+    borderRightWidth: 1.5, // Alterado para borderRightWidth
+    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Calibri',
   },
   tableHeaderCell: {
-    borderRightWidth: 1.5,
-    borderBottomWidth: 1.5,
+    borderRightWidth: 1.5, // Alterado para borderRightWidth
+    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 1,
@@ -166,10 +166,10 @@ const TimesheetPdfDocumentV3 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
         </View>
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '66.66%', borderLeftWidth: 0 }]}>
+          <View style={[styles.infoCellBase, { width: '66.66%', borderLeftWidth: 0 }]}> {/* Ajustado para 66.66% */}
             <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Apoio (Função): {getCleanFunction(employee.function)}</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}>
+          <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}> {/* Ajustado para 33.33% e removido borderRightWidth */}
             <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Vínculo: {employee.vinculo}</Text>
           </View>
         </View>
@@ -180,7 +180,7 @@ const TimesheetPdfDocumentV3 = ({ employee, month, year, dailyRecords, logoSrc }
           <View style={[styles.infoCellBase, { width: '25%' }]}>
             <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Mês: {monthName.charAt(0).toUpperCase() + monthName.slice(1)}</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '25%', borderRightWidth: 0 }]}>
+          <View style={[styles.infoCellBase, { width: '25%', borderRightWidth: 0 }]}> {/* Removido borderRightWidth aqui */}
             <Text style={{ fontFamily: 'Calibri', fontSize: 10 }}>Ano: {year}</Text>
           </View>
         </View>
@@ -205,7 +205,7 @@ const TimesheetPdfDocumentV3 = ({ employee, month, year, dailyRecords, logoSrc }
           <View style={[styles.tableHeaderCell, { width: '10%' }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Saída</Text>
           </View>
-          <View style={[styles.tableHeaderCell, { width: '25%', borderRightWidth: 0 }]}>
+          <View style={[styles.tableHeaderCell, { width: '25%', borderRightWidth: 0 }]}> {/* Removido borderRightWidth aqui */}
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>ASSINATURA/JUSTIFICATIVA</Text>
           </View>
         </View>

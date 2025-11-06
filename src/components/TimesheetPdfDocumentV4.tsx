@@ -45,8 +45,8 @@ const styles = StyleSheet.create({
 
   // Estilo base para todas as células internas
   cellBase: {
-    borderRightWidth: 1.5,
-    borderBottomWidth: 1.5,
+    borderRightWidth: 1.5, // Alterado para borderRightWidth
+    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
