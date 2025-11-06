@@ -49,26 +49,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   infoCellBase: {
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
     textAlign: 'left',
     justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    alignItems: 'stretch', // Alterado para stretch
     fontSize: 8,
     fontFamily: 'Calibri',
+    minHeight: 15, // Adicionado minHeight
   },
   tableHeaderCell: {
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 1,
     textAlign: 'center',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch', // Alterado para stretch
     fontSize: 8,
     minHeight: 15,
     fontFamily: 'Calibri',
@@ -176,7 +177,7 @@ const TimesheetPdfDocumentV5 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text>
-          </View>
+          </Text>
         </View>
         {/* Linha para Dias, Mês e Ano (conforme o segundo print) */}
         <View style={styles.tableRow}>
@@ -190,31 +191,31 @@ const TimesheetPdfDocumentV5 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={[styles.infoCellBase, { width: '16.67%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Ano: {year}</Text>
-          </View>
+          </Text>
         </View>
 
         {/* Cabeçalho da Tabela de Registros Diários */}
         <View style={styles.tableRow} fixed>
-          <View style={[styles.tableHeaderCell, styles.colDia, { borderLeftWidth: 0 }]}>
-            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>DIA</Text>
+          <View style={[styles.cellBase, styles.headerCell, { width: '5%', borderLeftWidth: 0, borderTopWidth: 0 }]}>
+            <Text>DIA</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colAula]}>
-            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>1º AULA</Text>
+          <View style={[styles.cellBase, styles.headerCell, { width: '15.83%', borderTopWidth: 0 }]}>
+            <Text>1º AULA</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colAula]}>
-            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>2ª AULA</Text>
+          <View style={[styles.cellBase, styles.headerCell, { width: '15.83%', borderTopWidth: 0 }]}>
+            <Text>2ª AULA</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colAula]}>
-            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>3ª AULA</Text>
+          <View style={[styles.cellBase, styles.headerCell, { width: '15.83%', borderTopWidth: 0 }]}>
+            <Text>3ª AULA</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colAula]}>
-            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>4ª AULA</Text>
+          <View style={[styles.cellBase, styles.headerCell, { width: '15.83%', borderTopWidth: 0 }]}>
+            <Text>4ª AULA</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colAula]}>
-            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>5ª AULA</Text>
+          <View style={[styles.cellBase, styles.headerCell, { width: '15.83%', borderTopWidth: 0 }]}>
+            <Text>5ª AULA</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colAulaLast, { borderRightWidth: 0 }]}>
-            <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>6ª AULA</Text>
+          <View style={[styles.cellBase, styles.headerCell, { width: '15.83%', borderRightWidth: 0, borderTopWidth: 0 }]}>
+            <Text>6ª AULA</Text>
           </View>
         </View>
 
@@ -250,7 +251,7 @@ const TimesheetPdfDocumentV5 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Total de faltas:</Text>
-          </View>
+          </Text>
         </View>
 
         {/* Seção de Observação */}

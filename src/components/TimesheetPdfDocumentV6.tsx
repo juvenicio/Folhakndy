@@ -49,23 +49,27 @@ const styles = StyleSheet.create({
     padding: 2,
     textAlign: 'left',
     justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    alignItems: 'stretch', // Alterado para stretch
     fontSize: 8,
     fontFamily: 'Calibri',
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
+    minHeight: 15, // Adicionado minHeight
   },
   // Estilo para a célula de carga horária (100% de largura)
   centeredChargeHoursCell: {
     width: '100%',
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
     borderColor: '#000000',
     borderStyle: 'solid',
     textAlign: 'center',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch', // Alterado para stretch
     padding: 2,
+    fontSize: 10,
+    fontFamily: 'Calibri-Bold',
+    minHeight: 15, // Adicionado minHeight
   },
   // Estilo para células de cabeçalho da tabela de registros diários
   tableHeaderCell: {
@@ -74,12 +78,12 @@ const styles = StyleSheet.create({
     padding: 1,
     textAlign: 'center',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch', // Alterado para stretch
     fontSize: 8,
     minHeight: 15,
     fontFamily: 'Calibri',
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
   },
   // Estilos específicos para as colunas da tabela de registros diários (5 colunas)
   colDia: { width: '5%', textAlign: 'center' },
@@ -181,24 +185,24 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={[styles.infoCellBase, { width: '25%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Ano: {year}</Text>
-          </View>
+          </Text>
         </View>
 
         {/* Cabeçalho da Tabela de Registros Diários (5 colunas) */}
         <View style={styles.tableRow} fixed>
-          <View style={[styles.tableHeaderCell, styles.colDia, { borderLeftWidth: 0 }]}>
+          <View style={[styles.tableHeaderCell, styles.colDia, { borderLeftWidth: 0, borderTopWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Dia</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colTime]}>
+          <View style={[styles.tableHeaderCell, styles.colTime, { borderTopWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Entrada</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colSignature]}>
+          <View style={[styles.tableHeaderCell, styles.colSignature, { borderTopWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>ASSINATURA</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colTime]}>
+          <View style={[styles.tableHeaderCell, styles.colTime, { borderTopWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Saída</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colSignatureLast, { borderRightWidth: 0 }]}>
+          <View style={[styles.tableHeaderCell, styles.colSignatureLast, { borderRightWidth: 0, borderTopWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>ASSINATURA</Text>
           </View>
         </View>
@@ -240,7 +244,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Total de Faltas:</Text>
-          </View>
+          </Text>
         </View>
 
         {/* Seção de Observação (Last row of the entire table) */}

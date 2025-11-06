@@ -45,15 +45,16 @@ const styles = StyleSheet.create({
 
   // Estilo base para todas as células internas
   cellBase: {
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
     fontSize: 8,
     fontFamily: 'Calibri',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch', // Alterado para stretch
+    minHeight: 15, // Adicionado minHeight
   },
   // Estilos específicos para tipos de células
   headerCell: {
@@ -64,9 +65,10 @@ const styles = StyleSheet.create({
   infoCell: {
     textAlign: 'left',
     justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    alignItems: 'stretch', // Alterado para stretch
     fontSize: 9,
     fontFamily: 'Calibri-Bold',
+    minHeight: 15, // Adicionado minHeight
   },
   dailyRecordCell: {
     fontSize: 8,
@@ -75,12 +77,17 @@ const styles = StyleSheet.create({
   },
   centeredChargeHoursCell: {
     width: '100%',
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
+    borderColor: '#000000',
+    borderStyle: 'solid',
     textAlign: 'center',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch', // Alterado para stretch
     padding: 2,
     fontSize: 10,
     fontFamily: 'Calibri-Bold',
+    minHeight: 15, // Adicionado minHeight
   },
   
   sectionTitle: {
@@ -190,25 +197,25 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
 
         {/* Cabeçalho da Tabela de Registros Diários */}
         <View style={styles.tableRow} fixed>
-          <View style={[styles.cellBase, styles.headerCell, { width: '5%', borderLeftWidth: 0 }]}>
+          <View style={[styles.cellBase, styles.headerCell, { width: '5%', borderLeftWidth: 0, borderTopWidth: 0 }]}>
             <Text>Dia</Text>
           </View>
-          <View style={[styles.cellBase, styles.headerCell, { width: '10%' }]}>
+          <View style={[styles.cellBase, styles.headerCell, { width: '10%', borderTopWidth: 0 }]}>
             <Text>Entrada</Text>
           </View>
-          <View style={[styles.cellBase, styles.headerCell, { width: '10%' }]}>
+          <View style={[styles.cellBase, styles.headerCell, { width: '10%', borderTopWidth: 0 }]}>
             <Text>Saída</Text>
           </View>
-          <View style={[styles.cellBase, styles.headerCell, { width: '30%' }]}>
+          <View style={[styles.cellBase, styles.headerCell, { width: '30%', borderTopWidth: 0 }]}>
             <Text>ASSINATURA</Text>
           </View>
-          <View style={[styles.cellBase, styles.headerCell, { width: '10%' }]}>
+          <View style={[styles.cellBase, styles.headerCell, { width: '10%', borderTopWidth: 0 }]}>
             <Text>Entrada</Text>
           </View>
-          <View style={[styles.cellBase, styles.headerCell, { width: '10%' }]}>
+          <View style={[styles.cellBase, styles.headerCell, { width: '10%', borderTopWidth: 0 }]}>
             <Text>Saída</Text>
           </View>
-          <View style={[styles.cellBase, styles.headerCell, { width: '25%', borderRightWidth: 0 }]}>
+          <View style={[styles.cellBase, styles.headerCell, { width: '25%', borderRightWidth: 0, borderTopWidth: 0 }]}>
             <Text>ASSINATURA</Text>
           </View>
         </View>

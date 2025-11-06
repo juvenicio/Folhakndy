@@ -55,27 +55,28 @@ const styles = StyleSheet.create({
   },
   // Estilos para as células de detalhes do funcionário (e agora para resumo/observação)
   infoCellBase: {
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
     textAlign: 'left',
     justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    alignItems: 'stretch', // Alterado para stretch
     fontSize: 8,
     fontFamily: 'Calibri', // Usar Calibri
+    minHeight: 15, // Adicionado minHeight
   },
   // Estilos para as células do cabeçalho da folha de ponto
   tableHeaderCell: {
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 1,
     textAlign: 'center',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch', // Alterado para stretch
     fontSize: 8, // Base font size, will be overridden by Text component
     minHeight: 15,
     fontFamily: 'Calibri', // Base font family, will be overridden by Text component
@@ -208,7 +209,7 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={[styles.infoCellBase, { width: '25%' }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Mês: {monthName.charAt(0).toUpperCase() + monthName.slice(1)}</Text>
-          </View>
+          </Text>
           <View style={[styles.infoCellBase, { width: '25%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Ano: {year}</Text>
           </View>
@@ -216,25 +217,25 @@ const TimesheetPdfDocumentV2 = ({ employee, month, year, dailyRecords, logoSrc }
 
         {/* Cabeçalho da Tabela de Registros Diários (FIXED) */}
         <View style={styles.tableRow} fixed>
-          <View style={[styles.tableHeaderCell, styles.colDia, { borderLeftWidth: 0 }]}>
+          <View style={[styles.tableHeaderCell, styles.colDia, { borderLeftWidth: 0, borderTopWidth: 0 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Dia</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colTime]}>
+          <View style={[styles.tableHeaderCell, styles.colTime, { borderTopWidth: 0 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Entrada</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colTime]}>
+          <View style={[styles.tableHeaderCell, styles.colTime, { borderTopWidth: 0 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Saída</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colSignature]}>
+          <View style={[styles.tableHeaderCell, styles.colSignature, { borderTopWidth: 0 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>ASSINATURA/JUSTIFICATIVA</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colTime]}>
+          <View style={[styles.tableHeaderCell, styles.colTime, { borderTopWidth: 0 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Entrada</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colTime]}>
+          <View style={[styles.tableHeaderCell, styles.colTime, { borderTopWidth: 0 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>Saída</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colSignatureLast, { borderRightWidth: 0 }]}>
+          <View style={[styles.tableHeaderCell, styles.colSignatureLast, { borderRightWidth: 0, borderTopWidth: 0 }]}>
             <Text style={{ fontFamily: 'Arial', fontSize: 10 }}>ASSINATURA/JUSTIFICATIVA</Text>
           </View>
         </View>
