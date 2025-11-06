@@ -33,10 +33,7 @@ const styles = StyleSheet.create({
     display: 'table',
     width: 'auto',
     marginBottom: 0,
-    borderTopWidth: 1.5, // Explicit outer top border
-    borderRightWidth: 1.5, // Explicit outer right border
-    borderBottomWidth: 1.5, // Explicit outer bottom border
-    borderLeftWidth: 1.5, // Explicit outer left border
+    borderWidth: 1.5, // Borda externa da tabela principal
     borderColor: '#000000',
     borderStyle: 'solid',
     flexGrow: 1, // Adicionado para ocupar o espaço restante
@@ -55,14 +52,14 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     fontSize: 8,
     fontFamily: 'Calibri',
-    borderTopWidth: 1.5, // Internal top border
-    borderLeftWidth: 1.5, // Internal left border
+    borderRightWidth: 1.5, // Alterado para borderRightWidth
+    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
   },
   // Estilo para a célula de carga horária (100% de largura)
   centeredChargeHoursCell: {
     width: '100%',
-    borderTopWidth: 1.5, // Internal top border
-    borderLeftWidth: 1.5, // Internal left border
+    borderRightWidth: 1.5, // Alterado para borderRightWidth
+    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
     borderColor: '#000000',
     borderStyle: 'solid',
     textAlign: 'center',
@@ -81,8 +78,8 @@ const styles = StyleSheet.create({
     fontSize: 8,
     minHeight: 15,
     fontFamily: 'Calibri',
-    borderTopWidth: 1.5, // Internal top border
-    borderLeftWidth: 1.5, // Internal left border
+    borderRightWidth: 1.5, // Alterado para borderRightWidth
+    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
   },
   // Estilos específicos para as colunas da tabela de registros diários (5 colunas)
   colDia: { width: '5%', textAlign: 'center' },
@@ -184,7 +181,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={[styles.infoCellBase, { width: '25%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Ano: {year}</Text>
-          </Text>
+          </View>
         </View>
 
         {/* Cabeçalho da Tabela de Registros Diários (5 colunas) */}
@@ -203,7 +200,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={[styles.tableHeaderCell, styles.colSignatureLast, { borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>ASSINATURA</Text>
-          </Text>
+          </View>
         </View>
 
         {/* Linhas de Registros Diários (5 colunas) */}
@@ -243,7 +240,7 @@ const TimesheetPdfDocumentV6 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Total de Faltas:</Text>
-          </Text>
+          </View>
         </View>
 
         {/* Seção de Observação (Last row of the entire table) */}
