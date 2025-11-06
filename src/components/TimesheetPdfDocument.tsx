@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-end',
+    alignItems: 'flex-end', // Alinha os itens pela parte inferior
   },
   logo: {
     width: 40,
@@ -294,7 +294,9 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
 
       {/* Rodapé */}
       <View style={styles.footer}>
-        <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10, width: '40%', textAlign: 'center' }}>Campina Grande, ____/____/____</Text>
+        <View style={{ width: '40%', textAlign: 'center', justifyContent: 'flex-end' }}> {/* Envolvido em View e alinhado ao final */}
+          <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Campina Grande, ____/____/____</Text>
+        </View>
         <View style={{ width: '40%', textAlign: 'center' }}>
           <Text style={{ width: '100%', textAlign: 'center', fontSize: 10, fontFamily: 'Calibri-Bold' }}>________________________________________</Text>
           <Text style={{ fontSize: 10, fontFamily: 'Calibri-Bold' }}>Assinatura do(a) Gestor(a)</Text>
