@@ -39,7 +39,10 @@ const styles = StyleSheet.create({
     display: 'table',
     width: 'auto',
     marginBottom: 0,
-    borderWidth: 1.5, // Alterado para 1.5
+    borderTopWidth: 1.5, // Explicit outer top border
+    borderRightWidth: 1.5, // Explicit outer right border
+    borderBottomWidth: 1.5, // Explicit outer bottom border
+    borderLeftWidth: 1.5, // Explicit outer left border
     borderColor: '#000000',
     borderStyle: 'solid',
     flexGrow: 1, // Adicionado para ocupar o espaço restante
@@ -49,8 +52,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   infoCellBase: {
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderTopWidth: 1.5, // Internal top border
+    borderLeftWidth: 1.5, // Internal left border
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
@@ -61,8 +64,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Calibri',
   },
   tableHeaderCell: {
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderTopWidth: 1.5, // Internal top border
+    borderLeftWidth: 1.5, // Internal left border
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 1,
@@ -164,7 +167,7 @@ const TimesheetPdfDocumentV5 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Ano: {year}</Text>
-          </View>
+          </Text>
         </View>
         {/* Linha para Disciplina, Carga Horária Semanal e Turno */}
         <View style={styles.tableRow}>
@@ -176,7 +179,7 @@ const TimesheetPdfDocumentV5 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text>
-          </View>
+          </Text>
         </View>
         {/* Linha para Dias, Mês e Ano (conforme o segundo print) */}
         <View style={styles.tableRow}>
@@ -190,7 +193,7 @@ const TimesheetPdfDocumentV5 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={[styles.infoCellBase, { width: '16.67%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Ano: {year}</Text>
-          </View>
+          </Text>
         </View>
 
         {/* Cabeçalho da Tabela de Registros Diários */}
@@ -250,7 +253,7 @@ const TimesheetPdfDocumentV5 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Total de faltas:</Text>
-          </View>
+          </Text>
         </View>
 
         {/* Seção de Observação */}

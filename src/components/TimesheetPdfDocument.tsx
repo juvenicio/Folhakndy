@@ -40,7 +40,10 @@ const styles = StyleSheet.create({
     display: 'table',
     width: 'auto',
     marginBottom: 0,
-    borderWidth: 1.5, // Borda externa da tabela principal
+    borderTopWidth: 1.5, // Explicit outer top border
+    borderRightWidth: 1.5, // Explicit outer right border
+    borderBottomWidth: 1.5, // Explicit outer bottom border
+    borderLeftWidth: 1.5, // Explicit outer left border
     borderColor: '#000000',
     borderStyle: 'solid',
     flexGrow: 1, // Adicionado para ocupar o espaço restante
@@ -51,8 +54,8 @@ const styles = StyleSheet.create({
   },
   // Estilos para as células internas (bordas de 1.5pt)
   cellBase: {
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderTopWidth: 1.5, // Internal top border
+    borderLeftWidth: 1.5, // Internal left border
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
@@ -64,8 +67,8 @@ const styles = StyleSheet.create({
   },
   // Estilos para as células do cabeçalho da folha de ponto
   tableHeaderCell: {
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderTopWidth: 1.5, // Internal top border
+    borderLeftWidth: 1.5, // Internal left border
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 1,
@@ -149,7 +152,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
       <View style={styles.mainTableContainer}>
         {/* Detalhes do Funcionário */}
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '100%', borderLeftWidth: 0, borderTopWidth: 0, borderRightWidth: 0 }]}>
+          <View style={[styles.cellBase, { width: '100%', fontSize: 10, borderLeftWidth: 0, borderTopWidth: 0, borderRightWidth: 0 }]}>
             <Text style={{ flexGrow: 0 }}>Unidade de Trabalho: {employee.school_name || 'N/A'}</Text>
           </View>
         </View>
@@ -210,7 +213,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
           </View>
           {/* Hora Extra - Nested View to simulate column and row span */}
           <View style={[styles.tableHeaderCell, { width: '25%', flexDirection: 'column', padding: 0, borderRightWidth: 0 }]}>
-            <View style={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', padding: 0, minHeight: 15, width: '100%', borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid' }}>
+            <View style={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', padding: 0, minHeight: 15, width: '100%', borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', borderTopWidth: 0, borderLeftWidth: 0 }}>
               <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>Hora Extra</Text>
             </View>
             <View style={{ flexDirection: 'row', width: '100%', flexGrow: 1 }}>
@@ -275,7 +278,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
 
         {/* Seção de Observação */}
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '100%', padding: 3, borderLeftWidth: 0 }]}>
+          <View style={[styles.cellBase, { width: '100%', padding: 3, borderLeftWidth: 0, borderRightWidth: 0 }]}>
             <Text style={[styles.sectionTitle, { flexGrow: 0 }]}>Observação:</Text>
             <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
           </View>

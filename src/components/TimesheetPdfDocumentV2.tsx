@@ -44,7 +44,10 @@ const styles = StyleSheet.create({
     display: 'table',
     width: 'auto',
     marginBottom: 0,
-    borderWidth: 1.5, // Borda externa da tabela principal
+    borderTopWidth: 1.5, // Explicit outer top border
+    borderRightWidth: 1.5, // Explicit outer right border
+    borderBottomWidth: 1.5, // Explicit outer bottom border
+    borderLeftWidth: 1.5, // Explicit outer left border
     borderColor: '#000000',
     borderStyle: 'solid',
     flexGrow: 1, // Adicionado para ocupar o espaço restante
@@ -55,8 +58,8 @@ const styles = StyleSheet.create({
   },
   // Estilos para as células de detalhes do funcionário (e agora para resumo/observação)
   infoCellBase: {
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderTopWidth: 1.5, // Internal top border
+    borderLeftWidth: 1.5, // Internal left border
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
@@ -68,8 +71,8 @@ const styles = StyleSheet.create({
   },
   // Estilos para as células do cabeçalho da folha de ponto
   tableHeaderCell: {
-    borderRightWidth: 1.5, // Alterado para borderRightWidth
-    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
+    borderTopWidth: 1.5, // Internal top border
+    borderLeftWidth: 1.5, // Internal left border
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 1,
