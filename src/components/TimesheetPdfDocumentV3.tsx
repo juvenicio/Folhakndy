@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 import React from 'react';
 import { Document, Page, View, Text, StyleSheet, Image } from '@react-pdf/renderer';
 import { format, parseISO, isValid, getDay, getDaysInMonth } from 'date-fns';
