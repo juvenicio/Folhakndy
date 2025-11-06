@@ -49,27 +49,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   infoCellBase: {
-    borderRightWidth: 1.5,
-    borderBottomWidth: 1.5,
+    borderRightWidth: 1.5, // Alterado para borderRightWidth
+    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
     textAlign: 'left',
     justifyContent: 'flex-start',
-    alignItems: 'stretch', // Alterado para stretch
+    alignItems: 'flex-start',
     fontSize: 8,
     fontFamily: 'Calibri',
-    minHeight: 15, // Adicionado minHeight
   },
   tableHeaderCell: {
-    borderRightWidth: 1.5,
-    borderBottomWidth: 1.5,
+    borderRightWidth: 1.5, // Alterado para borderRightWidth
+    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 1,
     textAlign: 'center',
     justifyContent: 'center',
-    alignItems: 'stretch', // Alterado para stretch
+    alignItems: 'center',
     fontSize: 8,
     minHeight: 15,
     fontFamily: 'Calibri',
@@ -188,25 +187,25 @@ const TimesheetPdfDocumentV3 = ({ employee, month, year, dailyRecords, logoSrc }
 
         {/* Cabeçalho da Tabela de Registros Diários */}
         <View style={styles.tableRow} fixed>
-          <View style={[styles.tableHeaderCell, { width: '5%', borderLeftWidth: 0, borderTopWidth: 0 }]}>
+          <View style={[styles.tableHeaderCell, { width: '5%', borderLeftWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Dia</Text>
           </View>
-          <View style={[styles.tableHeaderCell, { width: '10%', borderTopWidth: 0 }]}>
+          <View style={[styles.tableHeaderCell, { width: '10%' }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Entrada</Text>
           </View>
-          <View style={[styles.tableHeaderCell, { width: '10%', borderTopWidth: 0 }]}>
+          <View style={[styles.tableHeaderCell, { width: '10%' }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Saída</Text>
           </View>
-          <View style={[styles.tableHeaderCell, { width: '30%', borderTopWidth: 0 }]}>
+          <View style={[styles.tableHeaderCell, { width: '30%' }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>ASSINATURA/JUSTIFICATIVA</Text>
-          </Text>
-          <View style={[styles.tableHeaderCell, { width: '10%', borderTopWidth: 0 }]}>
+          </View>
+          <View style={[styles.tableHeaderCell, { width: '10%' }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Entrada</Text>
           </View>
-          <View style={[styles.tableHeaderCell, { width: '10%', borderTopWidth: 0 }]}>
+          <View style={[styles.tableHeaderCell, { width: '10%' }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Saída</Text>
           </View>
-          <View style={[styles.tableHeaderCell, { width: '25%', borderRightWidth: 0, borderTopWidth: 0 }]}> {/* Removido borderRightWidth aqui */}
+          <View style={[styles.tableHeaderCell, { width: '25%', borderRightWidth: 0 }]}> {/* Removido borderRightWidth aqui */}
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>ASSINATURA/JUSTIFICATIVA</Text>
           </View>
         </View>
