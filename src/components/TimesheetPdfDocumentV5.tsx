@@ -49,6 +49,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   infoCellBase: {
+    borderRightWidth: 1.5, // Alterado para borderRightWidth
+    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
@@ -59,6 +61,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Calibri',
   },
   tableHeaderCell: {
+    borderRightWidth: 1.5, // Alterado para borderRightWidth
+    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 1,
@@ -141,78 +145,75 @@ const TimesheetPdfDocumentV5 = ({ employee, month, year, dailyRecords, logoSrc }
       {/* Tabela Principal */}
       <View style={styles.mainTableContainer}>
         {/* Detalhes do Funcionário */}
-        {/* Row 1: Unidade de Trabalho */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '100%', borderLeftWidth: 0, borderTopWidth: 0, borderRightWidth: 0, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '100%', borderLeftWidth: 0, borderTopWidth: 0, borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Unidade de Trabalho: {employee.school_name || 'N/A'}</Text>
           </View>
         </View>
-        {/* Row 2: Nome do(a) Professor(a) / Vínculo */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '60%', borderLeftWidth: 0, borderTopWidth: 1.5, borderRightWidth: 1.5, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '60%', borderLeftWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Nome do(a) Professor(a): {employee.name}</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '40%', borderTopWidth: 1.5, borderRightWidth: 0, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '40%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Vínculo: {employee.vinculo}</Text>
           </View>
         </View>
-        {/* Row 3: Mês / Ano */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '50%', borderLeftWidth: 0, borderTopWidth: 1.5, borderRightWidth: 1.5, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '50%', borderLeftWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Mês: {monthNameFormatted}</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '50%', borderTopWidth: 1.5, borderRightWidth: 0, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Ano: {year}</Text>
           </View>
         </View>
-        {/* Row 4: Disciplina, Carga Horária Semanal e Turno */}
+        {/* Linha para Disciplina, Carga Horária Semanal e Turno */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '33.33%', borderLeftWidth: 0, borderTopWidth: 1.5, borderRightWidth: 1.5, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '33.33%', borderLeftWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Disciplina: {employee.discipline || 'N/A'}</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '33.33%', borderTopWidth: 1.5, borderRightWidth: 1.5, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '33.33%' }]}>
             <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Carga Horária Semanal: {employee.weekly_hours ? `${employee.weekly_hours} H` : 'N/A'}</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '33.33%', borderTopWidth: 1.5, borderRightWidth: 0, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text>
           </View>
         </View>
-        {/* Row 5: Dias, Mês e Ano (Last row of Employee Details) */}
+        {/* Linha para Dias, Mês e Ano (conforme o segundo print) */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '66.66%', borderLeftWidth: 0, borderTopWidth: 1.5, borderRightWidth: 1.5, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '66.66%', borderLeftWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>
               Dias: ({getWorkDayMark(employee.work_days, "Monday")}) Seg ({getWorkDayMark(employee.work_days, "Tuesday")}) Ter ({getWorkDayMark(employee.work_days, "Wednesday")}) Qua ({getWorkDayMark(employee.work_days, "Thursday")}) Qui ({getWorkDayMark(employee.work_days, "Friday")}) Sex
             </Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '16.67%', borderTopWidth: 1.5, borderRightWidth: 1.5, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '16.67%' }]}>
             <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Mês: {monthNameFormatted}</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '16.67%', borderTopWidth: 1.5, borderRightWidth: 0, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '16.67%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Ano: {year}</Text>
-          </Text>
+          </View>
         </View>
 
         {/* Cabeçalho da Tabela de Registros Diários */}
         <View style={styles.tableRow} fixed>
-          <View style={[styles.tableHeaderCell, styles.colDia, { borderLeftWidth: 0, borderTopWidth: 1.5, borderRightWidth: 1.5, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.tableHeaderCell, styles.colDia, { borderLeftWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>DIA</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colAula, { borderTopWidth: 1.5, borderRightWidth: 1.5, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.tableHeaderCell, styles.colAula]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>1º AULA</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colAula, { borderTopWidth: 1.5, borderRightWidth: 1.5, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.tableHeaderCell, styles.colAula]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>2ª AULA</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colAula, { borderTopWidth: 1.5, borderRightWidth: 1.5, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.tableHeaderCell, styles.colAula]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>3ª AULA</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colAula, { borderTopWidth: 1.5, borderRightWidth: 1.5, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.tableHeaderCell, styles.colAula]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>4ª AULA</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colAula, { borderTopWidth: 1.5, borderRightWidth: 1.5, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.tableHeaderCell, styles.colAula]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>5ª AULA</Text>
           </View>
-          <View style={[styles.tableHeaderCell, styles.colAulaLast, { borderTopWidth: 1.5, borderRightWidth: 0, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.tableHeaderCell, styles.colAulaLast, { borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>6ª AULA</Text>
           </View>
         </View>
@@ -226,38 +227,46 @@ const TimesheetPdfDocumentV5 = ({ employee, month, year, dailyRecords, logoSrc }
           
           const displayNotes = (record?.notes || '').toUpperCase();
 
-          const isLastDailyRecordRow = index === daysInMonth - 1;
-
           return (
             <View style={styles.tableRow} key={day}>
-              <Text style={[styles.infoCellBase, styles.colDia, { borderLeftWidth: 0, borderTopWidth: 1.5, borderRightWidth: 1.5, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{day}</Text>
-              <Text style={[styles.infoCellBase, styles.colAula, { fontFamily: 'Calibri', fontSize: 8 }, displayNotes !== '' && styles.boldText, { borderTopWidth: 1.5, borderRightWidth: 1.5, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayNotes}</Text>
-              <Text style={[styles.infoCellBase, styles.colAula, { fontFamily: 'Calibri', fontSize: 8 }, displayNotes !== '' && styles.boldText, { borderTopWidth: 1.5, borderRightWidth: 1.5, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayNotes}</Text>
-              <Text style={[styles.infoCellBase, styles.colAula, { fontFamily: 'Calibri', fontSize: 8 }, displayNotes !== '' && styles.boldText, { borderTopWidth: 1.5, borderRightWidth: 1.5, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayNotes}</Text>
-              <Text style={[styles.infoCellBase, styles.colAula, { fontFamily: 'Calibri', fontSize: 8 }, displayNotes !== '' && styles.boldText, { borderTopWidth: 1.5, borderRightWidth: 1.5, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayNotes}</Text>
-              <Text style={[styles.infoCellBase, styles.colAula, { fontFamily: 'Calibri', fontSize: 8 }, displayNotes !== '' && styles.boldText, { borderTopWidth: 1.5, borderRightWidth: 1.5, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayNotes}</Text>
-              <Text style={[styles.infoCellBase, styles.colAulaLast, { fontFamily: 'Calibri', fontSize: 8 }, displayNotes !== '' && styles.boldText, { borderTopWidth: 1.5, borderRightWidth: 0, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayNotes}</Text>
+              <Text style={[styles.infoCellBase, styles.colDia, { borderLeftWidth: 0 }]}>{day}</Text>
+              <Text style={[styles.infoCellBase, styles.colAula, { fontFamily: 'Calibri', fontSize: 8 }, displayNotes !== '' && styles.boldText]}>{displayNotes}</Text>
+              <Text style={[styles.infoCellBase, styles.colAula, { fontFamily: 'Calibri', fontSize: 8 }, displayNotes !== '' && styles.boldText]}>{displayNotes}</Text>
+              <Text style={[styles.infoCellBase, styles.colAula, { fontFamily: 'Calibri', fontSize: 8 }, displayNotes !== '' && styles.boldText]}>{displayNotes}</Text>
+              <Text style={[styles.infoCellBase, styles.colAula, { fontFamily: 'Calibri', fontSize: 8 }, displayNotes !== '' && styles.boldText]}>{displayNotes}</Text>
+              <Text style={[styles.infoCellBase, styles.colAula, { fontFamily: 'Calibri', fontSize: 8 }, displayNotes !== '' && styles.boldText]}>{displayNotes}</Text>
+              <Text style={[styles.infoCellBase, styles.colAulaLast, { fontFamily: 'Calibri', fontSize: 8 }, displayNotes !== '' && styles.boldText, { borderRightWidth: 0 }]}>{displayNotes}</Text>
             </View>
           );
         })}
 
         {/* Linha de Resumo */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '33.33%', borderLeftWidth: 0, borderTopWidth: 1.5, borderRightWidth: 1.5, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '33.33%', borderLeftWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Dias trabalhados:</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '33.33%', borderTopWidth: 1.5, borderRightWidth: 1.5, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '33.33%' }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Total de aulas:</Text>
           </View>
-          <View style={[styles.infoCellBase, { width: '33.33%', borderTopWidth: 1.5, borderRightWidth: 0, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.infoCellBase, { width: '33.33%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9 }}>Total de faltas:</Text>
           </View>
         </View>
 
         {/* Seção de Observação */}
         <View style={styles.tableRow}>
-          <View style={[styles.infoCellBase, { width: '100%', padding: 3, borderLeftWidth: 0, borderTopWidth: 1.5, borderRightWidth: 0, borderBottomWidth: 0, minHeight: 60 }]}>
+          <View style={[styles.infoCellBase, { width: '100%', padding: 3, borderLeftWidth: 0, borderBottomWidth: 0, borderRightWidth: 0 }]}>
             <Text style={[styles.sectionTitle, { fontFamily: 'Calibri-Bold', fontSize: 9 }]}>Obs:</Text>
+          </View>
+        </View>
+        <View style={styles.tableRow}>
+          <View style={[styles.infoCellBase, { width: '100%', borderLeftWidth: 0, minHeight: 15, borderBottomWidth: 0, borderRightWidth: 0 }]}>
+            <Text></Text>
+          </View>
+        </View>
+        <View style={styles.tableRow}>
+          <View style={[styles.infoCellBase, { width: '100%', borderLeftWidth: 0, borderBottomWidth: 0, borderRightWidth: 0, minHeight: 15 }]}>
+            <Text></Text>
           </View>
         </View>
       </View>
