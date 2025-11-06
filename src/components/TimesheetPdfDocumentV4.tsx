@@ -277,7 +277,7 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
 
         {/* Seção de Observação */}
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, styles.infoCell, { width: '5%', padding: 3, justifyContent: 'center', borderLeftWidth: 0 }]}>
+          <View style={[styles.cellBase, styles.infoCell, { width: '5%', padding: 3, justifyContent: 'center', borderLeftWidth: 0, borderBottomWidth: 0 }]}> {/* Adicionado borderBottomWidth: 0 aqui */}
             <Text>Obs:</Text>
           </View>
           <View style={[styles.cellBase, styles.infoCell, { width: '95%', padding: 3, flexDirection: 'column', justifyContent: 'flex-end', flexGrow: 1, minHeight: 90, borderBottomWidth: 0, borderRightWidth: 0 }]}>
@@ -290,7 +290,7 @@ const TimesheetPdfDocumentV4 = ({ employee, month, year, dailyRecords, logoSrc }
       <View style={styles.footer}>
         <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 9, width: '40%', textAlign: 'center' }}>Campina Grande; ____/____/____</Text>
         <View style={{ width: '40%', textAlign: 'center' }}>
-          <Text style={{ width: '100%', textAlign: 'center', fontSize: 9, fontFamily: 'Calibri-Bold' }}>_________________________________________</Text>
+          <Text style={{ width: '100%', textAlign: 'center', fontSize: 9, fontFamily: 'Calibri-Bold' }}>_______________________________________________</Text>
           <Text style={{ fontSize: 9, fontFamily: 'Calibri-Bold' }}>Assinatura do(a) Gestor(a)</Text>
         </View>
       </View>
