@@ -1,5 +1,5 @@
 /** @jsxRuntime classic */
-import React from 'react';
+import * as React from 'react'; // Alterado para import * as React
 import { Document, Page, View, Text, StyleSheet, Image } from '@react-pdf/renderer';
 import { format, parseISO, isValid, getDay, getDaysInMonth } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -165,7 +165,7 @@ const TimesheetPdfDocumentV5 = ({ employee, month, year, dailyRecords, logoSrc }
           </View>
           <View style={[styles.infoCellBase, { width: '50%', borderRightWidth: 0 }]}>
             <Text style={{ fontFamily: 'Calibri', fontSize: 9 }}>Ano: {year}</Text>
-          </View>
+          </Text>
         </View>
         {/* Linha para Disciplina, Carga Horária Semanal e Turno */}
         <View style={styles.tableRow}>

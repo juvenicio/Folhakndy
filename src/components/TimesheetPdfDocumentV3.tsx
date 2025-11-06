@@ -1,5 +1,5 @@
 /** @jsxRuntime classic */
-import React from 'react';
+import * as React from 'react'; // Alterado para import * as React
 import { Document, Page, View, Text, StyleSheet, Image } from '@react-pdf/renderer';
 import { format, parseISO, isValid, getDay, getDaysInMonth } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
