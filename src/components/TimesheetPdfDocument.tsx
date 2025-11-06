@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
   },
   // Estilos para as células internas (bordas de 1.5pt)
   cellBase: {
-    borderRightWidth: 1.5,
-    borderBottomWidth: 1.5,
+    borderRightWidth: 1.5, // Alterado para borderRightWidth
+    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
@@ -64,8 +64,8 @@ const styles = StyleSheet.create({
   },
   // Estilos para as células do cabeçalho da folha de ponto
   tableHeaderCell: {
-    borderRightWidth: 1.5,
-    borderBottomWidth: 1.5,
+    borderRightWidth: 1.5, // Alterado para borderRightWidth
+    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 1,
@@ -242,19 +242,17 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
           const displayTimeValue = (time: string | null) => formatFullTime(time || (!isWorkDayConfigured ? '-' : ''));
           const displaySignatureValue = !isWorkDayConfigured ? dayNamePtBr.toUpperCase() : '';
 
-          const isLastRow = index === daysInMonth - 1;
-
           return (
             <View style={styles.tableRow} key={day}>
-              <Text style={[styles.cellBase, styles.colDia, { borderLeftWidth: 0, borderBottomWidth: isLastRow ? 0 : 1.5 }]}>{day}</Text>
-              <Text style={[styles.cellBase, styles.colTime, { borderBottomWidth: isLastRow ? 0 : 1.5 }]}>{displayTimeValue(record?.entry_time_1)}</Text>
-              <Text style={[styles.cellBase, styles.colSignature, { borderBottomWidth: isLastRow ? 0 : 1.5 }]}>{displaySignatureValue}</Text>
-              <Text style={[styles.cellBase, styles.colTime, { borderBottomWidth: isLastRow ? 0 : 1.5 }]}>{displayTimeValue(record?.exit_time_1)}</Text>
-              <Text style={[styles.cellBase, styles.colSignature, { borderBottomWidth: isLastRow ? 0 : 1.5 }]}>{displaySignatureValue}</Text>
+              <Text style={[styles.cellBase, styles.colDia, { borderLeftWidth: 0 }]}>{day}</Text>
+              <Text style={[styles.cellBase, styles.colTime]}>{displayTimeValue(record?.entry_time_1)}</Text>
+              <Text style={[styles.cellBase, styles.colSignature]}>{displaySignatureValue}</Text>
+              <Text style={[styles.cellBase, styles.colTime]}>{displayTimeValue(record?.exit_time_1)}</Text>
+              <Text style={[styles.cellBase, styles.colSignature]}>{displaySignatureValue}</Text>
               {/* Hora Extra Entrada */}
-              <Text style={[styles.cellBase, styles.colExtraTime, { borderBottomWidth: isLastRow ? 0 : 1.5 }]}>{formatFullTime(record?.entry_time_2)}</Text>
+              <Text style={[styles.cellBase, styles.colExtraTime]}>{formatFullTime(record?.entry_time_2)}</Text>
               {/* Hora Extra Saída */}
-              <Text style={[styles.cellBase, styles.colExtraTime, { borderRightWidth: 0, borderBottomWidth: isLastRow ? 0 : 1.5 }]}>{formatFullTime(record?.exit_time_2)}</Text>
+              <Text style={[styles.cellBase, styles.colExtraTime, { borderRightWidth: 0 }]}>{formatFullTime(record?.exit_time_2)}</Text>
             </View>
           );
         })}
