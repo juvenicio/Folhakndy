@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     display: 'table',
     width: 'auto',
     marginBottom: 0,
+    // Removido borderWidth, borderColor, borderStyle daqui
     flexGrow: 1, // Adicionado para ocupar o espaço restante
   },
   tableRow: {
@@ -48,7 +49,8 @@ const styles = StyleSheet.create({
   },
   // Estilos para as células internas (bordas de 1.5pt)
   cellBase: {
-    borderWidth: 1.5, // Todas as bordas por padrão
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
@@ -61,7 +63,8 @@ const styles = StyleSheet.create({
   },
   // Estilos para as células do cabeçalho da folha de ponto
   tableHeaderCell: {
-    borderWidth: 1.5, // Todas as bordas por padrão
+    borderRightWidth: 1.5,
+    borderBottomWidth: 1.5,
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 1,
@@ -129,22 +132,6 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
     return `${h}:${m}:00`;
   };
 
-  const isLastRowOfTable = (rowIndex: number, totalRows: number) => {
-    // This logic needs to be precise for the entire table structure
-    // For V1, the last row is the "Justificativa/Horas Extras" row
-    const totalInfoRows = 4; // Unidade, Servidor/Matrícula, Cargo/Função/Turno, Vínculo/Mês/Ano
-    const totalHeaderRows = 1; // Daily records header
-    const totalDailyRecordsRows = daysInMonth;
-    const totalSummaryRows = 1; // Dias trabalhados/Faltas/Horas Extras
-    const totalObservationRows = 1; // Observação
-    const totalJustificativaRows = 1; // Justificativa/Horas Extras
-
-    const currentAbsoluteRowIndex = totalInfoRows + totalHeaderRows + totalDailyRecordsRows + totalSummaryRows + totalObservationRows + rowIndex;
-    const lastAbsoluteRowIndex = totalInfoRows + totalHeaderRows + totalDailyRecordsRows + totalSummaryRows + totalObservationRows + totalJustificativaRows -1;
-
-    return currentAbsoluteRowIndex === lastAbsoluteRowIndex;
-  };
-
   return (
     <Page size="A4" style={styles.page}>
       {/* Header com Logo e Texto */}
@@ -162,37 +149,37 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
       <View style={styles.mainTableContainer}>
         {/* Detalhes do Funcionário */}
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '100%', borderTopWidth: 0, borderLeftWidth: 0, borderRightWidth: 0 }]}>
+          <View style={[styles.cellBase, { width: '100%', borderLeftWidth: 1.5, borderTopWidth: 1.5, borderRightWidth: 1.5 }]}>
             <Text style={{ flexGrow: 0 }}>Unidade de Trabalho: {employee.school_name || 'N/A'}</Text>
           </View>
         </View>
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '66.66%', fontSize: 10, borderLeftWidth: 0 }]}>
+          <View style={[styles.cellBase, { width: '66.66%', fontSize: 10, borderLeftWidth: 1.5 }]}>
             <Text style={{ flexGrow: 0 }}>Servidor(a): {employee.name}</Text>
           </View>
-          <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 0 }]}>
+          <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 1.5 }]}>
             <Text style={{ flexGrow: 0 }}>Matrícula: {employee.registration_number}</Text>
           </View>
         </View>
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '33.33%', borderLeftWidth: 0 }]}>
+          <View style={[styles.cellBase, { width: '33.33%', borderLeftWidth: 1.5 }]}>
             <Text style={{ flexGrow: 0 }}>Cargo: {employee.employee_type}</Text>
           </View>
           <View style={[styles.cellBase, { width: '33.33%' }]}>
             <Text style={{ flexGrow: 0 }}>Função: {employee.function}</Text>
           </View>
-          <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 0 }]}>
+          <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 1.5 }]}>
             <Text style={{ flexGrow: 0 }}>Turno: ({getShiftMark(employee.shift, "Manhã")}) Manhã ({getShiftMark(employee.shift, "Tarde")}) Tarde ({getShiftMark(employee.shift, "Noite")}) Noite</Text>
           </View>
         </View>
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '33.33%', borderLeftWidth: 0, borderBottomWidth: 0 }]}> {/* Last row of info section */}
+          <View style={[styles.cellBase, { width: '33.33%', borderLeftWidth: 1.5 }]}>
             <Text style={{ flexGrow: 0 }}>Vínculo: {employee.vinculo}</Text>
           </View>
-          <View style={[styles.cellBase, { width: '33.33%', borderBottomWidth: 0 }]}>
+          <View style={[styles.cellBase, { width: '33.33%' }]}>
             <Text style={{ flexGrow: 0 }}>Mês: {monthName.charAt(0).toUpperCase() + monthName.slice(1)}</Text>
           </View>
-          <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 0, borderBottomWidth: 0 }]}>
+          <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 1.5 }]}>
             <Text style={{ flexGrow: 0 }}>Ano: {year}</Text>
           </View>
         </View>
@@ -200,38 +187,38 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
         {/* Cabeçalho da Tabela de Registros Diários (FIXED) */}
         <View style={styles.tableRow} fixed>
           {/* Dia */}
-          <View style={[styles.tableHeaderCell, styles.colDia, { borderTopWidth: 1.5, borderLeftWidth: 0 }]}>
+          <View style={[styles.tableHeaderCell, styles.colDia, { borderLeftWidth: 1.5 }]}>
             <Text>Dia</Text>
           </View>
           {/* Entrada 1 */}
-          <View style={[styles.tableHeaderCell, styles.colTime, { borderTopWidth: 1.5 }]}>
+          <View style={[styles.tableHeaderCell, styles.colTime]}>
             <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>Entrada</Text>
             <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
           </View>
           {/* Assinatura 1 */}
-          <View style={[styles.tableHeaderCell, styles.colSignature, { borderTopWidth: 1.5 }]}>
+          <View style={[styles.tableHeaderCell, styles.colSignature]}>
             <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>ASSINATURA/JUSTIFICATIVA</Text>
           </View>
           {/* Saída 1 */}
-          <View style={[styles.tableHeaderCell, styles.colTime, { borderTopWidth: 1.5 }]}>
+          <View style={[styles.tableHeaderCell, styles.colTime]}>
             <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>Saída</Text>
             <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
           </View>
           {/* Assinatura 2 */}
-          <View style={[styles.tableHeaderCell, styles.colSignature, { borderTopWidth: 1.5 }]}>
+          <View style={[styles.tableHeaderCell, styles.colSignature]}>
             <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>ASSINATURA/JUSTIFICATIVA</Text>
           </View>
           {/* Hora Extra - Nested View to simulate column and row span */}
-          <View style={[styles.tableHeaderCell, { width: '25%', flexDirection: 'column', padding: 0, borderRightWidth: 0, borderTopWidth: 1.5 }]}>
+          <View style={[styles.tableHeaderCell, { width: '25%', flexDirection: 'column', padding: 0, borderRightWidth: 1.5 }]}>
             <View style={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', padding: 0, minHeight: 15, width: '100%', borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid' }}>
               <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>Hora Extra</Text>
             </View>
             <View style={{ flexDirection: 'row', width: '100%', flexGrow: 1 }}>
-              <View style={[styles.tableHeaderCell, { width: '50%', borderLeftWidth: 0, borderTopWidth: 0 }]}>
+              <View style={[styles.tableHeaderCell, { width: '50%', borderLeftWidth: 1.5, borderTopWidth: 0 }]}>
                 <Text style={{ fontSize: 10, fontFamily: 'Calibri' }}>Entrada</Text>
                 <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
               </View>
-              <View style={[styles.tableHeaderCell, { width: '50%', borderRightWidth: 0, borderTopWidth: 0 }]}>
+              <View style={[styles.tableHeaderCell, { width: '50%', borderRightWidth: 1.5, borderTopWidth: 0 }]}>
                 <Text style={{ fontSize: 10, fontFamily: 'Calibri' }}>Saída</Text>
                 <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
               </View>
@@ -255,26 +242,26 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
           const displayTimeValue = (time: string | null) => formatFullTime(time || (!isWorkDayConfigured ? '-' : ''));
           const displaySignatureValue = !isWorkDayConfigured ? dayNamePtBr.toUpperCase() : '';
 
-          const isLastDailyRecordRow = index === daysInMonth - 1;
+          const isLastRow = index === daysInMonth - 1;
 
           return (
             <View style={styles.tableRow} key={day}>
-              <Text style={[styles.cellBase, styles.colDia, { borderLeftWidth: 0, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{day}</Text>
-              <Text style={[styles.cellBase, styles.colTime, { borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayTimeValue(record?.entry_time_1)}</Text>
-              <Text style={[styles.cellBase, styles.colSignature, { borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displaySignatureValue}</Text>
-              <Text style={[styles.cellBase, styles.colTime, { borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displayTimeValue(record?.exit_time_1)}</Text>
-              <Text style={[styles.cellBase, styles.colSignature, { borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{displaySignatureValue}</Text>
+              <Text style={[styles.cellBase, styles.colDia, { borderLeftWidth: 1.5, borderBottomWidth: isLastRow ? 1.5 : 1.5 }]}>{day}</Text>
+              <Text style={[styles.cellBase, styles.colTime, { borderBottomWidth: isLastRow ? 1.5 : 1.5 }]}>{displayTimeValue(record?.entry_time_1)}</Text>
+              <Text style={[styles.cellBase, styles.colSignature, { borderBottomWidth: isLastRow ? 1.5 : 1.5 }]}>{displaySignatureValue}</Text>
+              <Text style={[styles.cellBase, styles.colTime, { borderBottomWidth: isLastRow ? 1.5 : 1.5 }]}>{displayTimeValue(record?.exit_time_1)}</Text>
+              <Text style={[styles.cellBase, styles.colSignature, { borderBottomWidth: isLastRow ? 1.5 : 1.5 }]}>{displaySignatureValue}</Text>
               {/* Hora Extra Entrada */}
-              <Text style={[styles.cellBase, styles.colExtraTime, { borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{formatFullTime(record?.entry_time_2)}</Text>
+              <Text style={[styles.cellBase, styles.colExtraTime, { borderBottomWidth: isLastRow ? 1.5 : 1.5 }]}>{formatFullTime(record?.entry_time_2)}</Text>
               {/* Hora Extra Saída */}
-              <Text style={[styles.cellBase, styles.colExtraTime, { borderRightWidth: 0, borderBottomWidth: isLastDailyRecordRow ? 0 : 1.5 }]}>{formatFullTime(record?.exit_time_2)}</Text>
+              <Text style={[styles.cellBase, styles.colExtraTime, { borderRightWidth: 1.5, borderBottomWidth: isLastRow ? 1.5 : 1.5 }]}>{formatFullTime(record?.exit_time_2)}</Text>
             </View>
           );
         })}
 
         {/* Linha de Resumo */}
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '33.33%', borderLeftWidth: 0 }]}>
+          <View style={[styles.cellBase, { width: '33.33%', borderLeftWidth: 1.5 }]}>
             <Text style={{ flexGrow: 0 }}>Dias trabalhados:</Text>
             <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
           </View>
@@ -282,7 +269,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
             <Text style={{ flexGrow: 0 }}>Total de Faltas:</Text>
             <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
           </View>
-          <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 0 }]}>
+          <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 1.5 }]}>
             <Text style={{ flexGrow: 0 }}>Quantidade de horas-extras:</Text>
             <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
           </View>
@@ -290,7 +277,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
 
         {/* Seção de Observação */}
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '100%', padding: 3, borderLeftWidth: 0 }]}>
+          <View style={[styles.cellBase, { width: '100%', padding: 3, borderLeftWidth: 1.5, borderRightWidth: 1.5 }]}>
             <Text style={[styles.sectionTitle, { flexGrow: 0 }]}>Observação:</Text>
             <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
           </View>
@@ -298,7 +285,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
 
         {/* Seção de Justificativa/Horas Extras */}
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '100%', padding: 3, borderLeftWidth: 0, borderBottomWidth: 0, borderRightWidth: 0 }]}>
+          <View style={[styles.cellBase, { width: '100%', padding: 3, borderLeftWidth: 1.5, borderBottomWidth: 1.5, borderRightWidth: 1.5 }]}>
             <Text style={[styles.sectionTitle, { flexGrow: 0 }]}>Justificativa/Horas Extras:</Text>
             <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
           </View>
