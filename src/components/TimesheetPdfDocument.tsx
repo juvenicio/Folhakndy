@@ -46,13 +46,12 @@ const styles = StyleSheet.create({
     flexGrow: 1, // Adicionado para ocupar o espaço restante
   },
   tableRow: {
-    margin: 'auto',
-    flexDirection: 'row',
+    flexDirection: 'row', // Removido 'margin: auto'
   },
   // Estilos para as células internas (bordas de 1.5pt)
   cellBase: {
-    borderRightWidth: 1.5, // Aumentado para 1.5
-    borderBottomWidth: 1.5, // Aumentado para 1.5
+    borderRightWidth: 1.5, // Alterado para borderRightWidth
+    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 2,
@@ -64,8 +63,8 @@ const styles = StyleSheet.create({
   },
   // Estilos para as células do cabeçalho da folha de ponto
   tableHeaderCell: {
-    borderRightWidth: 1.5, // Aumentado para 1.5
-    borderBottomWidth: 1.5, // Aumentado para 1.5
+    borderRightWidth: 1.5, // Alterado para borderRightWidth
+    borderBottomWidth: 1.5, // Alterado para borderBottomWidth
     borderColor: '#000000',
     borderStyle: 'solid',
     padding: 1,
@@ -77,11 +76,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Calibri',
   },
 
-  // Specific widths for each column in the main timesheet table
-  colDia: { width: '5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
-  colTime: { width: '12.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
-  colSignature: { width: '22.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 9, fontFamily: 'Calibri' },
-  colExtraTime: { width: '12.5%', padding: 1, textAlign: 'center', borderRightWidth: 1.5, borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid', fontSize: 8, fontFamily: 'Calibri' },
+  // Specific widths for each column in the main timesheet table, agora sem bordas base
+  colDia: { width: '5%', padding: 1, textAlign: 'center', fontSize: 8, fontFamily: 'Calibri' },
+  colTime: { width: '12.5%', padding: 1, textAlign: 'center', fontSize: 8, fontFamily: 'Calibri' },
+  colSignature: { width: '22.5%', padding: 1, textAlign: 'center', fontSize: 9, fontFamily: 'Calibri' },
+  colExtraTime: { width: '12.5%', padding: 1, textAlign: 'center', fontSize: 8, fontFamily: 'Calibri' },
 
   sectionTitle: {
     fontSize: 9,
@@ -92,7 +91,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-end',
+    alignItems: 'flex-end', // Alinha os itens pela parte inferior
   },
   logo: {
     width: 40,
@@ -149,12 +148,12 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
       <View style={styles.mainTableContainer}>
         {/* Detalhes do Funcionário */}
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '100%', fontSize: 10, borderRightWidth: 0 }]}>
+          <View style={[styles.cellBase, { width: '100%', borderLeftWidth: 0, borderTopWidth: 0, borderRightWidth: 0 }]}>
             <Text style={{ flexGrow: 0 }}>Unidade de Trabalho: {employee.school_name || 'N/A'}</Text>
           </View>
         </View>
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '66.66%', fontSize: 10 }]}>
+          <View style={[styles.cellBase, { width: '66.66%', fontSize: 10, borderLeftWidth: 0 }]}>
             <Text style={{ flexGrow: 0 }}>Servidor(a): {employee.name}</Text>
           </View>
           <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 0 }]}>
@@ -162,7 +161,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
           </View>
         </View>
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '33.33%' }]}>
+          <View style={[styles.cellBase, { width: '33.33%', borderLeftWidth: 0 }]}>
             <Text style={{ flexGrow: 0 }}>Cargo: {employee.employee_type}</Text>
           </View>
           <View style={[styles.cellBase, { width: '33.33%' }]}>
@@ -173,7 +172,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
           </View>
         </View>
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '33.33%' }]}>
+          <View style={[styles.cellBase, { width: '33.33%', borderLeftWidth: 0 }]}>
             <Text style={{ flexGrow: 0 }}>Vínculo: {employee.vinculo}</Text>
           </View>
           <View style={[styles.cellBase, { width: '33.33%' }]}>
@@ -187,39 +186,41 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
         {/* Cabeçalho da Tabela de Registros Diários (FIXED) */}
         <View style={styles.tableRow} fixed>
           {/* Dia */}
-          <View style={[styles.tableHeaderCell, { width: '5%' }]}>
+          <View style={[styles.tableHeaderCell, styles.colDia]}>
             <Text>Dia</Text>
           </View>
           {/* Entrada 1 */}
-          <View style={[styles.tableHeaderCell, { width: '12.5%' }]}>
+          <View style={[styles.tableHeaderCell, styles.colTime]}>
             <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>Entrada</Text>
             <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
           </View>
           {/* Assinatura 1 */}
-          <View style={[styles.tableHeaderCell, { width: '22.5%' }]}>
+          <View style={[styles.tableHeaderCell, styles.colSignature]}>
             <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>ASSINATURA/JUSTIFICATIVA</Text>
           </View>
           {/* Saída 1 */}
-          <View style={[styles.tableHeaderCell, { width: '12.5%' }]}>
+          <View style={[styles.tableHeaderCell, styles.colTime]}>
             <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>Saída</Text>
             <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
           </View>
           {/* Assinatura 2 */}
-          <View style={[styles.tableHeaderCell, { width: '22.5%' }]}>
+          <View style={[styles.tableHeaderCell, styles.colSignature]}>
             <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>ASSINATURA/JUSTIFICATIVA</Text>
           </View>
           {/* Hora Extra - Nested View to simulate column and row span */}
-          {/* REMOVIDO borderBottomWidth: 0 AQUI para que a borda inferior se estenda */}
-          <View style={[styles.tableHeaderCell, { width: '25%', borderRightWidth: 0, flexDirection: 'column', padding: 0 }]}>
-            <View style={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', padding: 0, minHeight: 15, width: '100%', borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid' }}>
+          <View style={[styles.tableHeaderCell, { width: '25%', flexDirection: 'column', padding: 0, borderRightWidth: 0 }]}>
+            {/* Top part: "Hora Extra" text. Remove borderBottomWidth here. */}
+            <View style={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', padding: 1, width: '100%', borderBottomWidth: 1.5, borderColor: '#000000', borderStyle: 'solid' }}>
               <Text style={{ fontSize: 9, fontFamily: 'Calibri' }}>Hora Extra</Text>
             </View>
+            {/* Bottom part: "Entrada" and "Saída" */}
             <View style={{ flexDirection: 'row', width: '100%', flexGrow: 1 }}>
-              <View style={[styles.tableHeaderCell, { width: '50%', borderBottomWidth: 0, borderTopWidth: 0 }]}>
+              {/* These cells will now provide the horizontal line above them via their borderTopWidth */}
+              <View style={[styles.tableHeaderCell, { width: '50%', borderLeftWidth: 0, borderTopWidth: 0, borderBottomWidth: 0 }]}>
                 <Text style={{ fontSize: 10, fontFamily: 'Calibri' }}>Entrada</Text>
                 <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
               </View>
-              <View style={[styles.tableHeaderCell, { width: '50%', borderRightWidth: 0, borderBottomWidth: 0, borderTopWidth: 0 }]}>
+              <View style={[styles.tableHeaderCell, { width: '50%', borderRightWidth: 0, borderLeftWidth: 0, borderTopWidth: 0, borderBottomWidth: 0 }]}>
                 <Text style={{ fontSize: 10, fontFamily: 'Calibri' }}>Saída</Text>
                 <Text style={{ fontFamily: 'Times-Roman', fontSize: 4 }}>(Horas | Minutos | Segundos)</Text>
               </View>
@@ -239,38 +240,36 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
           const isWorkDayConfigured = employee.work_days.includes(dayNameEnglish);
           const dayNamePtBr = daysOfWeekMapForDisplay[dayOfWeek];
 
-          const isLastRow = index === daysInMonth - 1;
-
           // Lógica para exibir o traço ou o nome do dia apenas se NÃO for um dia de trabalho configurado
           const displayTimeValue = (time: string | null) => formatFullTime(time || (!isWorkDayConfigured ? '-' : ''));
           const displaySignatureValue = !isWorkDayConfigured ? dayNamePtBr.toUpperCase() : '';
 
           return (
             <View style={styles.tableRow} key={day}>
-              <Text style={[styles.colDia, isLastRow && { borderBottomWidth: 1.5 }]}>{day}</Text>
-              <Text style={[styles.colTime, isLastRow && { borderBottomWidth: 1.5 }]}>{displayTimeValue(record?.entry_time_1)}</Text>
-              <Text style={[styles.colSignature, isLastRow && { borderBottomWidth: 1.5 }]}>{displaySignatureValue}</Text>
-              <Text style={[styles.colTime, isLastRow && { borderBottomWidth: 1.5 }]}>{displayTimeValue(record?.exit_time_1)}</Text>
-              <Text style={[styles.colSignature, isLastRow && { borderBottomWidth: 1.5 }]}>{displaySignatureValue}</Text>
+              <Text style={[styles.cellBase, styles.colDia]}>{day}</Text>
+              <Text style={[styles.cellBase, styles.colTime]}>{displayTimeValue(record?.entry_time_1)}</Text>
+              <Text style={[styles.cellBase, styles.colSignature]}>{displaySignatureValue}</Text>
+              <Text style={[styles.cellBase, styles.colTime]}>{displayTimeValue(record?.exit_time_1)}</Text>
+              <Text style={[styles.cellBase, styles.colSignature]}>{displaySignatureValue}</Text>
               {/* Hora Extra Entrada */}
-              <Text style={[styles.colExtraTime, isLastRow && { borderBottomWidth: 1.5 }]}>{formatFullTime(record?.entry_time_2)}</Text>
+              <Text style={[styles.cellBase, styles.colExtraTime]}>{formatFullTime(record?.entry_time_2)}</Text>
               {/* Hora Extra Saída */}
-              <Text style={[styles.colExtraTime, { borderRightWidth: 0 }, isLastRow && { borderBottomWidth: 1.5 }]}>{formatFullTime(record?.exit_time_2)}</Text>
+              <Text style={[styles.cellBase, styles.colExtraTime, { borderRightWidth: 0 }]}>{formatFullTime(record?.exit_time_2)}</Text>
             </View>
           );
         })}
 
         {/* Linha de Resumo */}
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '33.33%', borderBottomWidth: 1.5 }]}>
+          <View style={[styles.cellBase, { width: '33.33%', borderLeftWidth: 0 }]}>
             <Text style={{ flexGrow: 0 }}>Dias trabalhados:</Text>
             <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
           </View>
-          <View style={[styles.cellBase, { width: '33.33%', borderBottomWidth: 1.5 }]}>
+          <View style={[styles.cellBase, { width: '33.33%' }]}>
             <Text style={{ flexGrow: 0 }}>Total de Faltas:</Text>
             <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
           </View>
-          <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 0, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.cellBase, { width: '33.33%', borderRightWidth: 0 }]}>
             <Text style={{ flexGrow: 0 }}>Quantidade de horas-extras:</Text>
             <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
           </View>
@@ -278,7 +277,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
 
         {/* Seção de Observação */}
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '100%', padding: 3, borderRightWidth: 0, borderBottomWidth: 1.5 }]}>
+          <View style={[styles.cellBase, { width: '100%', padding: 3, borderLeftWidth: 0, borderRightWidth: 0 }]}>
             <Text style={[styles.sectionTitle, { flexGrow: 0 }]}>Observação:</Text>
             <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
           </View>
@@ -286,7 +285,7 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
 
         {/* Seção de Justificativa/Horas Extras */}
         <View style={styles.tableRow}>
-          <View style={[styles.cellBase, { width: '100%', padding: 3, borderRightWidth: 0, borderBottomWidth: 0 }]}>
+          <View style={[styles.cellBase, { width: '100%', padding: 3, borderLeftWidth: 0, borderBottomWidth: 0, borderRightWidth: 0 }]}>
             <Text style={[styles.sectionTitle, { flexGrow: 0 }]}>Justificativa/Horas Extras:</Text>
             <Text style={{ minHeight: 15, flexGrow: 0 }}></Text>
           </View>
@@ -295,8 +294,12 @@ const TimesheetPdfDocument = ({ employee, month, year, dailyRecords, logoSrc }: 
 
       {/* Rodapé */}
       <View style={styles.footer}>
-        <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10, width: '40%', textAlign: 'center' }}>Campina Grande, ____/____/____</Text>
-        <View style={{ width: '40%', textAlign: 'center' }}>
+        <View style={{ width: '40%', textAlign: 'center', flexDirection: 'column', justifyContent: 'flex-end' }}>
+          {/* Linha invisível para alinhar com a linha de assinatura */}
+          <Text style={{ fontSize: 10, fontFamily: 'Calibri-Bold', opacity: 0 }}>________________________________________</Text>
+          <Text style={{ fontFamily: 'Calibri-Bold', fontSize: 10 }}>Campina Grande, ____/____/____</Text>
+        </View>
+        <View style={{ width: '40%', textAlign: 'center', flexDirection: 'column', justifyContent: 'flex-end', marginTop: 2 }}> {/* Adicionado marginTop aqui */}
           <Text style={{ width: '100%', textAlign: 'center', fontSize: 10, fontFamily: 'Calibri-Bold' }}>________________________________________</Text>
           <Text style={{ fontSize: 10, fontFamily: 'Calibri-Bold' }}>Assinatura do(a) Gestor(a)</Text>
         </View>
