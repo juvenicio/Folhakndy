@@ -13,6 +13,7 @@ import Footer from "./Footer";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { useSession } from "./SessionContextProvider";
+import UnusableSystemDialog from "./UnusableSystemDialog"; // Importar o novo componente
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -49,6 +50,9 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
     <div className="flex min-h-screen relative"> {/* Adicionado 'relative' para posicionamento do GIF */}
+      {/* O diálogo de sistema inutilizável será exibido aqui, cobrindo todo o conteúdo */}
+      <UnusableSystemDialog />
+
       {/* Mobile Sidebar Overlay and Backdrop */}
       {isMobile && !isCollapsed && ( // If mobile and sidebar is open
         <div
